@@ -1,1 +1,1 @@
-!(Weather App Screenshot)[weather-forecast-screenshot.jpg]
+![Weather App Screenshot](static/images/weather-app-screenshot.jpg)
