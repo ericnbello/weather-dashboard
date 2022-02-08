@@ -1,0 +1,17 @@
+<form action='/' method='POST'>
+    {% csrf_token %}
+    <div class="flex flex-row justify-start gap-x-2">
+        <label class="hidden" id="unit-input-label" value={{current_unit_system}}></label>
+        <input id="unit-input" class="hidden" type="text" name="unit-input" value={{next_unit_system}}>
+        <div>
+            <button class="imperial border-2 border-white px-2" type="submit" onclick="unitToggle(`{{metric_unit_system}}`)">
+            Display {{ metric_degree_unit }} 
+            </button>
+        </div>
+        <div>
+            <button class="metric border-2 border-white px-2" id="switch-units-metric"  type="submit" onclick="unitToggle(`{{imperial_unit_system}}`)">
+                Display {{ imperial_degree_unit }} 
+            </button>
+        </div>
+    </div>
+</form>

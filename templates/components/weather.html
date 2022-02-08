@@ -1,0 +1,127 @@
+<div class="flex flex-col font-dongle text-white justify-between">
+    <div class="flex flex-row justify-between">
+        <div class="flex flex-col justify-start">
+            <p class="text-6xl">{{ current_weather }}</p>
+            <p class="text-3xl">{{ city }}</p>
+            <p class="text-2xl mb-0">{{ current_date }}</p>
+            <p class="text-2xl mt-0">{{ current_time }}</p>
+            <p class="imperial text-6xl font-bold py-6">
+                {{ current_temperature }}{{ current_degree_unit }}
+            </p>
+            <p class="metric text-6xl font-bold py-6">
+                {{ current_temperature }}{{ current_degree_unit }}
+            </p>
+            <div class="">
+                <i class="owi-5x owi-{{current_weather_icon}}"></i>
+            </div>
+
+            {% include 'components/form.html' %}
+        </div>
+        
+        <div class="flex flex-col text-2xl md:text-3xl gap-y-2">
+            <div class="flex flex-row justify-start items-center gap-x-5">
+                <div class="w-2 justify-end">
+                    <i class="wi wi-thermometer"></i>
+                </div>
+                <div class="flex flex-col">
+                    <p class="flex flex-wrap">Feels Like</p>
+                    <p class="imperial text-5xl">{{ feels_like }}{{ current_degree_unit }}</p>
+                    <p class="metric text-5xl">{{ feels_like }}{{ current_degree_unit }}</p>
+                </div>
+            </div>
+            <div class="flex flex-row justify-start items-center gap-x-5">
+                <div class="w-2 justify-end">
+                    <i class="wi wi-humidity"></i>
+                </div>
+                <div class="flex flex-col">
+                    <p class="flex flex-wrap">Humidity</p>
+                    <p class="text-5xl">{{ humidity }}%</p>
+                </div>
+            </div>
+            <div class="flex flex-row justify-start items-center gap-x-5">
+                <div class="w-2 justify-end">
+                    <i class="wi wi-rain"></i>
+                </div>
+                <div class="flex flex-col">
+                    <p class="flex flex-wrap">Chance of Rain</p>
+                    <p class="text-5xl">{{ chance_of_rain }}%</p>
+                </div>
+            </div>
+            <div class="flex flex-row justify-start items-center gap-x-5">
+                <div class="w-2 justify-end">
+                    <i class="wi wi-strong-wind"></i>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex flex-wrap">Wind Speed</div>
+                    <div class="imperial text-5xl">{{ wind_speed }} {{ current_speed_unit }}</div>
+                    <div class="metric text-5xl">{{ wind_speed }} {{ current_speed_unit }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="forecast-container" class="flex flex-col justify-center md:justify-start">
+        <div id="forecast-toggle" class="flex flex-row justify-center md:flex-col md:justify-start p-2 py-3">
+            <div class="flex flex-row justify-center md:justify-start gap-x-2 py-2">
+                <div>
+                    <button class="border-2 border-white px-2" onclick="toggleInterval('daily')">
+                        Daily
+                    </button>
+                </div>
+                <div class="w-1">
+                    <button class="border-2 border-white px-2" onclick="toggleInterval('hourly')">
+                        Hourly
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="daily-forecast" class="flex flex-row justify-center md:flex-col md:justify-start p-2 overflow-x-auto overflow-y-auto"></div>
+            <div class="daily flex flex-row md:flex-col justify-center md:justify-start">
+                <div id="daily-temps" class="flex flex-col md:flex-row justify-evenly">
+                    <div class="flex flex-row md:flex-col">
+                        <div class="flex flex-col md:flex-row justify-evenly">
+                            {% for day, high_temp, low_temp, icon in daily_forecast_content %}
+                                <div class="flex flex-row md:flex-col px-16 gap-x-20">
+                                    <div class="text-2xl justify-start">
+                                        <p class="text-3xl md:text-5xl w-10">{{ day }}</p>
+                                    </div>
+                                    <div class="flex flex-col justify-start w-10">
+                                        <p class="text-5xl">{{ high_temp }}{{ current_degree_unit }}</p>
+                                        <p class="text-2xl">{{ low_temp }}{{ current_degree_unit }}</p>
+                                    </div>
+                                    <div class="flex flex-col justify-start w-10">
+                                        <i class="owi-2x owi-{{ icon }}"></i>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="hourly-forecast" class="flex flex-row justify-center w-full md:flex-col md:justify-start p-2 max-h-[24rem] overscroll-contain overflow-x-auto overflow-y-auto gap-x-7">
+        <!-- </div> -->
+            <div class="hourly flex flex-row md:flex-col justify-center md:justify-start gap-x-7 ">
+                <div id="hourly-temps" class="flex flex-col md:flex-row justify-evenly ">
+                    <div class="flex flex-row md:flex-col">
+                        <div class="flex flex-col md:flex-row justify-evenly gap-x-7">
+                            {% for hour, temp, icon in hourly_forecast_content %}
+                                <div class="flex flex-row md:flex-col justify-evenly gap-x-20">
+                                    <div class="text-2xl justify-start">
+                                        <p class="text-3xl w-10">{{ hour }}</p>
+                                    </div>
+                                    <div class="flex flex-col justify-start w-10">
+                                        <p class="text-4xl">{{ temp }}{{ current_degree_unit }}</p>
+                                    </div>
+                                    <div class="justify-start w-10">
+                                        <i class="owi-2x owi-{{ icon }}"></i>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
