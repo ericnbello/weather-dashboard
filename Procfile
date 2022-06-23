@@ -1,1 +1,1 @@
-web: gunicorn enhanced_weather_app.wsgi:application
+web: gunicorn nhanced_weather_app.wsgi
