@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /*
 ! tailwindcss v3.0.11 | MIT License | https://tailwindcss.com
 */
@@ -1517,7 +1521,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 body{
   /* @apply bg-main bg-cover bg-no-repeat; */
-  background-image: url('/static/images/weather-bg.jpg');
+  /*background-image: url('/static/images/weather-bg.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

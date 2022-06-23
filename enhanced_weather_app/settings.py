@@ -36,7 +36,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tailwind',
+    'theme',
+    'django_browser_reload'
 ]
+
+TAILWIND_APP_NAME = 'theme'
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -47,9 +52,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_browser_reload.middleware.BrowserReloadMiddleware'
 ]
 
-ROOT_URLCONF = 'weather_app.urls'
+ROOT_URLCONF = 'enhanced_weather_app.urls'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+TAILWIND_CSS_PATH = 'theme/static/css/dist/styles.css'
 
 TEMPLATES = [
     {
@@ -68,7 +80,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'weather_app.wsgi.application'
+WSGI_APPLICATION = 'enhanced_weather_app.wsgi.application'
 
 
 # Database
