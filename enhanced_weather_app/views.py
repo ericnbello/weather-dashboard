@@ -12,8 +12,7 @@ import pytz
 from dotenv import load_dotenv
 load_dotenv()
 
-api_key_onecall = os.environ.get('OPENWEATHER_API_SECRET_KEY_ONECALL')
-api_key_aqi = os.environ.get('OPENWEATHER_API_SECRET_KEY_AQI')
+api_key = os.environ.get('OPENWEATHER_API_KEY')
 
 unit_system_names = ['imperial', 'metric']
 default_unit_system = 'imperial'
@@ -28,7 +27,7 @@ def default_page(request):
 
 def call_api(unit_system, location):
     try:
-        r_1 = httpx.get('http://api.openweathermap.org/geo/1.0/direct?q={0}&limit=5&appid={1}'.format(location, api_key_onecall)) 
+        r_1 = httpx.get('http://api.openweathermap.org/geo/1.0/direct?q={0}&limit=5&appid={1}'.format(location, api_key)) 
         # weather_data_1 = json.loads(r_1.content)
         weather_data_1 = r_1.json()
         
@@ -36,7 +35,7 @@ def call_api(unit_system, location):
         lon = weather_data_1[0]["lon"]
 
         if unit_system == 'imperial':
-            r_2 = httpx.get('https://api.openweathermap.org/data/2.5/onecall?lat={0}&lon={1}&exclude=minutely&units={2}&appid={3}'.format(lat, lon, unit_system, api_key_onecall))
+            r_2 = httpx.get('https://api.openweathermap.org/data/2.5/onecall?lat={0}&lon={1}&exclude=minutely&units={2}&appid={3}'.format(lat, lon, unit_system, api_key))
             degree_unit = '˚F'
             speed_unit = 'mph'
             pressure_unit  = 'mb'
@@ -45,7 +44,7 @@ def call_api(unit_system, location):
             # next_unit_system = 'metric'
             # current_unit_system = next_unit_system
         else:
-            r_2 = httpx.get('https://api.openweathermap.org/data/2.5/onecall?lat={0}&lon={1}&exclude=minutely&units=metric&appid={3}'.format(lat, lon, api_key_onecall))
+            r_2 = httpx.get('https://api.openweathermap.org/data/2.5/onecall?lat={0}&lon={1}&exclude=minutely&units=metric&appid={3}'.format(lat, lon, api_key))
             degree_unit = '˚C'
             speed_unit = 'km/h'
             pressure_unit = 'mb'
@@ -54,7 +53,7 @@ def call_api(unit_system, location):
             # next_unit_system = 'imperial'
             # current_unit_system = next_unit_system
 
-        r_3 = httpx.get('http://api.openweathermap.org/data/2.5/air_pollution?lat={0}&lon={1}&appid={2}'.format(lat, lon, api_key_onecall))
+        r_3 = httpx.get('http://api.openweathermap.org/data/2.5/air_pollution?lat={0}&lon={1}&appid={2}'.format(lat, lon, api_key))
 
         # Full API response data
         # weather_data_2 = json.loads(r_2.content)
