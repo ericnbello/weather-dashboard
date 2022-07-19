@@ -31,465 +31,301 @@
     <title>Weather App</title>
 </head>
 
-<body class="m-0 font-sans antialiased font-normal text-size-base leading-default">
-    <main class="flex flex-col lg:flex-row mx-auto min-h-screen relative">
-        <!-- <div class="w-full flex flex-wrap-reverse lg:flex-row lg:w-2/3"> -->
-        <!-- Left Panel  -->
-        <div class="{{daytime|yesno:'bg-blue-500 for true,bg-indigo-900 for false'}} w-full lg:w-1/4 flex-wrap items-center justify-between overflow-y-auto border-0 p-0 antialiased shadow-none text-white">
-            <div class="h-19.5 block px-8 py-6 m-0 text-size-sm whitespace-nowrap  mx-auto">
-                {{current_time}}
-                {%  include 'components/form.html'  %}
-            </div>
-
-            <!-- <hr class="h-px mt-0 border-2 border-black" /> -->
-
-            <div class="items-center block w-auto overflow-auto">
-                <div class="flex flex-col pl-0 mb-0">
-                    <div class="block px-8 py-6 m-0 text-size-sm whitespace-nowrap ">
-                        <div class="flex flex-row justify-between">
-                            <div class="flex flex-col h-full ">
-                                <h4 class="pt-2 mb-1 font-semibold"><span><i class="wi wi-thermometer"></i></span>{{ city }}</h4>
-                                <p class="text-6xl font-bold">                                      
-                                    {{ current_temperature }}{{ degree_unit }}
-                                </p>
-                                <p>Feels like {{ feels_like }}{{ degree_unit }}</p>
-                                <div class="flex font-bold">
-                                    {{ current_weather }}
-                                </div>
-                            </div>
-                            <div class="text-8xl">
-                                <i class="owi owi-{{current_weather_icon}} "></i>
-                            </div>
-                        </div>
-
-                        <div class="hidden lg:flex lg:flex-col">
-                            <h6 class="mt-6 mb-0 ml-2 uppercase font-bold">Next 48 Hours</h6>
-
-                            <div class="hourly-forecast flex flex-col justify-center w-full md:flex-col md:justify-start p-2 max-h-[24rem] overscroll-contain overflow-x-auto overflow-y-auto gap-x-7">
-                                <div class="hourly flex flex-row md:flex-col justify-center md:justify-start gap-x-7">
-                                    <div id="hourly-temps" class="flex flex-col md:flex-row justify-evenly ">
-                                        <div class="flex flex-row">
-                                            <div class="flex flex-row justify-evenly gap-x-7">
-                                                {% for hour, temp, icon in hourly_forecast_content %}
-                                                    <div class="flex flex-col justify-evenly gap-x-20">
-                                                        <div class="text-sm justify-start">
-                                                            <p class="text-sm w-10">{{ hour }}</p>
-                                                        </div>
-                                                        <div class="justify-start w-10">
-                                                            <i class="owi owi-{{ icon }}"></i>
-                                                        </div>
-                                                        <div class="flex flex-col justify-start w-10">
-                                                            <p class="text-sm">{{ temp }}{{ degree_unit }}</p>
-                                                        </div>
-                                                    </div>
-                                                {% endfor %}
+<body class="m-0 font-dongle antialiased font-normal min-h-screen text-size-base leading-default">
+    {% include 'components/hero.html' %}
+    <main class="flex flex-col mx-auto relative {{daytime|yesno:'bg-blue-500 for true,bg-indigo-900 for false'}}">
+        <div class="w-full max-w-5xl mx-auto">
+            <div class="w-full flex-wrap items-center justify-between border-0 p-0 shadow-none text-white">
+                <div class="ease-soft-in-out h-full w-full transition-all duration-200">
+                    
+                    <!-- cards -->
+                    <div class="w-full px-6 py-6 mx-auto">
+                        <h6 class="mt-6 mb-0 ml-2 uppercase font-bold text-white">Today</h6>
+                        <p class="ml-2 py-2 pb-2 text-white">{{ current_weather }} throughout the day</p>
+                        <!-- cards row 1 -->
+                        <div class="flex flex-wrap -mx-3 {{daytime|yesno:'text-black for true,text-white for false'}}">
+    
+                            <!-- card1 -->
+                            <div class="w-1/2 px-3 mb-6 sm:flex-none">
+                                <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-white for true,bg-slate-800 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
+                                    <div class="flex-auto p-4">
+                                        <div class="flex flex-row -mx-3">
+                                            <div class="flex-none w-2/3 max-w-full px-3">
+                                                <div>
+                                                    <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Air Quality</h5>
+                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                        {{ air_quality_index }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="px-3 text-right basis-1/3">
+                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
+                                                    <i class="wi wi-sandstorm text-size-lg relative"></i>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
     
-                            <h6 class="mt-6 mb-0 ml-2 font-bold uppercase">Next 7 days</h6>
+                            <!-- card2 -->
+                            <div class="w-1/2 px-3 mb-6 sm:flex-none">
+                                <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-white for true,bg-slate-800 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
+                                    <div class="flex-auto p-4">
+                                        <div class="flex flex-row -mx-3">
+                                            <div class="flex-none w-2/3 max-w-full px-3">
+                                                <div>
+                                                    <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Humidity</h5>
+                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                        {{ humidity }}%
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="px-3 text-right basis-1/3">
+                                                <div class="inline-block w-12 h-12 text-center items-center text-xl rounded-lg">
+                                                    <i class="wi wi-humidity text-size-lg relative"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
     
-                            <div class="daily-forecast flex flex-col p-2 overflow-x-auto overflow-y-auto">
-                                {% for day, description, high_temp, low_temp, icon in daily_forecast_content %}
-                                    <div class="flex flex-row py-2 justify-between items-center">
-                                        <div class="flex flex-row w-2/3 gap-x-6">
-                                            <div class="flex items-center text-xl">
-                                                <i class="owi owi-{{ icon }}"></i>
+                            <!-- card3 -->
+                            <div class="w-1/2 px-3 mb-6 sm:flex-none">
+                                <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-white for true,bg-slate-800 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
+                                    <div class="flex-auto p-4">
+                                        <div class="flex flex-row -mx-3">
+                                            <div class="flex-none w-2/3 max-w-full px-3">
+                                                <div>
+                                                    <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Precipitation</h5>
+                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                        {{ chance_of_rain }}%
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div class="flex flex-col">
-                                                <p class="text-sm">{{ day }}</p>
-                                                <p class="text-sm">Possible {{ description }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-start w-1/3">
-                                            <p class="text-sm">{{ high_temp }}{{ degree_unit }} / {{ low_temp }}{{ degree_unit }}</p>
-                                        </div>
-                                        
-                                    </div>
-                                {% endfor %}
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Center Panel -->
-        <div class="{{daytime|yesno:'bg-white for true,bg-slate-400 for false'}} {{daytime|yesno:'text-slate-900 for true,text-white for false'}}ease-soft-in-out h-full transition-all duration-200 lg:w-1/2">
-            <!-- Navbar -->
-            <!-- <div class="flex flex-row-reverse items-center justify-between px-0 py-2 mx-6 transition-all shadow-none duration-250 ease-soft-in rounded-2xl lg:flex-nowrap" navbar-div navbar-scroll="true">
-                <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
-                    <div class="flex lg:flex-row-reverse justify-between items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:basis-auto">
-                        <div class="flex lg:flex-row-reverse">
-                            <div class="flex items-center md:ml-auto md:pr-4">
-                                {% include 'components/form.html' %}
-                            </div>
-                            <div class="flex flex-col">
-                                <h6 class="mb-0 font-bold capitalize">{{city}}</h6>
-                                <p class="text-lg mb-0">{{ current_date }}</p>
-                                <p class="text-lg mt-0">{{ current_time }}</p>
-                            </div>
-                        </div>
-                        <div class="flex lg:hidden justify-between">
-                            <div class="flex justify-start lg:hidden">
-                                <p>Weather Forecast</p>
-                            </div>
-                            <div class="flex justify-end">
-                                <ul class="flex flex-row lg:hidden justify-end pl-0 mb-0 list-none md-max:w-full">
-                                    <li class="flex items-center pl-4 lg:hidden">
-                                    <a href="javascript:;" class="block p-0 transition-all ease-nav-brand text-size-sm text-slate-500" sidenav-trigger>
-                                        <div class="w-4.5 overflow-hidden">
-                                        <i class="ease-soft mb-0.75 relative block h-0.5 rounded-sm bg-slate-500 transition-all"></i>
-                                        <i class="ease-soft mb-0.75 relative block h-0.5 rounded-sm bg-slate-500 transition-all"></i>
-                                        <i class="ease-soft relative block h-0.5 rounded-sm bg-slate-500 transition-all"></i>
-                                        </div>
-                                    </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            
-            <!-- <div class="flex flex-col items-center justify-between px-0 py-2 mx-6 transition-all shadow-none duration-250 ease-soft-in rounded-2xl lg:flex-nowrap">
-                <div class="logo-hamburger flex lg:hidden justify-between items-center w-full px-4 py-1 mx-auto flex-wrap-inherit">
-                    <h2 class="text-lg">{{ current_date }} - {{ current_time }}</h2>
-                    <div class="">
-                        <ul class="flex flex-row lg:hidden justify-end pl-0 mb-0 list-none md-max:w-full">
-                            <li class="flex items-center pl-4 lg:hidden">
-                            <a href="javascript:;" class="block p-0 transition-all ease-nav-brand text-size-sm text-slate-500" sidenav-trigger>
-                                <div class="w-4.5 overflow-hidden">
-                                <i class="ease-soft mb-0.75 relative block h-0.5 rounded-sm bg-slate-500 transition-all"></i>
-                                <i class="ease-soft mb-0.75 relative block h-0.5 rounded-sm bg-slate-500 transition-all"></i>
-                                <i class="ease-soft relative block h-0.5 rounded-sm bg-slate-500 transition-all"></i>
-                                </div>
-                            </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="time-and-search flex flex-col lg:flex-row lg:justify-between">
-                    <div class="hidden lg:flex lg:flex-col lg:justify-start lg:w-1/2">
-                        <p class="text-lg mb-0">{{ current_date }}</p>
-                        <p class="text-lg mt-0">{{ current_time }}</p>
-                    </div>
-                    <div class="w-full lg:w-1/2">
-                        {%  include 'components/form.html'  %}
-                    </div>
-                </div>
-
-            </div> -->
-            <!-- end Navbar -->
-            
-            <!-- cards -->
-            <div class="w-full px-6 py-6 mx-auto">
-                <!-- cards row 1 -->
-                <!-- <div class="flex flex-wrap mt-6 -mx-3">
-                    <div class="w-full px-3 mb-6 lg:flex-none">
-                        <div class="relative flex flex-col min-w-0 break-words shadow-soft-xl rounded-2xl bg-clip-border bg-slate-200">
-                            <div class="flex-auto p-4">
-                                <div class="flex flex-wrap -mx-3">
-                                    <div class="max-w-full px-3 lg:w-1/2 lg:flex-none">
-                                        <div class="flex flex-col h-full">
-                                            <h4 class="pt-2 mb-1 font-semibold">{{ city }}</h4>
-                                            <h5 class="font-bold">{{ current_weather }}</h5>
-                                            <p class="text-6xl font-bold  text-black">                                      
-                                                {{ current_temperature }}{{ degree_unit }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="max-w-full px-3 mt-12 ml-auto text-center lg:mt-0 lg:w-5/12 lg:flex-none items-center">
-                                        <div class="h-full bg-gradient-to-tl from-indigo-500 rounded-xl">
-                                            <div class="text-8xl">
-                                                <i class="owi owi-{{current_weather_icon}} text-white py-6"></i>
+                                            <div class="px-3 text-right basis-1/3">
+                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
+                                                    <i class="wi wi-rain text-size-lg relative"></i>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div> -->
-
-                <h6 class="mt-6 mb-0 ml-2 uppercase">Today</h6>
-                <p class="ml-2 py-2">{{ current_weather }} throughout the day</p>
-                <!-- cards row 2 -->
-                <div class="flex flex-wrap -mx-3 text-white">
-
-                    <!-- card1 -->
-                    <div class="w-1/2 md:w-full xl:w-1/2 px-3 mb-6 sm:flex-none">
-                        <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-blue-500 for true,bg-indigo-900 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
-                            <div class="flex-auto p-4">
-                                <div class="flex flex-row -mx-3">
-                                    <div class="flex-none w-2/3 max-w-full px-3">
-                                        <div>
-                                            <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Air Quality</h5>
-                                            <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
-                                                {{ air_quality_index }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="px-3 text-right basis-1/3">
-                                        <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg bg-gradient-to-tl from-indigo-900">
-                                            <i class="wi wi-air text-size-lg relative text-white"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- card2 -->
-                    <div class="w-1/2 px-3 mb-6 sm:flex-none">
-                        <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-blue-500 for true,bg-indigo-900 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
-                            <div class="flex-auto p-4">
-                                <div class="flex flex-row -mx-3">
-                                    <div class="flex-none w-2/3 max-w-full px-3">
-                                        <div>
-                                            <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Humidity</h5>
-                                            <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
-                                                {{ humidity }}%
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="px-3 text-right basis-1/3">
-                                        <div class="inline-block w-12 h-12 text-center items-center text-xl rounded-lg bg-gradient-to-tl from-indigo-900">
-                                            <i class="wi wi-humidity text-size-lg  text-white"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- card3 -->
-                    <div class="w-1/2 px-3 mb-6 sm:flex-none">
-                        <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-blue-500 for true,bg-indigo-900 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
-                            <div class="flex-auto p-4">
-                                <div class="flex flex-row -mx-3">
-                                    <div class="flex-none w-2/3 max-w-full px-3">
-                                        <div>
-                                            <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Chance of Rain</h5>
-                                            <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
-                                                {{ chance_of_rain }}%
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="px-3 text-right basis-1/3">
-                                        <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg bg-gradient-to-tl from-indigo-900">
-                                            <i class="wi wi-rain text-size-lg relative"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- card4 -->
-                    <div class="w-1/2 px-3 mb-6 sm:flex-none">
-                        <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-blue-500 for true,bg-indigo-900 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
-                            <div class="flex-auto p-4">
-                                <div class="flex flex-row -mx-3">
-                                    <div class="flex-none w-2/3 max-w-full px-3">
-                                        <div class="">
-                                            <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Wind Speed</h5>
-                                            <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
-                                                {{ wind_speed }} {{ speed_unit }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="px-3 text-right basis-1/3">
-                                        <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
-                                            <i class="wi wi-strong-wind text-size-lg relative"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- card5 -->
-                    <div class="w-1/2 px-3 mb-6 sm:flex-none">
-                        <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-blue-500 for true,bg-indigo-900 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
-                            <div class="flex-auto p-4">
-                                <div class="flex flex-row -mx-3">
-                                    <div class="flex-none w-2/3 max-w-full px-3">
-                                        <div>
-                                            <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Air Pressure</h5>
-                                            <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
-                                                {{ pressure }} {{ pressure_unit }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="px-3 text-right basis-1/3">
-                                        <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
-                                            <i class="wi wi-thermometer text-size-lg relative text-white"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- card6 -->
-                    <div class="w-1/2 px-3 mb-6 sm:flex-none">
-                        <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-blue-500 for true,bg-indigo-900 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
-                            <div class="flex-auto p-4">
-                                <div class="flex flex-row -mx-3">
-                                    <div class="flex-none w-2/3 max-w-full px-3">
-                                        <div>
-                                            <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">UV Index</h5>
-                                            <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
-                                                {{ uv_index }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="px-3 text-right basis-1/3">
-                                        <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
-                                            <i class="wi wi-thermometer text-size-lg relative"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- card7 -->
-                    <div class="w-1/2 px-3 mb-6 sm:flex-none">
-                        <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-blue-500 for true,bg-indigo-900 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
-                            <div class="flex-auto p-4">
-                                <div class="flex flex-row md:flex-col-reverse xl:flex-row -mx-3">
-                                    <div class="flex-none w-2/3 max-w-full px-3">
-                                        <div>
-                                            <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Sunrise</h5>
-                                            <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
-                                                {{ sunrise_time }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="px-3 text-right md:text-left xl:text-right basis-1/3">
-                                        <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg bg-gradient-to-tl from-indigo-900">
-                                            <i class="wi wi-sunrise text-size-lg relative"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- card8 -->
-                    <div class="w-1/2 px-3 mb-6 sm:flex-none">
-                        <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-blue-500 for true,bg-indigo-900 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
-                            <div class="flex-auto p-4">
-                                <div class="flex flex-row md:flex-col-reverse xl:flex-row -mx-3">
-                                    <div class="flex-none w-2/3 max-w-full px-3">
-                                        <div>
-                                            <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Sunset</h5>
-                                            <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
-                                                {{ sunset_time }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="px-3 text-right md:text-left xl:text-right basis-1/3">
-                                        <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg bg-gradient-to-tl from-indigo-900">
-                                            <i class="wi wi-sunset text-size-lg relative"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end cards -->
-
-            <div class="flex flex-col lg:hidden w-full px-6 py-6 mx-auto">
-                <h6 class="mt-6 mb-0 ml-2 text-black uppercase">Next 48 Hours</h6>
-
-                <div class="hourly-forecast flex flex-col justify-center w-full md:flex-col md:justify-start p-2 max-h-[24rem] overscroll-contain overflow-x-auto overflow-y-auto gap-x-7">
-                    <div class="hourly flex flex-row md:flex-col justify-center md:justify-start gap-x-7">
-                        <div id="hourly-temps" class="flex flex-col md:flex-row justify-evenly ">
-                            <div class="flex flex-row">
-                                <div class="flex flex-row justify-evenly gap-x-7">
-                                    {% for hour, temp, icon in hourly_forecast_content %}
-                                        <div class="flex flex-col justify-evenly gap-x-20">
-                                            <div class="text-sm justify-start">
-                                                <p class="text-sm w-10">{{ hour }}</p>
+    
+                            <!-- card4 -->
+                            <div class="w-1/2 px-3 mb-6 sm:flex-none">
+                                <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-white for true,bg-slate-800 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
+                                    <div class="flex-auto p-4">
+                                        <div class="flex flex-row -mx-3">
+                                            <div class="flex-none w-2/3 max-w-full px-3">
+                                                <div class="">
+                                                    <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Wind Speed</h5>
+                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                        {{ wind_speed }} {{ speed_unit }}
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div class="justify-start w-10">
-                                                <i class="owi owi-{{ icon }}"></i>
-                                            </div>
-                                            <div class="flex flex-col justify-start w-10">
-                                                <p class="text-sm">{{ temp }}{{ degree_unit }}</p>
+                                            <div class="px-3 text-right basis-1/3">
+                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
+                                                    <i class="wi wi-strong-wind text-size-lg relative"></i>
+                                                </div>
                                             </div>
                                         </div>
-                                    {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <!-- card5 -->
+                            <div class="w-1/2 px-3 mb-6 sm:flex-none">
+                                <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-white for true,bg-slate-800 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
+                                    <div class="flex-auto p-4">
+                                        <div class="flex flex-row -mx-3">
+                                            <div class="flex-none w-2/3 max-w-full px-3">
+                                                <div>
+                                                    <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Air Pressure</h5>
+                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                        {{ pressure }} {{ pressure_unit }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="px-3 text-right basis-1/3">
+                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
+                                                    <i class="wi wi-barometer text-size-lg relative"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <!-- card6 -->
+                            <div class="w-1/2 px-3 mb-6 sm:flex-none">
+                                <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-white for true,bg-slate-800 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
+                                    <div class="flex-auto p-4">
+                                        <div class="flex flex-row -mx-3">
+                                            <div class="flex-none w-2/3 max-w-full px-3">
+                                                <div>
+                                                    <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">UV Index</h5>
+                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                        {{ uv_index }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="px-3 text-right basis-1/3">
+                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
+                                                    <i class="wi wi-hot text-size-lg relative"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <!-- card7 -->
+                            <div class="w-1/2 px-3 mb-6 sm:flex-none">
+                                <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-white for true,bg-slate-800 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
+                                    <div class="flex-auto p-4">
+                                        <div class="flex flex-row -mx-3">
+                                            <div class="flex-none w-2/3 max-w-full px-3">
+                                                <div>
+                                                    <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Sunrise</h5>
+                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                        {{ sunrise_time }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="px-3 text-right basis-1/3">
+                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
+                                                    <i class="wi wi-sunrise text-size-lg relative"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <!-- card8 -->
+                            <div class="w-1/2 px-3 mb-6 sm:flex-none">
+                                <div class="relative flex flex-col min-w-0 break-words {{daytime|yesno:'bg-white for true,bg-slate-800 for false'}} shadow-soft-xl rounded-2xl bg-clip-border">
+                                    <div class="flex-auto p-4">
+                                        <div class="flex flex-row -mx-3">
+                                            <div class="flex-none w-2/3 max-w-full px-3">
+                                                <div>
+                                                    <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Sunset</h5>
+                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                        {{ sunset_time }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="px-3 text-right basis-1/3">
+                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
+                                                    <i class="wi wi-sunset text-size-lg relative"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <h6 class="mt-6 mb-0 ml-2 text-black uppercase">Next 7 days</h6>
-
-                <div class="daily-forecast flex flex-col p-2 overflow-x-auto overflow-y-auto">
-                    {% for day, description, high_temp, low_temp, icon in daily_forecast_content %}
-                        <div class="flex flex-row py-2 justify-between items-center">
-                            <div class="flex flex-row w-2/3 gap-x-6">
-                                <div class="flex items-center text-xl">
-                                    <i class="owi owi-{{ icon }}"></i>
-                                </div>
+                    <!-- end cards -->
+    
+                    <div class="items-center block w-auto overflow-auto">
+                        <div class="flex flex-col pl-0 mb-0">
+                            <div class="block px-8 py-6 m-0 text-size-sm whitespace-nowrap ">
+                                <h6 class="mt-6 mb-0 ml-2 uppercase font-bold text-white text-2xl">Upcoming</h6>
                                 <div class="flex flex-col">
-                                    <p class="text-sm">{{ day }}</p>
-                                    <p class="text-sm">{{ description }}</p>
+                                    <h6 class="mt-6 mb-0 ml-2 uppercase font-semibold">Next 48 Hours</h6>
+    
+                                    <div class="hourly-forecast flex flex-col justify-center w-full md:flex-col md:justify-start p-2 max-h-[24rem] overscroll-contain overflow-x-auto overflow-y-auto gap-x-7">
+                                        <div class="hourly flex flex-row flex-wrap md:flex-col justify-center md:justify-start gap-x-7">
+                                            <div id="hourly-temps" class="flex flex-col md:flex-row justify-evenly ">
+                                                <div class="flex flex-row">
+                                                    <div class="flex flex-row justify-evenly gap-x-7">
+                                                        {% for hour, temp, icon in hourly_forecast_content %}
+                                                            <div class="flex flex-col justify-evenly gap-x-20">
+                                                                <div class="text-sm justify-start">
+                                                                    <p class="text-sm w-10">{{ hour }}</p>
+                                                                </div>
+                                                                <div class="justify-start w-10">
+                                                                    <i class="owi owi-{{ icon }}"></i>
+                                                                </div>
+                                                                <div class="flex flex-col justify-start w-10">
+                                                                    <p class="text-sm">{{ temp }}{{ degree_unit }}</p>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <h6 class="mt-6 mb-0 ml-2 font-semibold uppercase">Next 7 days</h6>
+    
+                                    <div class="daily-forecast flex flex-col p-2 overflow-x-auto overflow-y-auto">
+                                        {% for day, description, high_temp, low_temp, icon in daily_forecast_content %}
+                                            <div class="flex flex-row flex-wrap py-2 justify-between items-center">
+                                                <div class="flex flex-row w-2/3 gap-x-6">
+                                                    <div class="flex items-center text-xl">
+                                                        <i class="owi owi-{{ icon }}"></i>
+                                                    </div>
+                                                    <div class="flex flex-col font-semibold">
+                                                        <p class="text-sm">{{ day }}</p>
+                                                        <p class="text-sm">{{ description }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex flex-col justify-start w-1/3">
+                                                    <p class="flex justify-end text-sm">{{ high_temp }}{{ degree_unit }} / {{ low_temp }}{{ degree_unit }}</p>
+                                                </div> 
+                                            </div>
+                                        {% endfor %}
+                                    </div> 
                                 </div>
                             </div>
-                            <div class="flex flex-col justify-start w-1/3">
-                                <p class="text-sm">{{ high_temp }}{{ degree_unit }} / {{ low_temp }}{{ degree_unit }}</p>
-                            </div>
                         </div>
-                    {% endfor %}
-                </div> 
-            </div>
-
-            <!-- Trends -->
-            <div class="w-full px-6 py-6 mx-auto">
-                <h6 class="mt-6 mb-0 ml-2 text-black uppercase">Trends</h6>
-                <p>{{lat}},{{lon}}</p>
-                <div class="flex-auto p-4">
-                    <div>
-                      <canvas id="chart-line" height="300"></canvas>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- </div> -->
-        
-        
-        <!-- Right Panel -->
-        <div class="flex flex-col w-full lg:w-1/4 text-black">
-            <div class="w-full px-6 py-6 mx-auto">
-                <h6 class="mt-6 mb-0 ml-2 font-bold uppercase">Radar</h6>
-                <div class="min-w-fit">
-                    {% include 'components/radar.html' %}
+    
+                <!-- Trends -->
+                <div class="w-full px-6 py-6 mx-auto text-white">
+                    <h6 class="mt-6 mb-0 ml-2 uppercase font-bold text-2xl">Trends</h6>
+                    <!-- <p>{{lat}},{{lon}}</p> -->
+                    <div class="flex-auto p-4">
+                        <!-- <div>
+                        <canvas id="chart-line" height="300"></canvas>
+                        </div> -->
+                        {% include 'components/stackedareachart.html' %}
+                    </div>
                 </div>
-            </div>
-            <div class="w-full h-96 px-6 py-6 mx-auto">
-                <h6 class="mt-6 mb-0 ml-2 font-bold uppercase">Alerts</h6>
-                <!-- <p class="mt-6 mb-0 ml-2">{{ alert_description }}</p>
-                <span class="error text-sm flex flex-wrap">
-                    <p id="alerts-error">{{no_alerts_msg }}</p>
-                </span> -->
-                {% include 'components/alerts.html' %}
-            </div>
-            <!-- <div class="w-full px-6 py-6 mx-auto">
-                <h6 class="mt-6 mb-0 ml-2 font-bold uppercase">Latest News</h6>
-            </div> -->
-            </div>
+
+                <div class="flex flex-col w-full text-white">
+                    <div class="w-full px-6 py-6 mx-auto">
+                        <h6 class="mt-6 mb-0 ml-2 font-bold uppercase text-2xl">Radar</h6>
+                        <div class="min-w-fit">
+                            {% include 'components/radar.html' %}
+                        </div>
+                    </div>
+                    <div class="w-full h-96 px-6 py-6 mx-auto">
+                        <h6 class="mt-6 mb-0 ml-2 font-bold uppercase text-2xl">Alerts</h6>
+                        <!-- <p class="mt-6 mb-0 ml-2">{{ alert_description }}</p>
+                        <span class="error text-sm flex flex-wrap">
+                            <p id="alerts-error">{{no_alerts_msg }}</p>
+                        </span> -->
+                        {% include 'components/alerts.html' %}
+                    </div>
+                    <!-- <div class="w-full px-6 py-6 mx-auto">
+                        <h6 class="mt-6 mb-0 ml-2 font-bold uppercase">Latest News</h6>
+                    </div> -->
+                </div>
+            </div>       
         </div>
+
+            <!-- <hr class="h-px mt-0 border-2 border-white" /> -->        
+    </div>
+        
     </main>
     {% include 'components/footer.html' %}
     {% include 'components/script-tags.html' %}

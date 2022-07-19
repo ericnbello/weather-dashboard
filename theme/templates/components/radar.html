@@ -19,8 +19,10 @@
 <script>
     var map;
     function initMap() {
+        // var latitude = "{{lat}}"
+        // var longitude = "{{lon}}"
         map = new google.maps.Map(document.getElementById('mapid'), {
-          center: {lat: 55, lng: 5},
+          center: {lat: "{{lat}}", lng: "{{lon}}"},
           zoom: 6
         });
 

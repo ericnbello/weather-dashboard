@@ -1,3 +1,5 @@
+import random
+import time
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.core.exceptions import *
@@ -224,3 +226,28 @@ def call_api(unit_system, location):
 
 def index(request):
     return render(request, 'form.html')
+
+def stackedareachart(request):
+    """
+    stackedareachart page
+    """
+    nb_element = 100
+    xdata = range(nb_element)
+    xdata = map(lambda x: 100 + x, xdata)
+    ydata = [i + random.randint(1, 10) for i in range(nb_element)]
+    ydata2 = map(lambda x: x * 2, ydata)
+
+    extra_serie1 = {"tooltip": {"y_start": "", "y_end": " balls"}}
+    extra_serie2 = {"tooltip": {"y_start": "", "y_end": " calls"}}
+
+    chartdata = {
+        'x': xdata,
+        'name1': 'Temperature', 'y1': ydata, 'extra1': extra_serie1,
+        'name2': 'series 2', 'y2': ydata2, 'extra2': extra_serie2,
+    }
+    charttype = "stackedAreaChart"
+    data = {
+        'charttype': charttype,
+        'chartdata': chartdata
+    }
+    return render('stackedareachart.html', data)
