@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  web:
+    image: ericnbello/enhanced_weather_app-web:latest
+    command: gunicorn --bind 0.0.0.0:8000 enhanced_weather_app.wsgi --workers=4
+    environment:
+      - DEBUG
+      - DATABASE_NAME
+      - DATABASE_USER
+      - DATABASE_PASSWORD
+      - HOST_ENDPOINT
+      - REDIS_LOCATION
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_STORAGE_BUCKET_NAME
+      - AWS_REGION
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    expose:
+      - "8000"
+    networks:
+      - django-network
+  nginx:
+    image: ericnbello/enhanced_weather_app-nginx:latest
+    restart: always
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    networks:
+      - django-network
+networks:
+  django-network:
+    name: django-network
+volumes:
+  media_volume:
+  static_volume:

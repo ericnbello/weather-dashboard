@@ -4,10 +4,10 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.core.exceptions import *
 import httpx
-import requests
-import json
+# import requests
+# import json
 import os
-import re
+# import re
 from datetime import datetime, timezone
 import pytz
 
