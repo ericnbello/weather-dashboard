@@ -1,4 +1,4 @@
-.terraform/providers/registry.terraform.io/hashicorp/aws/4.48.0/darwin_amd64/terraform-provider-aws_v4.48.0_x5
+terraform-aws/.terraform/providers/registry.terraform.io/hashicorp/aws/4.48.0/darwin_amd64/terraform-provider-aws_v4.48.0_x5
 .idea
 /theme/node_modules
 .env
