@@ -1,4 +1,4 @@
-/terraform-aws/.terraform/providers
+**/.terraform/*
 .idea
 /theme/node_modules
 .env
