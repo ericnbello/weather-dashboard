@@ -7,6 +7,7 @@ httpx==0.23.0
 # idna==2.8
 asgiref==3.4.1
 awscli==1.22.5
+backports.zoneinfo;python_version<"3.9"
 # boto==2.49.0
 # botocore==1.23.5
 Django==4.0.1
