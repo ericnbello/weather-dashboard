@@ -1,6 +1,5 @@
 {
   "buildpacks": [
-    "heroku/python-3.8.18"
-  ],
-  "stack": "heroku-20"
+    "heroku/python"
+  ]
 }
