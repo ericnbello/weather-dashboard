@@ -1,5 +1,5 @@
 {
   "buildpacks": [
-    "heroku/python"
+    "https://github.com/heroku/heroku-buildpack-python#v225"
   ]
 }
