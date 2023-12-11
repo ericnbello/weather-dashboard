@@ -11,4 +11,6 @@ services:
     envVars:
       - key: DISABLE_COLLECTSTATIC # Imported from Heroku app
         value: 1
+      - key: PYTHON_VERSION
+        value: 3.8.5
 
