@@ -1,5 +1,5 @@
 {
   "buildpacks": [
-    "heroku/python-3.9.18"
+    "heroku/python"
   ]
 }
