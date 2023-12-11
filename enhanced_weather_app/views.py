@@ -25,7 +25,7 @@ def default_page(request):
     units = default_unit_system
     location = request.POST.get('location', default_location)
 
-    return render(request, 'base.html', call_api(units, location))
+    return render(request, '../templates/base.html', call_api(units, location))
 
 def call_api(unit_system, location):
     try:
