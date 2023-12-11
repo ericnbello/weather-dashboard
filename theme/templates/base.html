@@ -26,17 +26,17 @@
     <title>Weather App</title>
 </head>
 
-<body class="m-0 font-dongle antialiased font-normal min-h-screen text-size-base leading-default">
+<body class="min-h-screen m-0 antialiased font-normal font-dongle text-size-base leading-default">
     {% include 'components/hero.html' %}
     <main class="flex flex-col mx-auto relative {{daytime|yesno:'bg-blue-500 for true,bg-indigo-900 for false'}}">
         <div class="w-full max-w-5xl mx-auto">
-            <div class="w-full flex-wrap items-center justify-between border-0 p-0 shadow-none text-white">
-                <div class="ease-soft-in-out h-full w-full transition-all duration-200">
+            <div class="flex-wrap items-center justify-between w-full p-0 text-white border-0 shadow-none">
+                <div class="w-full h-full transition-all duration-200 ease-soft-in-out">
                     
                     <!-- cards -->
                     <div class="w-full px-6 py-6 mx-auto">
-                        <h6 class="mt-6 mb-0 ml-2 uppercase font-bold text-white">Today</h6>
-                        <p class="ml-2 py-2 pb-4 text-white font-semibold">{{ current_weather }} throughout the day</p>
+                        <h6 class="mt-6 mb-0 ml-2 font-bold text-white uppercase">Today</h6>
+                        <p class="py-2 pb-4 ml-2 font-semibold text-white">{{ current_weather }} throughout the day</p>
                         <!-- cards row 1 -->
                         <div class="flex flex-wrap -mx-3 {{daytime|yesno:'text-black for true,text-white for false'}}">
     
@@ -48,14 +48,14 @@
                                             <div class="flex-none w-2/3 max-w-full px-3">
                                                 <div>
                                                     <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Air Quality</h5>
-                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                    <p class="mb-0 text-lg font-bold md:text-xl xl:text-3xl">
                                                         {{ air_quality_index }}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="px-3 text-right basis-1/3">
-                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
-                                                    <i class="wi wi-sandstorm text-5xl relative"></i>
+                                                <div class="items-center inline-block w-12 h-12 text-3xl text-center rounded-lg">
+                                                    <i class="relative text-5xl wi wi-sandstorm"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -71,14 +71,14 @@
                                             <div class="flex-none w-2/3 max-w-full px-3">
                                                 <div>
                                                     <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Humidity</h5>
-                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                    <p class="mb-0 text-lg font-bold md:text-xl xl:text-3xl">
                                                         {{ humidity }}%
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="px-3 text-right basis-1/3">
-                                                <div class="inline-block w-12 h-12 text-center items-center text-xl rounded-lg">
-                                                    <i class="wi wi-humidity text-5xl relative"></i>
+                                                <div class="items-center inline-block w-12 h-12 text-xl text-center rounded-lg">
+                                                    <i class="relative text-5xl wi wi-humidity"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -94,14 +94,14 @@
                                             <div class="flex-none w-2/3 max-w-full px-3">
                                                 <div>
                                                     <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Precipitation</h5>
-                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                    <p class="mb-0 text-lg font-bold md:text-xl xl:text-3xl">
                                                         {{ chance_of_rain }}%
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="px-3 text-right basis-1/3">
-                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
-                                                    <i class="wi wi-rain text-5xl relative"></i>
+                                                <div class="items-center inline-block w-12 h-12 text-3xl text-center rounded-lg">
+                                                    <i class="relative text-5xl wi wi-rain"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -117,14 +117,14 @@
                                             <div class="flex-none w-2/3 max-w-full px-3">
                                                 <div class="">
                                                     <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Wind Speed</h5>
-                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                    <p class="mb-0 text-lg font-bold md:text-xl xl:text-3xl">
                                                         {{ wind_speed }} {{ speed_unit }}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="px-3 text-right basis-1/3">
-                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
-                                                    <i class="wi wi-strong-wind text-5xl relative"></i>
+                                                <div class="items-center inline-block w-12 h-12 text-3xl text-center rounded-lg">
+                                                    <i class="relative text-5xl wi wi-strong-wind"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -140,14 +140,14 @@
                                             <div class="flex-none w-2/3 max-w-full px-3">
                                                 <div>
                                                     <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Air Pressure</h5>
-                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                    <p class="mb-0 text-lg font-bold md:text-xl xl:text-3xl">
                                                         {{ pressure }} {{ pressure_unit }}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="px-3 text-right basis-1/3">
-                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
-                                                    <i class="wi wi-barometer text-5xl relative"></i>
+                                                <div class="items-center inline-block w-12 h-12 text-3xl text-center rounded-lg">
+                                                    <i class="relative text-5xl wi wi-barometer"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -163,14 +163,14 @@
                                             <div class="flex-none w-2/3 max-w-full px-3">
                                                 <div>
                                                     <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">UV Index</h5>
-                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                    <p class="mb-0 text-lg font-bold md:text-xl xl:text-3xl">
                                                         {{ uv_index }}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="px-3 text-right basis-1/3">
-                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
-                                                    <i class="wi wi-hot text-5xl relative"></i>
+                                                <div class="items-center inline-block w-12 h-12 text-3xl text-center rounded-lg">
+                                                    <i class="relative text-5xl wi wi-hot"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -186,14 +186,14 @@
                                             <div class="flex-none w-2/3 max-w-full px-3">
                                                 <div>
                                                     <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Sunrise</h5>
-                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                    <p class="mb-0 text-lg font-bold md:text-xl xl:text-3xl">
                                                         {{ sunrise_time }}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="px-3 text-right basis-1/3">
-                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
-                                                    <i class="wi wi-sunrise text-5xl relative"></i>
+                                                <div class="items-center inline-block w-12 h-12 text-3xl text-center rounded-lg">
+                                                    <i class="relative text-5xl wi wi-sunrise"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,14 +209,14 @@
                                             <div class="flex-none w-2/3 max-w-full px-3">
                                                 <div>
                                                     <h5 class="mb-0 font-sans font-semibold leading-normal text-size-sm">Sunset</h5>
-                                                    <p class="mb-0 text-lg md:text-xl xl:text-3xl font-bold">
+                                                    <p class="mb-0 text-lg font-bold md:text-xl xl:text-3xl">
                                                         {{ sunset_time }}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="px-3 text-right basis-1/3">
-                                                <div class="inline-block w-12 h-12 text-center items-center text-3xl rounded-lg">
-                                                    <i class="wi wi-sunset text-5xl relative"></i>
+                                                <div class="items-center inline-block w-12 h-12 text-3xl text-center rounded-lg">
+                                                    <i class="relative text-5xl wi wi-sunset"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -230,19 +230,19 @@
                     <div class="items-center block w-auto overflow-auto">
                         <div class="flex flex-col pl-0 mb-0">
                             <div class="block px-8 py-6 m-0 text-size-sm whitespace-nowrap ">
-                                <h6 class="mt-6 mb-0 ml-2 uppercase font-bold text-white text-2xl">Upcoming</h6>
+                                <h6 class="mt-6 mb-0 ml-2 text-2xl font-bold text-white uppercase">Upcoming</h6>
                                 <div class="flex flex-col">
-                                    <h6 class="mt-6 mb-0 ml-2 uppercase font-semibold">Next 48 Hours</h6>
+                                    <h6 class="mt-6 mb-0 ml-2 font-semibold uppercase">Next 48 Hours</h6>
     
                                     <div class="hourly-forecast flex flex-col justify-center w-full md:flex-col md:justify-start p-2 max-h-[24rem] overscroll-contain overflow-x-auto overflow-y-auto gap-x-7">
-                                        <div class="hourly flex flex-row flex-wrap md:flex-col justify-center md:justify-start gap-x-7">
+                                        <div class="flex flex-row flex-wrap justify-center hourly md:flex-col md:justify-start gap-x-7">
                                             <div id="hourly-temps" class="flex flex-col md:flex-row justify-evenly ">
                                                 <div class="flex flex-row">
                                                     <div class="flex flex-row justify-evenly gap-x-7">
                                                         {% for hour, temp, icon in hourly_forecast_content %}
                                                             <div class="flex flex-col justify-evenly gap-x-20">
-                                                                <div class=" justify-center">
-                                                                    <p class="text-lg w-10">{{ hour }}</p>
+                                                                <div class="justify-center ">
+                                                                    <p class="w-10 text-lg">{{ hour }}</p>
                                                                 </div>
                                                                 <div class="justify-center w-10 text-2xl">
                                                                     <i class="owi owi-{{ icon }}"></i>
@@ -260,9 +260,9 @@
     
                                     <h6 class="mt-6 mb-0 ml-2 font-semibold uppercase">Next 7 days</h6>
     
-                                    <div class="daily-forecast flex flex-col p-2 overflow-x-auto overflow-y-auto">
+                                    <div class="flex flex-col p-2 overflow-x-auto overflow-y-auto daily-forecast">
                                         {% for day, description, high_temp, low_temp, icon in daily_forecast_content %}
-                                            <div class="flex flex-row flex-wrap py-2 justify-between items-center">
+                                            <div class="flex flex-row flex-wrap items-center justify-between py-2">
                                                 <div class="flex flex-row w-2/3 gap-x-6">
                                                     <div class="flex items-center text-3xl">
                                                         <i class="owi owi-{{ icon }} "></i>
@@ -286,7 +286,7 @@
     
                 <!-- Trends -->
                 <!-- <div class="w-full px-6 py-6 mx-auto text-white">
-                    <h6 class="mt-6 mb-2 ml-2 uppercase font-bold text-2xl">Trends</h6>
+                    <h6 class="mt-6 mb-2 ml-2 text-2xl font-bold uppercase">Trends</h6>
                     <p>{{lat}},{{lon}}</p>
                     <div class="flex-auto p-4">
                         <div>
@@ -298,17 +298,17 @@
 
                 <div class="flex flex-col w-full text-white">
                     <div class="w-full px-6 py-6 mx-auto">
-                        <h6 class="mt-6 mb-2 ml-2 font-bold uppercase text-2xl">Radar</h6>
+                        <h6 class="mt-6 mb-2 ml-2 text-2xl font-bold uppercase">Radar</h6>
                         <div class="min-w-fit">
                             {% include 'components/radar.html' %}
                         </div>
                     </div>
-                    <div class="w-full h-96 px-6 py-6 mx-auto">
-                        <h6 class="mt-6 mb-0 ml-2 font-bold uppercase text-2xl">Alerts</h6>
+                    <div class="w-full px-6 py-6 mx-auto h-96">
+                        <h6 class="mt-6 mb-0 ml-2 text-2xl font-bold uppercase">Alerts</h6>
                         {% include 'components/alerts.html' %}
                     </div>
-                    <!-- <div class="w-full h-96 px-6 py-6 mx-auto">
-                        <h6 class="mt-6 mb-0 ml-2 font-bold uppercase text-2xl">Latest News</h6>
+                    <!-- <div class="w-full px-6 py-6 mx-auto h-96">
+                        <h6 class="mt-6 mb-0 ml-2 text-2xl font-bold uppercase">Latest News</h6>
                         {% include 'components/alerts.html' %}
                     </div> -->
                 </div>
