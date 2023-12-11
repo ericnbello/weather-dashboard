@@ -1,3 +1,4 @@
+python_version=="3.8.5"
 # httpcore==0.15.0
 httpx==0.23.0
 # sniffio==1.2.0
