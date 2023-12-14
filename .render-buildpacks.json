@@ -1,8 +1,5 @@
 {
   "buildpacks": [
     "heroku/python"
-  ],
-  "stacks": [
-    "heroku-20"
   ]
 }
