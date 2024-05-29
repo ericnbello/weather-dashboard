@@ -38,6 +38,7 @@ resource "aws_instance" "app_server" {
               sudo chmod +x /usr/local/bin/docker-compose
               sudo usermod -a -G docker ec2-user
 
+               
               sudo docker pull ghcr.io/ericnbello/enhanced_weather_app-nginx:latest
 
               sudo docker pull ghcr.io/ericnbello/enhanced_weather_app-web:latest
