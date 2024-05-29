@@ -1,0 +1,22 @@
+version: '3'
+services:
+  web:
+    container_name: 'enhanced_weather_app-web'
+    image: '${WEATHER_APP_WEB_IMAGE}'
+    command: gunicorn enhanced_weather_app.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/enhanced_weather_app/static/
+      - media_volume:/enhanced_weather_app/media/
+    expose:
+      - 80
+  nginx:
+      container_name: 'enhanced_weather_app-nginx'
+      image: '${WEATHER_APP_NGINX_IMAGE}'
+      ports:
+        - 80:80
+      volumes:
+        - static_volume:/enhanced_weather_app/static
+        - media_volume:/enhanced_weather_app/media
+ volumes:
+    static_volume:
+    media_volume:

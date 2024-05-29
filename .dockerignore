@@ -1,8 +1,8 @@
 *.pyc
-migrations/
+#migrations/
 __pycache__
 db.sqlite3
 .idea
 *.DS_Store
-.env
-static
+#.env
+#static

@@ -1,0 +1,21 @@
+version: '3'
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      cache_from:
+        - '${WEATHER_APP_WEB_IMAGE}'
+    image: '${WEATHER_APP_WEB_IMAGE}'
+    command: gunicorn enhanced_weather_app.wsgi:application --bind 0.0.0.0:8000
+    expose:
+      - 80
+  nginx:
+    build:
+     context: ./nginx
+     dockerfile: Dockerfile
+    cache_from:
+          - '${WEATHER_APP_NGINX_IMAGE}'
+      image: '${WEATHER_APP_NGINX_IMAGE}'
+    ports:
+      - 80:80

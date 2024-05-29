@@ -28,6 +28,33 @@ resource "aws_instance" "app_server" {
   tags = {
     Name = "WeatherAppServerInstance"
   }
+
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo yum update -y
+              sudo yum install -y docker
+              sudo service docker start
+              sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+              sudo chmod +x /usr/local/bin/docker-compose
+              sudo usermod -a -G docker ec2-user
+
+              sudo docker pull ghcr.io/ericnbello/enhanced_weather_app-nginx:latest
+
+              sudo docker pull ghcr.io/ericnbello/enhanced_weather_app-web:latest
+
+              docker-compose -f docker-compose.yml up --build -d
+
+              # sudo chown $USER /var/run/docker.sock
+              # sudo yum install nginx
+              # sudo systemctl start nginx
+              # sudo systemctl enable nginx
+              # cd /etc/nginx/sites-available/
+
+              docker run -p 80:80 -d nginx
+              pip3 install gunicorn
+              gunicorn --bind 0.0.0.0:8000 enhanced_weather_app:app
+              docker run -d -p 80:80 ericnbello/enhanced_weather_app-web                
+              EOF
 }
 
 resource "aws_key_pair" "deployer" {
@@ -39,19 +66,21 @@ data "aws_security_group" "default2" {
   id ="sg-063600b5a337fd6e8"
 }
 
-provider "docker" {}
+# provider "docker" {}
 
-resource "docker_image" "nginx" {
-  name         = "nginx:latest"
-  keep_locally = false
-}
+# resource "docker_image" "web" {
+#   name          = "weather-app-web"
+#   image         = "enhanced_weather_app-web:latest"
+#   keep_locally = false
+# }
 
-resource "docker_container" "nginx" {
-  image = docker_image.nginx.image_id
-  name  = "nginx"
-  ports {
-    internal = 80
-    external = 8000
-  }
-}
+# resource "docker_container" "nginx" {
+#   name  = "weather-app-nginx"
+#   #image = docker_image.nginx.image_id
+#   image = "enhanced_weather_app-nginx:latest"
+#   ports {
+#     internal = 80
+#     external = 8000
+#   }
+# }
 

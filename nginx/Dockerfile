@@ -1,6 +1,11 @@
-FROM nginx:stable-alpine
+# Use an official Nginx image as the base image
+FROM nginx:latest
 
-COPY default.conf /etc/nginx
-COPY default.conf /etc/nginx/conf.d
+# Remove any existing config files
+RUN rm /etc/nginx/conf.d/*
 
+# Copy the custom Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/
+
+# Expose port 80 for Nginx
 EXPOSE 80
