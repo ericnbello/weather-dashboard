@@ -42,8 +42,8 @@ jobs:
                 terraform_version: 1.5.7
 
             - name: Switch to Config File Directory
-              run: cd terraform-aws
-              
+              run: cd ../terraform-aws
+
             - name: Terraform init and validate
               run: terraform init
 
