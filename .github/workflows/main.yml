@@ -45,8 +45,8 @@ jobs:
               with:
                 terraform_version: 1.5.7
 
-            # - name: Terraform init and validate
-            #   run: terraform init
+            - name: Terraform init and validate
+              run: terraform init -input=false
 
             - name: Terraform plan
               run: terraform plan
