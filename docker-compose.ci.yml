@@ -14,8 +14,8 @@ services:
     build:
      context: ./nginx
      dockerfile: Dockerfile
-    cache_from:
+     cache_from:
           - '${WEATHER_APP_NGINX_IMAGE}'
-      image: '${WEATHER_APP_NGINX_IMAGE}'
+    image: '${WEATHER_APP_NGINX_IMAGE}'
     ports:
       - 80:80
