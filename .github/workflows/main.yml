@@ -45,8 +45,8 @@ jobs:
               with:
                 terraform_version: 1.5.7
 
-            - name: Terraform init and validate
-              run: terraform init
+            # - name: Terraform init and validate
+            #   run: terraform init
 
             - name: Terraform plan
               run: terraform plan
@@ -66,6 +66,10 @@ jobs:
     build:
         name: Build the Docker Image
         runs-on: ubuntu-latest
+        defaults:
+            run:
+              shell: bash
+              working-directory: ./
         steps:
             - name: checkout main
               uses: actions/checkout@v3
