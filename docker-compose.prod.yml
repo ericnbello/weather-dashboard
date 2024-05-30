@@ -17,6 +17,6 @@ services:
       volumes:
         - static_volume:/enhanced_weather_app/static
         - media_volume:/enhanced_weather_app/media
- volumes:
-    static_volume:
-    media_volume:
+volumes:
+  static_volume:
+  media_volume:
