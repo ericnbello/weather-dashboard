@@ -33,13 +33,13 @@ jobs:
               with:
                 fetch-depth: 0
 
-            # - id: "auth"
-            #   name: "Authenticate to AWS"
-            #   uses: aws-actions/configure-aws-credentials@v1
-            #   with:
-            #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            #     aws-region: us-east-1
+            - id: "auth"
+              name: "Authenticate to AWS"
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-region: us-east-1
 
             - name: Setup Terraform
               uses: hashicorp/setup-terraform@v1
@@ -51,7 +51,7 @@ jobs:
               with:
                 account-id: "${{ secrets.AWS_ACCOUNT_ID }}"
                 region: "us-east-1"
-                role: "github-actions@ericnbello.weather"
+                role: "GitHub-3rd-Party-Action"
                 bucket: "weather-app-tfstate"
                 key: "ericnbello/weather/terraform.tfstate"
             - run: |
