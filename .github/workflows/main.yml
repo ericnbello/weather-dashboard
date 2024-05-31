@@ -17,6 +17,7 @@ env:
 permissions:
     contents: read
     issues: write
+    id-token: write
 
 jobs:      
     terraform:
@@ -55,7 +56,7 @@ jobs:
                 key: "ericnbello/weather/terraform.tfstate"
             - run: |
                 terraform init -backend-config="${{ steps.backend-config.outputs.path }}"
-                
+
             # - name: Terraform init and validate
             #   run: terraform init -backend-config="${{ secrets.STATE_FILE_PATH }}"
 
