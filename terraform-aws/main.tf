@@ -86,7 +86,7 @@ data "aws_security_group" "default2" {
 resource "s3" "backend" {
     bucket         	   = "mycomponents-tfstate"
     key              	   = "state/terraform.tfstate"
-    region         	   = "eu-central-1"
+    region         	   = "us-east-1"
     encrypt        	   = true
     dynamodb_table = "mycomponents_tf_lockid"
   }
