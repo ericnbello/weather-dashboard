@@ -10,6 +10,14 @@ terraform {
     }
   }
   required_version = ">= 1.2.0"
+
+  backend "s3" {
+    bucket         	   = "weather-app-tfstate"
+    key              	 = "state/terraform.tfstate"
+    region         	   = "us-east-1"
+    encrypt        	   = true
+    dynamodb_table     = "weather_app_tf_lockid"
+  }
 }
 
 provider "aws" {
@@ -83,16 +91,38 @@ data "aws_security_group" "default2" {
   id ="sg-063600b5a337fd6e8"
 }
 
-resource "aws_s3_bucket_versioning" "backend" {
-    bucket         	   = "weather-app-tfstate"
-    # key              	 = "state/terraform.tfstate"
-    # region         	   = "us-east-1"
-    # encrypt        	   = true
-    # dynamodb_table = "mycomponents_tf_lockid"
-    versioning_configuration {
-      status = "Enabled"
-    }
+resource "aws_s3_bucket" "weather-app-tfstate" {
+   bucket = "weather-app-tfstate"
+  #  acl = "private"  
+}
+
+resource "aws_s3_bucket_versioning" "weather-app-tfstate" {
+   bucket = "weather-app-tfstate"
+  #  acl = "private"  
+  versioning_configuration {
+    status = "Enabled"
   }
+}
+ 
+resource "aws_s3_bucket_object" "object1" {
+  for_each = fileset("uploads/", "*")
+  bucket = aws_s3_bucket.weather-app-tfstate.id
+  key = each.value
+  source = "uploads/${each.value}"
+}
+
+resource "aws_dynamodb_table" "weather_app_tf_lockid" {
+  name             = "weather_app_tf_lockid"
+  hash_key         = "LockID"
+  billing_mode     = "PAY_PER_REQUEST"
+  # stream_enabled   = true
+  # stream_view_type = "NEW_AND_OLD_IMAGES"
+
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+}
 
 # provider "docker" {}
 
