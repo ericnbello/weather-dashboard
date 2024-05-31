@@ -83,12 +83,15 @@ data "aws_security_group" "default2" {
   id ="sg-063600b5a337fd6e8"
 }
 
-resource "s3" "backend" {
+resource "aws_s3_bucket_versioning" "backend" {
     bucket         	   = "mycomponents-tfstate"
-    key              	   = "state/terraform.tfstate"
-    region         	   = "us-east-1"
-    encrypt        	   = true
-    dynamodb_table = "mycomponents_tf_lockid"
+    # key              	 = "state/terraform.tfstate"
+    # region         	   = "us-east-1"
+    # encrypt        	   = true
+    # dynamodb_table = "mycomponents_tf_lockid"
+    versioning_configuration {
+      status = enable
+    }
   }
 
 # provider "docker" {}
