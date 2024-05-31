@@ -18,7 +18,7 @@ provider "aws" {
 
 resource "aws_eip_association" "eip_assoc" {
   # instance_id   = "${aws_instance.web.id}"
-  instance_id     = "i-0e1dc237871c4c1d5"
+  instance_id     = "i-00cccc082e3759c31"
   allocation_id   = "eipalloc-0b19346a3935117b0"
 }
 
@@ -84,7 +84,7 @@ data "aws_security_group" "default2" {
 }
 
 resource "aws_s3_bucket_versioning" "backend" {
-    bucket         	   = "mycomponents-tfstate"
+    bucket         	   = "weather-app-tfstate"
     # key              	 = "state/terraform.tfstate"
     # region         	   = "us-east-1"
     # encrypt        	   = true
