@@ -83,6 +83,14 @@ data "aws_security_group" "default2" {
   id ="sg-063600b5a337fd6e8"
 }
 
+resource "s3" "backend" {
+    bucket         	   = "mycomponents-tfstate"
+    key              	   = "state/terraform.tfstate"
+    region         	   = "eu-central-1"
+    encrypt        	   = true
+    dynamodb_table = "mycomponents_tf_lockid"
+  }
+
 # provider "docker" {}
 
 # resource "docker_image" "web" {
