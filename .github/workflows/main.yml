@@ -45,8 +45,19 @@ jobs:
               with:
                 terraform_version: 1.5.7
 
-            - name: Terraform init and validate
-              run: terraform init -backend-config="${{ secrets.STATE_FILE_PATH }}"
+            - id: backend-config
+              uses: amannm/terraform-s3-backend-action@v1
+              with:
+                account-id: "${{ secrets.AWS_ACCOUNT_ID }}"
+                region: "us-east-1"
+                role: "github-actions@ericnbello.weather"
+                bucket: "weather-app-tfstate"
+                key: "ericnbello/weather/terraform.tfstate"
+            - run: |
+                terraform init -backend-config="${{ steps.backend-config.outputs.path }}"
+                
+            # - name: Terraform init and validate
+            #   run: terraform init -backend-config="${{ secrets.STATE_FILE_PATH }}"
 
             - name: Terraform plan
               run: terraform plan
