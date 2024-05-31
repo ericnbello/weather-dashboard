@@ -126,7 +126,7 @@ resource "aws_s3_bucket_object" "object1" {
       actions = ["s3:GetObject"]
 
       resources = [
-        aws_s3_bucket.day66_s3_bucket.arn,
+        aws_s3_bucket.weather-app-tfstate.arn,
         "${aws_s3_bucket.weather-app-tfstate.arn}/*",
       ]
     }
