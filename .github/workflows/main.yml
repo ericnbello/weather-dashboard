@@ -46,7 +46,16 @@ jobs:
               with:
                 terraform_version: 1.5.7
 
-            
+            # - id: backend-config
+            #   uses: amannm/terraform-s3-backend-action@v1
+            #   with:
+            #     account-id: "${{ secrets.AWS_ACCOUNT_ID }}"
+            #     region: "us-east-1"
+            #     role: "GitHub-3rd-Party-Action"
+            #     bucket: "weather-app-tfstate"
+            #     key: "state/terraform.tfstate"
+            # - run: |
+            #     terraform init -backend-config="${{ steps.backend-config.outputs.path }}"
 
             - name: Terraform init and validate
               run: terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
@@ -54,7 +63,14 @@ jobs:
             - name: Terraform plan
               run: terraform plan
                 
-              
+        #   - uses: trstringer/manual-approval@v1
+    #     with:
+    #       secret: ${{ github.TOKEN }}
+    #       approvers: laysauchoa
+    #       minimum-approvals: 1
+    #       issue-title: "Deploying v1.0.0 to prod"
+    #       issue-body: "Review the terraform plan, then approve or deny the deployment of v1.0.0 to prod."
+    #       exclude-workflow-initiator-as-approver: false
 
             - name: Terraform apply
               run: terraform apply -auto-approve

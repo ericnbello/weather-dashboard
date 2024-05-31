@@ -111,26 +111,26 @@ resource "aws_s3_bucket_object" "object1" {
   source = "uploads/${each.value}"
 }
 
-  resource "aws_s3_bucket_policy" "weather-app-tfstate_policy" {
-    bucket = aws_s3_bucket.weather-app-tfstate.id
-    policy = data.aws_iam_policy_document.allow_read_only_access.json
-  }
+  # resource "aws_s3_bucket_policy" "weather-app-tfstate_policy" {
+  #   bucket = aws_s3_bucket.weather-app-tfstate.id
+  #   policy = data.aws_iam_policy_document.allow_read_only_access.json
+  # }
 
-  data "aws_iam_policy_document" "allow_read_only_access" {
-    statement {
-      effect = "Allow"
-      principals {
-        type        = "AWS"
-        identifiers = ["${ secrets.AWS_ACCOUNT_ID }"]
-      }
-      actions = ["s3:GetObject"]
+  # data "aws_iam_policy_document" "allow_read_only_access" {
+  #   statement {
+  #     effect = "Allow"
+  #     principals {
+  #       type        = "AWS"
+  #       identifiers = ["${ secrets.AWS_ACCOUNT_ID }"]
+  #     }
+  #     actions = ["s3:GetObject"]
 
-      resources = [
-        aws_s3_bucket.weather-app-tfstate.arn,
-        "${aws_s3_bucket.weather-app-tfstate.arn}/*",
-      ]
-    }
-  }
+  #     resources = [
+  #       aws_s3_bucket.weather-app-tfstate.arn,
+  #       "${aws_s3_bucket.weather-app-tfstate.arn}/*",
+  #     ]
+  #   }
+  # }
 
 resource "aws_dynamodb_table" "weather_app_tf_lockid" {
   name             = "weather_app_tf_lockid"
