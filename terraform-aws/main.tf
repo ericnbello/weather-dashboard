@@ -90,7 +90,7 @@ resource "aws_s3_bucket_versioning" "backend" {
     # encrypt        	   = true
     # dynamodb_table = "mycomponents_tf_lockid"
     versioning_configuration {
-      status = "enabled"
+      status = "Enabled"
     }
   }
 
