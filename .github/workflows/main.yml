@@ -53,7 +53,7 @@ jobs:
                 region: "us-east-1"
                 role: "GitHub-3rd-Party-Action"
                 bucket: "weather-app-tfstate"
-                key: "ericnbello/weather/terraform.tfstate"
+                key: "state/terraform.tfstate"
             - run: |
                 terraform init -backend-config="${{ steps.backend-config.outputs.path }}"
 
