@@ -53,7 +53,7 @@ jobs:
               with:
                 account-id: "${{ secrets.AWS_ACCOUNT_ID }}"
                 region: "us-east-1"
-                role: "GitHub-3rd-Party-Action"
+                role: "github-actions-backend-config"
                 bucket: "weather-app-tfstate"
                 key: "state/terraform.tfstate"
             - run: |
