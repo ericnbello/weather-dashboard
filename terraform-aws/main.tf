@@ -44,18 +44,18 @@ resource "aws_instance" "app_server" {
   }
 
   user_data = <<-EOF
-              #!/bin/bash
-              sudo yum update -y
-              sudo yum install -y docker
-              sudo service docker start
+              # #!/bin/bash
+              # sudo yum update -y
+              # sudo yum install -y docker
+              # sudo service docker start
               
-              sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+              # sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
               
-              sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+              # sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
-              sudo chmod +x /usr/local/bin/docker-compose
+              # sudo chmod +x /usr/local/bin/docker-compose
 
-              sudo usermod -a -G docker ec2-user
+              # sudo usermod -a -G docker ec2-user
 
               # sudo docker pull ghcr.io/ericnbello/enhanced_weather_app-nginx:latest
 
