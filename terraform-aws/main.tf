@@ -33,8 +33,6 @@ resource "aws_eip_association" "eip_assoc" {
 resource "aws_instance" "app_server" {
   ami           = "ami-0b0dcb5067f052a63"
   instance_type = "t2.micro"
-  id            = "i-00cccc082e3759c31"
-  arn           = "arn:aws:ec2:us-east-1:985952578243:instance/i-00cccc082e3759c31"
   # vpc_security_group_ids = ["sg-0e78b8bae17735d6f"]
   vpc_security_group_ids = ["sg-063600b5a337fd6e8"]
   # subnet_id              = "subnet-07c50e57962a398b8"
@@ -52,6 +50,7 @@ resource "aws_instance" "app_server" {
               sudo service docker start
               
               sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+              
               sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
               sudo chmod +x /usr/local/bin/docker-compose
