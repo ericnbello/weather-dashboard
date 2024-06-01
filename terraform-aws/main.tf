@@ -26,7 +26,7 @@ provider "aws" {
 
 resource "aws_eip_association" "eip_assoc" {
   # instance_id   = "${aws_instance.web.id}"
-  instance_id     = "i-00cccc082e3759c31"
+  instance_id     = "i-0fd4f137db320eb1d"
   allocation_id   = "eipalloc-0b19346a3935117b0"
 }
 
