@@ -62,7 +62,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'enhanced_weather_app.urls'
 
 INTERNAL_IPS = [
-    "127.0.0.1", 
+    "127.0.0.1, 172.31.22.8", 
 ]
 
 TAILWIND_CSS_PATH = '../static/css/dist/styles.css'
