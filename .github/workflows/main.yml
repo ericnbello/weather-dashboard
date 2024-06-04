@@ -13,7 +13,6 @@ env:
     WEATHER_APP_WEB_IMAGE: ghcr.io/$(echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')/enhanced_weather_app
     WEATHER_APP_NGINX_IMAGE: ghcr.io/$(echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')/nginx
     REGISTRY: ghcr.io
-    OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY}}
 
 permissions:
     contents: read
@@ -82,7 +81,7 @@ jobs:
     
     build:
         name: Build the Docker Image
-        environment: WEATHER_EC2
+        # environment: WEATHER_EC2
         runs-on: ubuntu-latest
         defaults:
             run:
@@ -91,12 +90,14 @@ jobs:
         steps:
             - name: checkout main
               uses: actions/checkout@v3
+              with: 
+                secrets: |
+                  "openweather_api_key=${{ secrets.OPENWEATHER_API_KEY }}"   
 
             # - name: Pass env variable for python
             #   run: O python -c 'import os;print(os.environ['OPENWEATHER_API_KEY'])
             - name: Set environment variables to .env
               run: |
-                echo "OPENWEATHER_API_KEY=$(echo ${{ env.OPENWEATHER_API_KEY}} )" >> $GITHUB_ENV
                 echo "WEATHER_APP_WEB_IMAGE=$(echo ${{env.WEATHER_APP_WEB_IMAGE}} )" >> $GITHUB_ENV
                 echo "WEATHER_APP_NGINX_IMAGE=$(echo ${{env.WEATHER_APP_NGINX_IMAGE}} )" >> $GITHUB_ENV
 
