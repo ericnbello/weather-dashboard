@@ -96,7 +96,7 @@ jobs:
             #   run: O python -c 'import os;print(os.environ['OPENWEATHER_API_KEY'])
             - name: Set environment variables to .env
               run: |
-                echo "OPENWEATHER_API_KEY=$(echo ${{ secrets.OPENWEATHER_API_KEY}} )" >> $GITHUB_ENV
+                echo "OPENWEATHER_API_KEY=$(echo ${{ env.OPENWEATHER_API_KEY}} )" >> $GITHUB_ENV
                 echo "WEATHER_APP_WEB_IMAGE=$(echo ${{env.WEATHER_APP_WEB_IMAGE}} )" >> $GITHUB_ENV
                 echo "WEATHER_APP_NGINX_IMAGE=$(echo ${{env.WEATHER_APP_NGINX_IMAGE}} )" >> $GITHUB_ENV
 
