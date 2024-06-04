@@ -1,6 +1,6 @@
 FROM python:3.8-alpine
-RUN --mount=type=secret,id=api_key \
-  cat /run/secrets/api_key
+RUN --mount=type=secret,id=openweather_api_key \
+  cat /run/secrets/openweather_api_key
 
 EXPOSE 8000
 
