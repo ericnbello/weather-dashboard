@@ -158,8 +158,8 @@ jobs:
                 SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 
             run: |
-                sudo apt-get update -y
-                sudo apt-get install -y docker
+                sudo yum update -y
+                sudo yum install -y docker
                 # sudo service docker start
                 # sudo dockerd
 

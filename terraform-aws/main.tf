@@ -45,35 +45,7 @@ resource "aws_instance" "app_server" {
   }
 
   user_data = <<-EOF
-              #!/bin/bash
-              sudo yum update -y
-              sudo yum install -y docker
-              # sudo service docker start
-              
-              sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-              
-              sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-
-              sudo chmod +x /usr/local/bin/docker-compose
-
-              sudo usermod -a -G docker ec2-user
-
-              docker pull ghcr.io/ericnbello/enhanced_weather_app-nginx:latest
-
-              docker pull ghcr.io/ericnbello/enhanced_weather_app-web:latest
-
-              docker-compose -f docker-compose.yml up --build -d
-
-              # # sudo chown $USER /var/run/docker.sock
-              # # sudo amazon-linux-extras install -y nginx1
-              # # sudo systemctl start nginx
-              # # sudo systemctl enable nginx
-              # # cd /etc/nginx/sites-available/
-
-              # # docker run -p 80:80 -d nginx
-              # # pip3 install gunicorn
-              # gunicorn --bind 0.0.0.0:8000 enhanced_weather_app:app
-              # docker run -d -p 80:80 ericnbello/enhanced_weather_app-web                
+                              
               EOF
 }
 
