@@ -1,6 +1,4 @@
 FROM python:3.8-alpine
-RUN --mount=type=secret,id=openweather_api_key \
-  cat /run/secrets/openweather_api_key
 
 EXPOSE 8000
 
@@ -13,6 +11,10 @@ RUN apk add --no-cache gcc python3-dev musl-dev postgresql-dev libpq-dev libffi-
 ADD . /enhanced_weather_app
 
 WORKDIR /enhanced_weather_app
+
+RUN --mount=type=secret,id=openweather_api_key \
+  cat /run/secrets/openweather_api_key
+  
 COPY requirements.txt requirements.txt
 RUN python3 -m pip install --upgrade pip
 RUN pip3 install -r requirements.txt
