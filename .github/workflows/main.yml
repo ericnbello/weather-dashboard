@@ -82,7 +82,7 @@ jobs:
     
     build:
         name: Build the Docker Image
-        # environment: WEATHER_EC2
+        environment: WEATHER_EC2
         runs-on: ubuntu-latest
         defaults:
             run:
