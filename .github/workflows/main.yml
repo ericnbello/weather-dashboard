@@ -91,6 +91,8 @@ jobs:
             - name: checkout main
               uses: actions/checkout@v3
 
+            - name: Pass env variable for python
+              run: OPENWEATHER_API_KEY=${{ secrets.OPENWEATHER_API_KEY}} python -c 'import os;print(os.environ['OPENWEATHER_API_KEY'])
             - name: Set environment variables to .env
               run: |
                 echo "WEATHER_APP_WEB_IMAGE=$(echo ${{env.WEATHER_APP_WEB_IMAGE}} )" >> $GITHUB_ENV
@@ -98,7 +100,6 @@ jobs:
             - name: Log in to GitHub Packages
               env:
                     PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-                    OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY}}
               run: echo ${PERSONAL_ACCESS_TOKEN} | docker login ghcr.io -u ${{ secrets.NAMESPACE }} --password-stdin
 
             - name: Pull images
