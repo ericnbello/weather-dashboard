@@ -1,6 +1,7 @@
 .idea
 /theme/node_modules
 .env
+.txt
 
 # Local .terraform directories
 **/.terraform/*

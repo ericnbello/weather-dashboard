@@ -40,7 +40,7 @@
 #   media_volume:
 #   static_volume:
 
-version: '3'
+version: '3.1'
 services:
   web:
     build:
@@ -52,6 +52,8 @@ services:
       - media_volume:/enhanced_weather_app/media/
     expose:
       - 80
+    secrets:
+      - openweather_api_key
 
   nginx:
     build:
@@ -66,3 +68,7 @@ services:
 volumes:
   static_volume:
   media_volume:
+
+secrets:          
+  openweather_api_key:
+    file: openweather_api_key.txt

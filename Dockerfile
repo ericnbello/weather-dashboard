@@ -5,7 +5,6 @@ EXPOSE 8000
 # # ENV PYTHONUNBUFFERED 1
 # # ENV PYTHONDONTWRITEBYTECODE 1
 # # ENV DEBIAN_FRONTEND noninteractive
-ARG openweather_api_key
 
 RUN apk add --no-cache gcc python3-dev musl-dev postgresql-dev libpq-dev libffi-dev
 

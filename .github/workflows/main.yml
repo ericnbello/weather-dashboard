@@ -92,8 +92,6 @@ jobs:
               uses: actions/checkout@v3
                              
             - name: Set environment variables to .env
-              # env:  
-              #   OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
               run: |
                 echo "WEATHER_APP_WEB_IMAGE=$(echo ${{env.WEATHER_APP_WEB_IMAGE}} )" >> $GITHUB_ENV
                 echo "WEATHER_APP_NGINX_IMAGE=$(echo ${{env.WEATHER_APP_NGINX_IMAGE}} )" >> $GITHUB_ENV
@@ -182,6 +180,6 @@ jobs:
                     
                     docker pull $WEATHER_APP_WEB_IMAGE
                     docker pull $WEATHER_APP_NGINX_IMAGE
-                    docker-compose --env-file=.env -f docker-compose.prod.yml up -d --build --build-arg openweather_api_key="${{ secrets.OPENWEATHER_API_KEY }}"
+                    docker-compose --env-file=.env -f docker-compose.prod.yml up -d --build
                     docker logout
                 EOF
