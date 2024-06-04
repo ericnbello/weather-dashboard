@@ -10,8 +10,6 @@ services:
     command: gunicorn enhanced_weather_app.wsgi:application --bind 0.0.0.0:8000
     expose:
       - 80
-    # secrets:          
-    #   - openweather_api_key
     
   nginx:
     build:

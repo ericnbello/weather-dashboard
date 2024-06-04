@@ -52,8 +52,6 @@ services:
       - media_volume:/enhanced_weather_app/media/
     expose:
       - 80
-    secrets:
-      - openweather_api_key
 
   nginx:
     build:

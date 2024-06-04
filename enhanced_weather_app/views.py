@@ -14,7 +14,8 @@ import pytz
 from dotenv import load_dotenv
 load_dotenv()
 
-openweather_api_key = os.environ.get('OPENWEATHER_API_KEY')
+open_weather_api_key = '78ef04dd156d99e6c18b00f7b0221c10'
+# openweather_api_key = os.environ.get('OPENWEATHER_API_KEY')
 
 unit_system_names = ['imperial', 'metric']
 default_unit_system = 'imperial'
