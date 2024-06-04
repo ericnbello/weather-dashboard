@@ -15,6 +15,8 @@ WORKDIR /enhanced_weather_app
 COPY requirements.txt requirements.txt
 RUN python3 -m pip install --upgrade pip
 RUN pip3 install -r requirements.txt
+
+ENV OPENWEATHER_API_KEY='$OPENWEATHER_API_KEY'
 #RUN pip3 install httpx
 #RUN pip install --no-cache-dir --upgrade pip
 # # RUN pip install gunicorn==20.1.0

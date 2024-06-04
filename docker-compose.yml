@@ -68,7 +68,3 @@ services:
 volumes:
   static_volume:
   media_volume:
-
-secrets:          
-  openweather_api_key:
-    file: openweather_api_key.txt
