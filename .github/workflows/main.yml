@@ -99,8 +99,8 @@ jobs:
 
             - name: Pull images
               run: |
-                docker pull ${{ env.WEATHER_APP_WEB_IMAGE }}:latest || true
-                docker pull ${{ env.WEATHER_APP_NGINX_IMAGE }}:latest || true
+                docker pull ${{ env.WEATHER_APP_WEB_IMAGE }} || true
+                docker pull ${{ env.WEATHER_APP_NGINX_IMAGE }} || true
             - name: Build images
               id: build-images
               run: |
