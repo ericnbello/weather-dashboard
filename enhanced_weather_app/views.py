@@ -49,7 +49,7 @@ def call_api(unit_system, location):
             # next_unit_system = 'metric'
             # current_unit_system = next_unit_system
         else:
-            r_2 = httpx.get('https://api.openweathermap.org/data/2.5/onecall?lat={0}&lon={1}&exclude=minutely&units=metric&appid={3}'.format(lat, lon, openweather_api_key))
+            r_2 = httpx.get('http://api.openweathermap.org/data/2.5/onecall?lat={0}&lon={1}&exclude=minutely&units=metric&appid={3}'.format(lat, lon, openweather_api_key))
             degree_unit = '˚C'
             speed_unit = 'km/h'
             pressure_unit = 'mb'
