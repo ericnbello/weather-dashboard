@@ -4,8 +4,8 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.core.exceptions import *
 import httpx
-# import requests
-# import json
+import requests
+import json
 import os
 # import re
 from datetime import datetime, timezone
@@ -30,15 +30,17 @@ def default_page(request):
 
 def call_api(unit_system, location):
     try:
-        r_1 = httpx.get('http://api.openweathermap.org/geo/1.0/direct?q={0}&limit=5&appid={1}'.format(location, openweather_api_key)) 
-        # weather_data_1 = json.loads(r_1.content)
-        weather_data_1 = r_1.json()
+        # r_1 = httpx.get('http://api.openweathermap.org/geo/1.0/direct?q={0}&limit=5&appid={1}'.format(location, openweather_api_key))
+        # weather_data_1 = r_1.json()
+
+        r_1 = requests.get('http://api.openweathermap.org/geo/1.0/direct?q={0}&limit=5&appid={1}'.format(location, openweather_api_key)) 
+        weather_data_1 = json.loads(r_1.text)
         
         lat = weather_data_1[0]["lat"]
         lon = weather_data_1[0]["lon"]
 
         if unit_system == 'imperial':
-            r_2 = httpx.get('https://api.openweathermap.org/data/2.5/onecall?lat={0}&lon={1}&exclude=minutely&units={2}&appid={3}'.format(lat, lon, unit_system, openweather_api_key))
+            r_2 = httpx.get('http://api.openweathermap.org/data/2.5/onecall?lat={0}&lon={1}&exclude=minutely&units={2}&appid={3}'.format(lat, lon, unit_system, openweather_api_key))
             degree_unit = '˚F'
             speed_unit = 'mph'
             pressure_unit  = 'mb'
