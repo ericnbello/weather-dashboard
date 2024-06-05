@@ -4,7 +4,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    command: gunicorn enhanced_weather_app.wsgi:application --bind 0.0.0.0:8000 --timeout 0
+    command: gunicorn --workers=2 --threads=4 enhanced_weather_app.wsgi:application --bind 0.0.0.0:8000 --timeout=0
     volumes:
       - static_volume:/enhanced_weather_app/static/
       - media_volume:/enhanced_weather_app/media/
