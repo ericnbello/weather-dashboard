@@ -9,8 +9,8 @@ services:
       - media_volume:/enhanced_weather_app/media/
     expose:
       - 80
-    network_mode: "host"
-    
+    # network_mode: "host"
+
   nginx:
       container_name: 'enhanced_weather_app-nginx'
       image: '${WEATHER_APP_NGINX_IMAGE}'

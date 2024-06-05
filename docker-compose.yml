@@ -10,7 +10,7 @@ services:
       - media_volume:/enhanced_weather_app/media/
     expose:
       - 80
-    network_mode: "host"
+    # network_mode: "bridge"
 
   nginx:
     build:
