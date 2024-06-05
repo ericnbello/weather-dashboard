@@ -21,5 +21,5 @@ urlpatterns = [
     path('', views.default_page, name='default_page'),
     path('', views.index, name='index'),
     path('', views.call_api, name='call_api'),
-    path("__reload__/", include("django_browser_reload.urls")),
+    # path("__reload__/", include("django_browser_reload.urls")),
 ]
