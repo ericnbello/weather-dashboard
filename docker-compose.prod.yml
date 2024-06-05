@@ -3,7 +3,7 @@ services:
   web:
     container_name: 'enhanced_weather_app-web'
     image: '${WEATHER_APP_WEB_IMAGE}'
-    command: gunicorn enhanced_weather_app.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn --workers=2 --timeout=0  --threads=4 enhanced_weather_app.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/enhanced_weather_app/static/
       - media_volume:/enhanced_weather_app/media/
