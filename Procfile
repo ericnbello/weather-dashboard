@@ -1,1 +1,1 @@
-web: gunicorn enhanced_weather_app.wsgi:application
+web: gunicorn --timeout 0 enhanced_weather_app.wsgi:application
