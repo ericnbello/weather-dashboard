@@ -10,6 +10,9 @@ services:
       - media_volume:/enhanced_weather_app/media/
     expose:
       - 80
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
   nginx:
     build:
