@@ -10,6 +10,7 @@ services:
     command: gunicorn --workers=2 --timeout=0  --threads=4 enhanced_weather_app.wsgi:application --bind 0.0.0.0:8000
     expose:
       - 80
+    network_mode: "host"
     
   nginx:
     build:
