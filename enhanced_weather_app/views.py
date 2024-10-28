@@ -14,8 +14,8 @@ import pytz
 from dotenv import load_dotenv
 load_dotenv()
 
-openweather_api_key = '78ef04dd156d99e6c18b00f7b0221c10'
-# openweather_api_key = os.environ.get('OPENWEATHER_API_KEY')
+# openweather_api_key = ''
+openweather_api_key = os.environ.get('OPENWEATHER_API_KEY')
 
 unit_system_names = ['imperial', 'metric']
 default_unit_system = 'imperial'
@@ -40,7 +40,8 @@ def call_api(unit_system, location):
         lon = weather_data_1[0]["lon"]
 
         if unit_system == 'imperial':
-            r_2 = requests.get('http://api.openweathermap.org/data/2.5/onecall?lat={0}&lon={1}&exclude=minutely&units={2}&appid={3}'.format(lat, lon, unit_system, openweather_api_key))
+            r_2 = requests.get('https://api.openweathermap.org/data/3.0/onecall?lat={0}&lon={1}&units={2}&exclude=minutely&appid={3}'.format(lat, lon, unit_system, openweather_api_key))
+            # r_2 = requests.get('http://api.openweathermap.org/data/2.5/onecall?lat={0}&lon={1}&exclude=minutely&units={2}&appid={3}'.format(lat, lon, unit_system, openweather_api_key))
             degree_unit = '˚F'
             speed_unit = 'mph'
             pressure_unit  = 'mb'
@@ -49,7 +50,8 @@ def call_api(unit_system, location):
             # next_unit_system = 'metric'
             # current_unit_system = next_unit_system
         else:
-            r_2 = requests.get('http://api.openweathermap.org/data/2.5/onecall?lat={0}&lon={1}&exclude=minutely&units=metric&appid={3}'.format(lat, lon, openweather_api_key))
+            r_2 = requests.get('https://api.openweathermap.org/data/3.0/onecall?lat={0}&lon={1}&exclude={minutely}&units={2}&appid={3}'.format(lat, lon, unit_system, openweather_api_key))
+            # r_2 = requests.get('http://api.openweathermap.org/data/2.5/onecall?lat={0}&lon={1}&exclude=minutely&units=metric&appid={3}'.format(lat, lon, openweather_api_key))
             degree_unit = '˚C'
             speed_unit = 'km/h'
             pressure_unit = 'mb'
@@ -58,14 +60,14 @@ def call_api(unit_system, location):
             # next_unit_system = 'imperial'
             # current_unit_system = next_unit_system
 
-        r_3 = requests.get('http://api.openweathermap.org/data/2.5/air_pollution?lat={0}&lon={1}&appid={2}'.format(lat, lon, openweather_api_key))
+        # r_3 = requests.get('http://api.openweathermap.org/data/2.5/air_pollution?lat={0}&lon={1}&appid={2}'.format(lat, lon, openweather_api_key))
 
         # Full API response data
         # weather_data_2 = json.loads(r_2.content)
         weather_data_2 = r_2.json()
 
         # air_pollution_data = json.loads(r_3.content)
-        air_pollution_data = r_3.json()
+        # air_pollution_data = r_3.json()
 
         # Current date info
         current_unix_timestamp = weather_data_2["current"]["dt"]
@@ -156,18 +158,18 @@ def call_api(unit_system, location):
                 alert_description = "There are no alerts"
 
         ## Air Quality Index
-        aqi = air_pollution_data["list"][0]["main"]["aqi"]
+        # aqi = air_pollution_data["list"][0]["main"]["aqi"]
 
-        if aqi == 1:
-            air_quality_index = "Good"
-        elif aqi == 2:
-            air_quality_index = "Fair"
-        elif aqi == 3:
-            air_quality_index = "Moderate"
-        elif aqi == 4:
-            air_quality_index = "Poor"
-        elif aqi == 5:
-            air_quality_index = "Very Poor"
+        # if aqi == 1:
+        #     air_quality_index = "Good"
+        # elif aqi == 2:
+        #     air_quality_index = "Fair"
+        # elif aqi == 3:
+        #     air_quality_index = "Moderate"
+        # elif aqi == 4:
+        #     air_quality_index = "Poor"
+        # elif aqi == 5:
+        #     air_quality_index = "Very Poor"
     except:
         invalid_input_msg = 'Location not found. Search must be in the form of "City", "City, State, Country" or "City, Country".'
         # no_alerts_msg = 'This is the exception no alerts message'
@@ -224,7 +226,7 @@ def call_api(unit_system, location):
             'hourly_forecast_content': hourly_forecast_content,
 
             'alert_description': alert_description,
-            'air_quality_index': air_quality_index
+            # 'air_quality_index': air_quality_index
         }
 
 def index(request):
