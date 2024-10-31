@@ -74,10 +74,15 @@ def call_api(unit_system, location):
         current_utc_time = datetime.fromtimestamp(current_unix_timestamp, timezone.utc)
         city_timezone = pytz.timezone(weather_data_2["timezone"])
         local_time = current_utc_time.astimezone(city_timezone)
-        current_date = local_time.strftime("%A %b %d, %Y").lstrip("0").replace(" 0", " ")
-        current_time = local_time.strftime("%I:%M %p").lstrip("0").replace(" 0", " ")
+        # Full day name, i.e. Sunday
+        # current_date_full_day_name = local_time.strftime("%A %b %d, %Y").lstrip("0").replace(" 0", " ")
+        # Abbreviated day name, i.e. Sun
+        current_date = local_time.strftime("%a %b %d, %Y").lstrip("0").replace(" 0", " ")
+
+        current_time = local_time.strftime("%I:%M %p").lstrip("0").replace(" 0", " ").lower()
 
         # Current weather info
+        current_weather_summary = weather_data_2["daily"][0]["summary"]
         current_weather_icon_code = weather_data_2["current"]["weather"][0]["icon"]
 
         # Sunrise and sunset times
@@ -107,6 +112,28 @@ def call_api(unit_system, location):
             local_time = utc_time.astimezone()
             days_of_week.append(local_time.strftime("%A"))
 
+        # Today's moonrise time
+        todays_moonrise_dt = []
+        for i in range(len(daily_weather_info)):
+            todays_moonrise_dt.append(daily_weather_info[0]["moonrise"])
+
+        todays_moonrise_time = []
+        for unix_timestamp in todays_moonrise_dt:
+            utc_time = datetime.fromtimestamp(unix_timestamp, timezone.utc)
+            local_time = utc_time.astimezone()
+            todays_moonrise_time.append(local_time.strftime("%-I:%M %p").lower())
+
+        # Daily moonrise time starting 'tomorrow'
+        daily_moonrise_dts = []
+        for i in range(len(daily_weather_info)):
+            daily_moonrise_dts.append(daily_weather_info[i]["moonrise"])
+
+        daily_moonrise_times = []
+        for daily_unix_timestamp in daily_moonrise_dts:
+            utc_time = datetime.fromtimestamp(daily_unix_timestamp, timezone.utc)
+            local_time = utc_time.astimezone()
+            daily_moonrise_times.append(local_time.strftime("%-I:%M %p").lower())
+
         daily_highs = []
         for i in range(len(daily_weather_info)):
             daily_highs.append(round(daily_weather_info[i]["temp"]["max"]))
@@ -123,7 +150,13 @@ def call_api(unit_system, location):
         for i in range(len(daily_weather_info)):
             daily_weather_descriptions.append(daily_weather_info[i]["weather"][0]["description"])
 
-        daily_forecast_content = zip(days_of_week, daily_weather_descriptions, daily_highs, daily_lows, daily_icon_codes)
+        
+        # for i in range(len(daily_weather_info)):
+            # daily_moonrise_times.append(daily_weather_info[i]["moonrise"])
+
+        daily_forecast_content = zip(days_of_week, daily_weather_descriptions, daily_highs, daily_lows, daily_icon_codes, daily_moonrise_times)
+
+        daily_forecast_content_list = list(daily_forecast_content)
 
         # Hourly weather info
         hourly_weather_info = weather_data_2["hourly"][1:]
@@ -146,8 +179,14 @@ def call_api(unit_system, location):
         hourly_icon_codes = []
         for i in range(len(hourly_weather_info)):
             hourly_icon_codes.append(hourly_weather_info[i]["weather"][0]["icon"])
+        
+        hourly_weather_descriptions = []
+        for i in range(len(hourly_weather_info)):
+            hourly_weather_descriptions.append(hourly_weather_info[i]["weather"][0]["description"])
 
-        hourly_forecast_content = zip(hours, hourly_temps, hourly_icon_codes)
+        hourly_forecast_content = zip(hours, hourly_temps, hourly_icon_codes, hourly_weather_descriptions)
+
+        hourly_forecast_content_list = list(hourly_forecast_content)
         
         # Alert info
         try:
@@ -170,6 +209,68 @@ def call_api(unit_system, location):
         #     air_quality_index = "Poor"
         # elif aqi == 5:
         #     air_quality_index = "Very Poor"
+
+        # Air pressure info
+        air_pressure = round(weather_data_2["current"]["pressure"])
+
+        hourly_air_pressures = []
+        for i in range(len(weather_data_2["hourly"][0:23])):
+            hourly_air_pressures.append(weather_data_2["hourly"][i]["pressure"])
+        
+        todays_avg_air_pressure = round(sum(hourly_air_pressures)/len(hourly_air_pressures))
+
+
+        ## UV Index Info
+        uv_index = round(weather_data_2["current"]["uvi"])
+
+        if uv_index <= 2:
+            uv_index_meaning = "Low"
+        elif uv_index <= 5:
+            uv_index_meaning = "Moderate"
+        elif uv_index <= 7:
+            uv_index_meaning = "High"
+        elif uv_index <= 10:
+            uv_index_meaning = "Very High"
+        else:
+            uv_index_meaning = "Extreme"
+
+        # Moon Phase Info
+        current_moon_phase_value = weather_data_2["daily"][0]["moon_phase"]
+        
+        # List of icons without "alt" entries
+        moon_phase_mappings = {
+            "New Moon": ("wi-moon-new", "f095"),
+            "Waxing Crescent": ("wi-moon-waxing-crescent-1", "f096"),
+            "First Quarter": ("wi-moon-first-quarter", "f09c"),
+            "Waxing Gibbous": ("wi-moon-waxing-gibbous-1", "f09d"),
+            "Full Moon": ("wi-moon-full", "f0a3"),
+            "Waning Gibbous": ("wi-moon-waning-gibbous-1", "f0a4"),
+            "Last Quarter": ("wi-moon-third-quarter", "f0aa"),
+            "Waning Crescent": ("wi-moon-waning-crescent-1", "f0ab")
+        }
+
+        # Mapping moon phase value to names
+        if current_moon_phase_value == 0:
+            current_moon_phase = "New Moon"
+        elif current_moon_phase_value == 0.25:
+            current_moon_phase = "First Quarter"
+        elif current_moon_phase_value == 0.5:
+            current_moon_phase = "Full Moon"
+        elif current_moon_phase_value == 0.75:
+            current_moon_phase = "Last Quarter"
+        elif 0 < current_moon_phase_value < 0.25:
+            current_moon_phase = "Waxing Crescent"
+        elif 0.25 < current_moon_phase_value < 0.5:
+            current_moon_phase = "Waxing Gibbous"
+        elif 0.5 < current_moon_phase_value < 0.75:
+            current_moon_phase = "Waning Gibbous"
+        else:
+            current_moon_phase = "Waning Crescent"
+
+        # Retrieve the icon code based on the moon phase
+        moon_icon_name, moon_icon_code = moon_phase_mappings.get(current_moon_phase, ("wi-moon-unknown", "f000"))
+
+
     except:
         invalid_input_msg = 'Location not found. Search must be in the form of "City", "City, State, Country" or "City, Country".'
         # no_alerts_msg = 'This is the exception no alerts message'
@@ -198,15 +299,26 @@ def call_api(unit_system, location):
             # 'next_degree_unit': next_degree_unit,
             # 'current_speed_unit': current_speed_unit,
             # 'next_speed_unit': next_speed_unit,
-
+            'current_weather_summary': current_weather_summary,
             'current_weather_icon': current_weather_icon_code,
             'current_temperature': round(weather_data_2["current"]["temp"]),
+            'visibility_distance': round(weather_data_2["current"]["visibility"]//1609),
             'wind_speed': round(weather_data_2["current"]["wind_speed"]),
+            'wind_gust': round(weather_data_2["daily"][0]["wind_gust"]),
             'feels_like': round(weather_data_2["current"]["feels_like"]),
             'humidity': round(weather_data_2["current"]["humidity"]),
-            'uv_index': round(weather_data_2["current"]["uvi"]),
-            'pressure': round(weather_data_2["current"]["pressure"]),
-            'chance_of_rain': round(weather_data_2["daily"][0]["pop"]*100),
+            'dew_point': round(weather_data_2["current"]["dew_point"]),
+            'uv_index': uv_index,
+            'uv_index_meaning': uv_index_meaning,
+            'air_pressure': air_pressure,
+            'todays_avg_air_pressure': todays_avg_air_pressure,
+            'current_chance_of_rain': round(weather_data_2["hourly"][0]["pop"]*100),
+            # 'daily_chance_of_rain': round(weather_data_2["daily"][0]["pop"]*100),
+            'next_hour_chance_of_rain': round(weather_data_2["hourly"][1]["pop"]*100),
+            'todays_moonrise_time': todays_moonrise_time,
+            'current_moon_phase': current_moon_phase,
+            'moon_icon_name': moon_icon_name,
+            'moon_icon_code': moon_icon_code,
             'current_date': current_date,
             'current_time': current_time,
             'sunrise_time': sunrise_time,
@@ -219,11 +331,13 @@ def call_api(unit_system, location):
             'daily_low_temps': daily_lows,
             'daily_weather_icons': daily_icon_codes,
             'daily_forecast_content': daily_forecast_content,
+            'daily_forecast_content_list': daily_forecast_content_list,
 
             'hours': hours,
             'hourly_temps': hourly_temps,
             'hourly_weather_icons': hourly_icon_codes,
             'hourly_forecast_content': hourly_forecast_content,
+            'hourly_forecast_content_list': hourly_forecast_content_list,
 
             'alert_description': alert_description,
             # 'air_quality_index': air_quality_index

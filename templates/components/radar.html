@@ -1,15 +1,15 @@
 <div class="flex flex-col">
-    <div id="mapid" class="block jusitfy-center w-full h-96"></div>
+    <div id="mapid" class="block w-full jusitfy-center h-96"></div>
     <div class="mx-auto">
         <ul class="flex gap-x-6">
             <li>
-                <input type="button" class="border-2 border-white p-2" onclick="stop(); showFrame(animationPosition - 1); return;" value="&lt;" />
+                <input type="button" class="p-2 border-2 border-white" onclick="stop(); showFrame(animationPosition - 1); return;" value="&lt;" />
             </li>
             <li>
-                <input type="button"  class="border-2 border-white p-2" onclick="playStop();" value="Play / Stop" />
+                <input type="button"  class="p-2 border-2 border-white" onclick="playStop();" value="Play / Stop" />
             </li>
             <li>
-                <input type="button"  class="border-2 border-white p-2" onclick="stop(); showFrame(animationPosition + 1); return;" value="&gt;" />
+                <input type="button"  class="p-2 border-2 border-white" onclick="stop(); showFrame(animationPosition + 1); return;" value="&gt;" />
             </li>
         </ul>
     </div>

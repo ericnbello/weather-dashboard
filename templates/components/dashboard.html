@@ -1,0 +1,892 @@
+{% load static %}
+{% load tailwind_tags %}
+
+<style>
+    body {
+    font-family: Rubik, sans-serif;
+    color: white;
+    font-size: 1rem;
+    background-color: hsl(226, 43%, 10%);
+    /* padding: 5rem; */
+}
+
+h1 {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 2em;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1%;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    /* align-items: center; */
+    /* gap: 1%; */
+    width: 100%;
+}
+
+#dashboard-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    width: 100%;
+    padding: 5em;
+    height: 100vh;
+}
+
+.title {
+    
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+}
+
+footer a {
+    color: hsl(43, 84%, 65%);
+    text-decoration: none;
+}
+    /* Card Styles 
+**********************/
+
+/*** Profile Card *****/
+#profile-col {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  /* width: calc(50% - 1em); */
+  max-width: auto;
+  /* height: calc(50% - 1em); */
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+#profile-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 0;
+  /* padding: 0.5em 0 2em 0; */
+  border: 2px solid hsl(246, 80%, 60%);
+  border-bottom-left-radius: 12px;
+  border-radius: 12px;
+  background-color: hsl(246, 80%, 60%);
+  font-size: 1.5em;
+}
+
+#profile-header-text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5em;
+}
+
+#current-weather {
+    font-size: medium;
+}
+
+#headshot {
+  padding: 0;
+  margin: 0.5em 0 0 0.5em;
+  height: 2.5em;
+  width: 2.5em;
+  border: 1px solid white;
+  border-radius: 50%;
+}
+
+#profile-card {
+  /* width: calc(60% - 2em); */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: auto;
+  background-color: hsl(235, 46%, 20%);
+  padding: 0;
+  margin: 0;
+}
+
+#profile-card-2 {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: flex-start; */
+  width: auto;
+  background-color: hsl(235, 46%, 20%);
+  padding: 0;
+  /* margin: 0; */
+  grid-row: span 2 / span 2;
+  height: 100%;
+}
+
+#profile-header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  margin: 0.5em;
+  padding: 0;
+}
+
+#report-for {
+  
+  font-size: 0.5em;
+  color: hsl(236, 100%, 87%);
+}
+
+#profile-card h2 {
+  /* margin: 0.5em; */
+  padding: 0;
+  font-size: 1.25em;
+  font-weight: 300;
+}
+
+#interval-toggle {
+  background-color: hsl(235, 46%, 20%);
+  height: calc(50% - 1em);
+  width: auto;
+  height: 10em;
+  margin: 0;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border: none;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+#interval-toggle button {
+  border: none;
+  background-color: transparent;
+  color: hsl(235, 45%, 61%);
+  cursor: pointer;
+  font-size: 0.85em;
+}
+
+#interval-toggle button:hover {
+  color: white;
+}
+
+#interval-toggle button:focus {
+  color: white;
+  font-weight: bold;
+}
+
+/*** Time Summary Cards ***/
+#time-cards {
+  width: 100%;
+  /* width: calc(66.6666%); */
+  height: 100%;
+  /* display: flex; */
+  display: grid;
+  /* grid-template-columns: repeat(4, minmax(0, 1fr)); */
+  /* grid-template-columns: repeat(4, 1fr); */
+  /* grid-template-columns: repeat( auto-fit, minmax(150px, 1fr) ); */
+  grid-template-columns: repeat( 5, minmax(5rem, 1fr) );
+  margin: 0;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+
+.time-cards-section {
+    margin: 0;
+    /* display: flex;
+    max-width: fit-content; */
+}
+
+#card-tiles-container {
+    display: flex;
+    flex-direction: row;
+    max-width: fit-content;
+    padding: 1rem 0;
+}
+
+.card {
+  /* width: calc(25% - 1em);
+  height: calc(10% - 1em); */
+  width: auto;
+  height: 100%;
+  /* margin: 1em; */
+  border-radius: 12px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  grid-row: span 1 / span 1;
+  background-color: hsl(246, 80%, 60%);
+}
+
+.icon {
+  padding: 0;
+  margin: 0;
+  display: inline-flexbox;
+  /* background: url("../images/icon-ellipsis.svg") no-repeat top right; */
+}
+
+.icon:hover {
+  /* background: url("../images/icon-ellipsis-white.svg") no-repeat top right; */
+}
+
+.main-amount {
+  font-size: 1.875rem;
+  color: white;
+}
+
+.previous {
+  font-size: 0.85em;
+  color: hsl(236, 100%, 87%);
+}
+
+.daily {
+  display: inline-flexbox;
+}
+
+.weekly {
+  display: none;
+}
+
+.monthly {
+  display: none;
+}
+
+.text-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: auto;
+  padding: 2em 1em 0.5em 1em;
+  /* line-height: 0%; */
+  background-color: hsl(235, 46%, 20%);
+  border: 2px solid hsl(235, 46%, 20%);
+  border-radius: 12px;
+}
+
+.text-area h2 {
+  padding: 2;
+  margin: 0;
+  font-size: 0.85em;
+}
+
+.text-area h3 {
+  font-weight: 300;
+}
+
+.text-area a {
+  width: auto;
+  text-decoration: none;
+}
+
+.text-area:hover {
+  border: 2px solid hsl(235, 45%, 61%);
+  background-color:  hsl(235, 45%, 61%);
+  /* border: hsl(246, 80%, 60%);
+  background-color: hsl(246, 80%, 60%); */
+}
+
+.text-area .icon:focus {
+  background-color: hsl(235, 46%, 20%);
+}
+
+#work-card {
+  /* background-color: hsl(15, 100%, 70%); */
+  /* background-color: hsl(235, 45%, 61%); */
+  background-color: hsl(246, 80%, 60%);
+  height: auto;
+}
+
+#work-card-image {
+  width: auto;
+  height: 2em;
+  /* background: url("../images/icon-work.svg") no-repeat top right; */
+  /* background-color: hsl(15, 100%, 70%); */
+  /* background-color: hsl(235, 45%, 61%); */
+  background-color: hsl(246, 80%, 60%);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+#play-card {
+  /* background-color: hsl(195, 74%, 62%); */
+  /* background-color: hsl(235, 45%, 61%); */
+  background-color: hsl(246, 80%, 60%);
+}
+
+#play-card-image {
+  width: auto;
+  height: 2em;
+  /* background: url("../images/icon-play.svg") no-repeat top right; */
+  /* background-color: hsl(195, 74%, 62%); */
+  /* background-color: hsl(235, 45%, 61%); */
+  background-color: hsl(246, 80%, 60%);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+#study-card {
+  /* background-color: hsl(348, 100%, 68%); */
+  /* background-color: hsl(235, 45%, 61%); */
+  background-color: hsl(246, 80%, 60%);
+}
+
+#study-card-image {
+  width: auto;
+  height: 2em;
+  /* background: url("../images/icon-study.svg") no-repeat top right; */
+  /* background-color: hsl(348, 100%, 68%); */
+  /* background-color: hsl(235, 45%, 61%); */
+  background-color: hsl(246, 80%, 60%);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+#exercise-card {
+  /* background-color: hsl(145, 58%, 55%); */
+  /* background-color: hsl(235, 45%, 61%); */
+  background-color: hsl(246, 80%, 60%);
+}
+
+#exercise-card-image {
+  width: auto;
+  height: 2em;
+  /* background: url("../images/icon-exercise.svg") no-repeat top right; */
+  /* background-color: hsl(145, 58%, 55%); */
+  /* background-color: hsl(235, 45%, 61%); */
+  background-color: hsl(246, 80%, 60%);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+#social-card {
+  /* background-color: hsl(264, 64%, 52%); */
+  /* background-color: hsl(235, 45%, 61%); */
+  background-color: hsl(246, 80%, 60%);
+}
+
+#social-card-image {
+  width: auto;
+  height: 2em;
+  display: block;
+  /* background: url("../images/icon-social.svg") no-repeat top right; */
+  /* background-color: hsl(264, 64%, 52%); */
+  /* background-color: hsl(235, 45%, 61%); */
+  background-color: hsl(246, 80%, 60%);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+#self-care-card {
+  /* background-color: hsl(43, 84%, 65%); */
+  /* background-color: hsl(235, 45%, 61%); */
+  background-color: hsl(246, 80%, 60%);
+}
+
+#self-care-card-image {
+  width: auto;
+  height: 2em;
+  /* background: url("../images/icon-self-care.svg") no-repeat top right; */
+  /* background-color: hsl(43, 84%, 65%); */
+  /* background-color: hsl(235, 45%, 61%); */
+  background-color: hsl(246, 80%, 60%);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.radar {
+    display: none;
+    visibility: hidden;
+}
+
+.alerts {
+    display: none;
+    visibility: hidden;
+}
+
+/* Mobile Styles 
+**********************/
+@media screen and (max-width: 650px) {
+#dashboard-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+}
+
+#card-tiles-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    width: 100%;
+    padding: 1rem;
+}
+  .row {
+      display: flex;
+      flex-direction: row;
+      padding: 0;
+  }
+  .col {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      width: 100%;
+      /* padding: 10em 0 0 0; */
+  }
+  #profile-col {
+      width: auto;
+      /* height: 5em; */
+      padding: 0;
+      margin: 0;
+      grid-column: span 2 / span 2;
+  }
+  #profile-card {
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+      margin: 1rem 0;
+      width: 100%;
+      height: auto;
+      position: relative;
+      grid-column: span 2 / span 2;
+  }
+  #profile-card-2 {
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+      /* margin: 1rem 0; */
+      /* width: 100%; */
+      height: auto;
+      position: relative;
+      grid-column: span 2 / span 2;
+  }
+  #profile-header {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* align-items: center; */
+      /* font-size: 1.25em; */
+      /* height: 5em; */
+      width: auto;
+      margin: 0;
+      /* padding: 0 0 2em 0; */
+  }
+  #profile-header h2 {
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+      /* margin: 1.65em 0 0 0.5em; */
+  }
+
+  #profile-header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  /* margin: 0.5em; */
+  padding: 0;
+}
+  #headshot {
+      margin: 2.5em 0 0 2.5em;
+  }
+  #interval-toggle {
+      flex-direction: row;
+      height: 2.5em;
+      justify-content: space-evenly;
+      align-items: center;
+      font-size: 1em;
+      /* padding: 0 0 1em 0; */
+  }
+  .time-cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  #time-cards {
+  width: auto;
+  /* width: calc(66.6666%); */
+  /* height: auto; */
+  display: grid;
+  /* grid-template-columns: repeat(2, minmax(0, 1fr)); */
+  /* grid-template-columns: repeat(2, 1fr); */
+  grid-template-columns: repeat( 2, minmax(150px, 1fr) );
+  gap: 1rem;
+  width: 100%;
+  /* margin: 1rem; */
+  /* flex-wrap: wrap; */
+  /* justify-content: flex-start; */
+  /* justify-content: space-between; */
+  align-items: center;
+}
+  .card {
+      width: auto;
+      /* height: 5rem; */
+  }
+  .text-area {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2em 1em 0.5em 1em;
+      /* line-height: 0%; */
+  }
+}
+</style>
+<section id="dashboard-container">
+    <div class="hidden title md:flex">
+      <!-- <h1>Weather Forecast</h1> -->
+      {%  include 'components/form.html'  %}
+    </div>
+    <!-- <section class=""> -->
+    <div id="card-tiles-container" class="">
+        <div class="col" id="time-cards">
+            <div class="card" id="profile-card-2">
+                <div id="profile-header">
+                    <!-- <img id="headshot" src="/images/image-jeremy.png"> -->
+
+                    <div id="profile-header-text-container">
+                        <div id="profile-header-title">
+                            <p id="report-for">Currently in</p>
+                            <!-- <br> -->
+                            <h2>{{ city }}</h2>
+                        </div>
+                        <div id="profile-header-weather flex flex-row md:flex-col">
+                            <i class="text-3xl owi owi-{{current_weather_icon}}"></i>
+                            <p id="current-weather">{{ current_weather }}</p>
+                            <p id="report-for">{{ current_weather_summary }}</p>
+                        </div>
+                    </div>
+                    <!-- <div class="text-[8rem]">
+                    <i class="owi owi-{{current_weather_icon}} "></i>
+                    </div>
+                    <p class="text-2xl font-bold">                                      
+                    {{ current_temperature }}{{ degree_unit }}
+                    </p> -->
+                <!-- <p>Feels like {{ feels_like }}{{ degree_unit }}</p> -->
+                <!-- <div class="flex font-bold">
+                    {{ current_weather }}
+                </div> -->
+                <!-- <h3 class=""><i class="owi owi-{{current_weather_icon}}"></i></h3>
+                <p>{{ current_weather }}</p> -->
+                </div>
+                <div id="interval-toggle">
+                    <p><button id="btn-daily" onclick="toggleInterval('daily')">Today</button></p>
+                    <p><button id="btn-weekly" onclick="toggleInterval('weekly')">Next 48 Hours</button></p>
+                    <p><button id="btn-monthly" onclick="toggleInterval('monthly')">Next 7 Days</button></p>
+                    <p><button id="btn-radar" onclick="toggleInterval('radar')">Radar</button></p>
+                    <p><button id="btn-alerts" onclick="toggleInterval('alerts')">Alerts</button></p>
+                </div>
+                </div>
+            <!--CARD 1-->
+            <div class="card" id="work-card">
+            <div id="study-card-image">
+            </div>
+            <div class="text-area">
+                <div class="icon">
+                    <div class="flex items-center justify-between">
+                        <h2 class="daily">Local Time</h2>
+                        <h2 class="weekly">      {{hourly_forecast_content_list.0.0}}
+                        </h2>
+                        <h2 class="monthly">{{ daily_forecast_content_list.0.0 }}</h2>
+                        <i class="relative text-2xl daily wi wi-time-2"></i>
+                        <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.0.2}}"></i>
+                        <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.0.4}}"></i>
+                    </div>
+                    <a class="card-options-menu" href="#"></a>
+                </div>
+        
+                <!-- daily -->
+                <h3 class="main-amount daily">{{ current_time }}</h3>
+                <!-- daily -->
+                <p class="previous daily">{{ current_date }}</p>
+                <!-- weekly -->
+                <h3 class="main-amount weekly">{{hourly_forecast_content_list.0.1}}{{degree_unit}}</h3>
+                <!-- weekly -->
+                <p class="previous weekly">{{hourly_forecast_content_list.0.3}}</p>
+                <!-- monthly -->
+                <h3 class="main-amount monthly">{{ daily_forecast_content_list.0.2 }}/{{ daily_forecast_content_list.0.3 }}{{ degree_unit }}</h3>
+                <!-- monthly -->
+                <p class="previous monthly">{{ daily_forecast_content_list.0.1 }}</p>
+            </div>
+            </div>
+            <!--END CARD 1-->
+
+            <!---BEGIN CARD 2-->
+            <div class="card" id="play-card">
+            <div id="play-card-image">
+            </div>
+            <div class="text-area"   >
+                <div class="icon">
+                <div class="flex items-center justify-between">
+                    <h2 class="daily">Temperature</h2>
+                    <h2 class="weekly">{{hourly_forecast_content_list.6.0}}</h2>
+                    <h2 class="monthly">{{ daily_forecast_content_list.1.0 }}</h2>
+
+                    <i class="relative text-2xl daily wi wi-thermometer"></i>
+                    <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.6.2}}"></i>
+                    <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.1.4}}"></i>
+                </div>
+                </div>
+
+                <!-- daily -->
+                <h3 class="main-amount daily">{{ current_temperature }}{{ degree_unit }}</h3>
+                <!-- daily -->
+                <p class="previous daily">Feels like {{ feels_like }}{{ degree_unit }}</p>
+                <!-- weekly -->
+                <h3 class="main-amount weekly">{{hourly_forecast_content_list.6.1}}{{degree_unit}}
+                </h3>
+                <!-- weekly -->
+                <p class="previous weekly">{{hourly_forecast_content_list.6.3}}</p>
+                <!-- monthly -->
+                <h3 class="main-amount monthly">{{ daily_forecast_content_list.1.2 }}/{{ daily_forecast_content_list.1.3 }}{{ degree_unit }}</h3>
+                <!-- monthly -->
+                <p class="previous monthly">{{ daily_forecast_content_list.1.1 }}</p>
+            </div>
+            </div>
+
+            <!--Card3-->
+            <div class="card" id="study-card">
+            <div id="study-card-image">
+            </div>
+            <div class="text-area"   >
+                <div class="icon">
+                <div class="flex items-center justify-between">
+                    <h2 class="daily">Humidity</h2>
+                    <h2 class="weekly">{{hourly_forecast_content_list.12.0}}</h2>
+                    <h2 class="monthly">{{ daily_forecast_content_list.2.0 }}</h2>
+                    <i class="relative text-2xl daily wi wi-humidity"></i>
+                    <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.12.2}}"></i>
+                    <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.2.4}}"></i>
+                </div>
+                </div>
+
+                <!-- daily -->
+                <h3 class="main-amount daily">{{ humidity }}%</h3>
+                <!-- daily -->
+                <p class="previous daily">Dew point {{dew_point }}{{degree_unit}}</p>
+                <!-- weekly -->
+                <h3 class="main-amount weekly">{{hourly_forecast_content_list.12.1}}{{degree_unit}}
+                </h3>
+                <!-- weekly -->
+                <p class="previous weekly">{{hourly_forecast_content_list.12.3}}</p>
+                <!-- monthly -->
+                <h3 class="main-amount monthly">{{ daily_forecast_content_list.2.2 }}/{{ daily_forecast_content_list.2.3 }}{{degree_unit}}</h3>
+                <!-- monthly -->
+                <p class="previous monthly">{{ daily_forecast_content_list.2.1 }}</p>
+            </div>
+            </div>
+            <!--END CARD-->
+            
+            <!--CARD-->
+            <div class="card" id="exercise-card">
+            <div id="exercise-card-image">
+            </div>
+            <div class="text-area"   >
+                <div class="icon">
+                <div class="flex items-center justify-between">
+                    <h2 class="daily">Chance of Rain</h2>
+                    <h2 class="weekly">{{hourly_forecast_content_list.18.0}}</h2>
+                    <h2 class="monthly">{{ daily_forecast_content_list.3.0 }}</h2>
+                    <i class="relative text-2xl daily wi wi-rain"></i>
+                    <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.18.2}}"></i>
+                    <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.3.4}}"></i>
+
+                </div>
+                </div>
+
+                <!-- daily -->
+                <h3 class="main-amount daily">{{ current_chance_of_rain }}%</h3>
+                <!-- daily -->
+                <p class="previous daily">Within next hour {{next_hour_chance_of_rain}}%</p>
+                <!-- weekly -->
+                <h3 class="main-amount weekly">{{hourly_forecast_content_list.18.1}}{{degree_unit}}
+                </h3>
+                <!-- weekly -->
+                <p class="previous weekly">{{hourly_forecast_content_list.18.3}}</p>
+                <!-- monthly -->
+                <h3 class="main-amount monthly">{{ daily_forecast_content_list.3.2 }}/{{ daily_forecast_content_list.3.3 }}{{degree_unit}}</h3>
+                <!-- monthly -->
+                <p class="previous monthly">{{ daily_forecast_content_list.3.1 }}</p>
+            </div>
+            </div>
+            <!--END CARD-->
+
+            <!--CARD-->
+            <div class="card" id="social-card">
+            <div id="social-card-image">
+            </div>
+            <div class="text-area"   >
+                <div class="icon">
+                <div class="flex items-center justify-between">
+                    <h2 class="daily">Wind Speed</h2>
+                    <h2 class="weekly">{{hourly_forecast_content_list.24.0}}</h2>
+                    <h2 class="monthly">{{ daily_forecast_content_list.4.0 }}</h2>
+                    <i class="relative text-2xl daily wi wi-strong-wind"></i>
+                    <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.24.2}}"></i>
+                    <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.4.4}}"></i>
+
+                </div>
+                </div>
+                <img class="icon">
+
+                <!-- daily -->
+                <h3 class="main-amount daily">{{ wind_speed }} {{ speed_unit }}</h3>
+                <!-- daily -->
+                <p class="previous daily">Gusts {{wind_gust}} {{speed_unit}}</p>
+                <!-- weekly -->
+                <h3 class="main-amount weekly">{{hourly_forecast_content_list.24.1}}{{degree_unit}}
+                </h3>
+                <!-- weekly -->
+                <p class="previous weekly">{{hourly_forecast_content_list.24.3}}</p>
+                <!-- monthly -->
+                <h3 class="main-amount monthly">{{ daily_forecast_content_list.4.2 }}/{{ daily_forecast_content_list.4.3 }}{{degree_unit}}</h3>
+                <!-- monthly -->
+                <p class="previous monthly">{{ daily_forecast_content_list.4.1 }}</p>
+            </div>
+            </div>
+            <!--END CARD-->
+
+            <!--CARD-->
+            <div class="card" id="self-care-card">
+            <div id="self-care-card-image">
+            </div>
+            <div class="text-area"  onmouseuonbp="resetCard(this)">
+                <div class="icon">
+                <div class="flex items-center justify-between">
+                    <h2 class="daily">UV Index</h2>
+                    <h2 class="weekly">{{hourly_forecast_content_list.30.0}}</h2>
+                    <h2 class="monthly">{{ daily_forecast_content_list.5.0 }}</h2>
+                    <i class="relative text-2xl daily wi wi-hot"></i>                    
+                    <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.30.2}}"></i>
+                    <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.5.4 }}"></i>
+                </div>
+            </div>
+
+                <!-- daily -->
+                <h3 class="main-amount daily">{{ uv_index }}</h3>
+                <!-- daily -->
+                <p class="previous daily">{{ uv_index_meaning }}
+                </p>
+                <!-- weekly -->
+                <h3 class="main-amount weekly">{{hourly_forecast_content_list.30.1}}{{degree_unit}}
+                </h3>
+                <!-- weekly -->
+                <p class="previous weekly">{{hourly_forecast_content_list.30.3}}</p>
+                <!-- monthly -->
+                <h3 class="main-amount monthly">{{ daily_forecast_content_list.5.2 }}/{{ daily_forecast_content_list.5.3 }}{{ degree_unit }}</h3>
+                <!-- monthly -->
+                <p class="previous monthly">{{ daily_forecast_content_list.5.1 }}</p>
+            </div>
+            </div>
+            <!--END CARD 6-->
+
+            <!--CARD 7-->
+            <div class="card" id="study-card">
+           <div id="study-card-image">
+           </div>
+            <div class="text-area">
+                <div class="icon">
+                <div class="flex items-center justify-between">
+                    <h2 class="daily">Air Pressure</h2>
+                    <h2 class="weekly">{{hourly_forecast_content_list.36.0}}</h2>
+                    <h2 class="monthly">{{ daily_forecast_content_list.6.0 }}</h2>
+                    <i class="relative text-2xl daily wi wi-barometer"></i>                   
+                    <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.36.2}}"></i>
+                    <i class="text-3xl monthly owi owi-{{ daily_forecast_content_list.6.4 }}"></i>
+                </div>
+                </div>
+
+                <!-- daily -->
+                <h3 class="main-amount daily">{{ air_pressure }} {{ pressure_unit }}</h3>
+                <!-- daily -->
+                <p class="previous daily">{{ todays_avg_air_pressure }} {{pressure_unit}} average</p>
+                <!-- weekly -->
+                <h3 class="main-amount weekly">{{hourly_forecast_content_list.36.1}}{{degree_unit}}
+                </h3>
+                <!-- weekly -->
+                <p class="previous weekly">{{hourly_forecast_content_list.36.3}}</p>
+                <!-- monthly -->
+                <h3 class="main-amount monthly">{{ daily_forecast_content_list.6.2 }}/{{ daily_forecast_content_list.6.3 }}{{ degree_unit }}</h3>
+                <!-- monthly -->
+                <p class="previous monthly">{{ daily_forecast_content_list.6.1 }}</p>
+            </div>
+            </div>
+            <!--END CARD 7-->
+            
+
+            <!--CARD 8-->
+            <div class="card blank-monthly-card" id="study-card ">
+            <div id="study-card-image">
+            </div>
+            <div class="text-area"   >
+                <div class="icon">
+                <div class="flex items-center justify-between">
+                    <h2 class="daily">Moon Rise</h2>
+                    <h2 class="weekly">{{hourly_forecast_content_list.42.0}}</h2>
+                    <h2 class="monthly blank-monthly-card-info">.</h2>
+                    <i class="relative text-2xl daily wi {{moon_icon_name}}"></i>                    
+                    <i class="text-3xl weekly owi owi-{{hourly_forecast_content_list.42.2}}"></i>
+                    <i class="monthly"></i>
+                </div>
+                </div>
+
+                <!-- daily -->
+                <h3 class="main-amount daily">{{todays_moonrise_time.0}}</h3>
+                <!-- daily -->
+                <p class="previous daily">{{current_moon_phase}}</p>
+                <!-- weekly -->
+                <h3 class="main-amount weekly">{{hourly_forecast_content_list.42.1}}{{degree_unit}}</h3>
+                <!-- weekly -->
+                <p class="previous weekly">{{hourly_forecast_content_list.42.3}}</p>
+                <!-- monthly -->
+                <h3 class="main-amount monthly blank-monthly-card-info">.</h3>
+                <!-- monthly -->
+                <p class="previous monthly blank-monthly-card-info">.</p>
+            </div>
+            </div>
+            <!--END CARD 8-->
+            
+        </div>
+        <div class="radar">
+            {% include 'components/radar.html' %}
+        </div>
+        <div class="alerts">
+            {% include 'components/alerts.html' %}
+        </div>
+    </div>
+      <!-- {{ daily_forecast_content_list.0 }}
+      {{ daily_forecast_content_list.0.0 }}
+      {{ daily_forecast_content_list.0.1 }}
+      {{ daily_forecast_content_list.0.2 }}
+      {{ daily_forecast_content_list.0.3 }}
+      {{ daily_forecast_content_list.0.4 }}-->
+
+      <!-- {{ hourly_forecast_content_list }} -->
+      <!-- {{ daily_forecast_content_list.1.0 }}
+      {{ daily_forecast_content_list.1.1 }}
+      {{ daily_forecast_content_list.1.2 }}
+      {{ daily_forecast_content_list.1.3 }}
+      {{ daily_forecast_content_list.1.4 }} -->
+      <!-- {{ daily_forecast_content_list.6.1 }} -->
+      <!-- {{hourly_forecast_content_list.0.0}} -->
+      <!-- {{hourly_forecast_content_list.46}} -->
+      <!-- {{hourly_forecast_content_list.42.3}} -->
+      <!-- {{ daily_forecast_content_list.1 }} -->
+    <!-- </section> -->
+</section>
