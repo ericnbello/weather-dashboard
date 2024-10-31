@@ -104,7 +104,7 @@ jobs:
             - name: Build images
               id: build-images
               run: |
-                docker-compose -f docker-compose.ci.yml build
+                docker compose -f docker-compose.ci.yml build
             - name: Push images
               run: |
                 docker push ${{ env.WEATHER_APP_WEB_IMAGE }}
