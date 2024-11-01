@@ -3,7 +3,7 @@
 .env
 .txt
 
-/openweather_api_key.txt
+**/openweather_api_key.txt
 
 # Local .terraform directories
 **/.terraform/*
