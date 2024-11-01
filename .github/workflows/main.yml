@@ -94,7 +94,7 @@ jobs:
             - name: Install Docker Compose
               run: |
                 sudo apt-get update
-                sudo curl -L "https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-armv7" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
+                sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
         
             - name: Add to PATH
               run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -179,6 +179,8 @@ jobs:
                 # # sudo service docker start
                 # # sudo dockerd
                 # sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+
+                sudo curl -L "https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-armv7" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
                 
                 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
                 sudo chmod +x /usr/local/bin/docker-compose
