@@ -180,14 +180,16 @@ jobs:
                 # # sudo dockerd
                 # sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 
-                sudo curl -L "https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-armv7" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
+                # sudo curl -L "https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-armv7" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
+
+                sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
                 
                 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
                 sudo chmod +x /usr/local/bin/docker-compose
-                # sudo usermod -a -G docker ec2-user@ip-${{ secrets.AWS_EC2_PRIVATE_IP }}
+                sudo usermod -a -G docker ec2-user@ip-${{ secrets.AWS_EC2_PRIVATE_IP }}
                 scp -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }}:
                 ssh -o StrictHostKeyChecking=no ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }} << EOF
-                    docker-compose down --rmi all -v
+                    docker compose down --rmi all -v
                     docker login ghcr.io -u ${{secrets.NAMESPACE}} -p ${{secrets.PERSONAL_ACCESS_TOKEN}}
                     
                     docker pull $WEATHER_APP_WEB_IMAGE
