@@ -1,17 +1,19 @@
-<div class="flex justify-center w-auto h-8 overflow-hidden rounded-xl md:justify-start gap-x-2 border-2 border-[#5847eb] bg-[#5847eb]">
-    <form name="location-search" id="location-search" method="POST" action="/" class="flex" novalidate>
-        {% csrf_token %}
-        <label class="hidden"></label>
-        <input id="location" class="px-2 text-white border-2 border-[#5847eb] rounded-lg bg-[#1b2049]" type="text" name="location" placeholder=" Enter City Name..."  required="">
-            <span class="inline-flex">
-                <button id="location-btn" class="flex items-center px-2 py-2 text-sm font-bold border-2 bg-[#5847eb] border-[#5847eb]  rounded-lg h-auto" type="submit" onclick="validateForm()">
-                    Submit
-                </button>
-            </span>
-        </input>
-        <!-- <button id="location-btn" class="px-2 py-2 text-sm border-2 border-white" type="submit" onclick="validateForm()">Submit</button> -->
-        <span class="flex flex-wrap text-sm error">
-            <p id="location-error">{{invalid_input_msg}}</p>
-        </span>
-    </form>
+<div class="flex flex-col">
+    <div class="flex justify-center w-auto h-8 overflow-hidden rounded-xl md:justify-start gap-x-2 border-2 border-[#5847eb] bg-[#5847eb]">
+        <form name="location-search" id="location-search" method="POST" action="/" class="flex" novalidate>
+            {% csrf_token %}
+            <label class="hidden"></label>
+            <input id="location" class="px-2 text-white border-2 border-[#5847eb] rounded-lg bg-[#1b2049]" type="text" name="location" placeholder=" Enter City Name..."  required="">
+                <span class="inline-flex">
+                    <button id="location-btn" class="flex items-center px-2 py-2 text-sm font-bold border-2 bg-[#5847eb] border-[#5847eb]  rounded-lg h-auto" type="submit" onclick="validateForm()">
+                        Submit
+                    </button>
+                </span>
+            </input>
+            <!-- <button id="location-btn" class="px-2 py-2 text-sm border-2 border-white" type="submit" onclick="validateForm()">Submit</button> -->
+        </form>
+    </div>
+    <div class="flex flex-wrap text-sm error">
+        <p id="location-error">{{invalid_input_msg}}</p>
+    </div>
 </div>

@@ -7,16 +7,12 @@
             x-transition:enter="transition ease-out duration-300">
                 <a href="/"><i class="text-2xl md:text-4xl wi wi-day-haze"></i></a>
             </div>
-            <div :class="open ? 'hidden':'flex items-center md:hidden' ">
-                {%  include 'components/form.html'  %}
-            </div>
+            
             <div  
             x-show="open" x-transition:enter="transition ease-in-out duration-300"
             class="flex flex-col w-full h-auto md:hidden">
                 <div class="flex flex-col items-center justify-center gap-2">
-                    <div class="flex md:hidden">
-                        {%  include 'components/form.html'  %}
-                    </div>
+                    
                     <a href="/">Home</a>
                     <a href="">About Us</a>
                     <a href="">Products</a>
