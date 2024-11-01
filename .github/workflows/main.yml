@@ -13,6 +13,7 @@ env:
     WEATHER_APP_WEB_IMAGE: ghcr.io/$(echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')/enhanced_weather_app
     WEATHER_APP_NGINX_IMAGE: ghcr.io/$(echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')/nginx
     REGISTRY: ghcr.io
+    OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
 
 permissions:
     contents: read
@@ -60,6 +61,8 @@ jobs:
                 key: "state/terraform.tfstate"
             - run: |
                 terraform init -backend-config="${{ steps.backend-config.outputs.path }}"
+            # - name: Terraform init and validate
+            #   run: terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
 
             - name: Terraform plan
               run: terraform plan
@@ -78,6 +81,7 @@ jobs:
     
     build:
         name: Build the Docker Image
+        environment: WEATHER_EC2
         runs-on: ubuntu-latest
         defaults:
             run:
@@ -88,10 +92,11 @@ jobs:
               uses: actions/checkout@v3
                              
             - name: Set environment variables to .env
+              env:
+                  OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
               run: |
                 echo "WEATHER_APP_WEB_IMAGE=$(echo ${{env.WEATHER_APP_WEB_IMAGE}} )" >> $GITHUB_ENV
                 echo "WEATHER_APP_NGINX_IMAGE=$(echo ${{env.WEATHER_APP_NGINX_IMAGE}} )" >> $GITHUB_ENV
-
             - name: Log in to GitHub Packages
               env:
                     PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
@@ -127,7 +132,6 @@ jobs:
                 else
                 echo "defined=false" >> $GITHUB_OUTPUT;
                 fi
-
     deploy:
         name: Deploy to AWS EC2
         runs-on: ubuntu-latest
@@ -156,19 +160,15 @@ jobs:
                 SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 
             run: |
-                sudo apt-get update -y
-                sudo apt-get install -y docker
-                sudo service docker start
-                sudo dockerd
-
-                sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+                # sudo apt-get update -y
+                # sudo apt-get install -y docker
+                # # sudo service docker start
+                # # sudo dockerd
+                # sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
                 
                 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-
                 sudo chmod +x /usr/local/bin/docker-compose
-
-                sudo usermod -a -G docker ec2-user@ip-${{ secrets.AWS_EC2_PRIVATE_IP }}
-
+                # sudo usermod -a -G docker ec2-user@ip-${{ secrets.AWS_EC2_PRIVATE_IP }}
                 scp -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }}:
                 ssh -o StrictHostKeyChecking=no ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }} << EOF
                     docker-compose down --rmi all -v
