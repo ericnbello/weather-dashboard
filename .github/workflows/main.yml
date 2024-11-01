@@ -100,7 +100,7 @@ jobs:
               run: echo "/usr/local/bin" >> $GITHUB_PATH
         
             - name: Verify Docker Compose installation
-              run: docker-compose --version
+              run: sudo docker-compose --version
         
             - name: Run docker-compose commands
               run: docker-compose up -d
