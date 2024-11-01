@@ -100,10 +100,10 @@ jobs:
               run: echo "/usr/local/bin" >> $GITHUB_PATH
         
             - name: Verify Docker Compose installation
-              run: sudo docker-compose --version
+              run: sudo docker compose --version
         
             - name: Run docker-compose commands
-              run: docker-compose up -d
+              run: docker compose up -d
                              
             - name: Set environment variables to .env
               env:
@@ -123,7 +123,7 @@ jobs:
             - name: Build images
               id: build-images
               run: |
-                docker-compose -f docker-compose.ci.yml build
+                docker compose -f docker-compose.ci.yml build
             - name: Push images
               run: |
                 docker push ${{ env.WEATHER_APP_WEB_IMAGE }}
@@ -190,6 +190,6 @@ jobs:
                     
                     docker pull $WEATHER_APP_WEB_IMAGE
                     docker pull $WEATHER_APP_NGINX_IMAGE
-                    docker-compose --env-file=.env -f docker-compose.prod.yml up -d --build
+                    docker compose --env-file=.env -f docker-compose.prod.yml up -d --build
                     docker logout
                 EOF
