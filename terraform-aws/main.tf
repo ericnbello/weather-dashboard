@@ -25,17 +25,18 @@ provider "aws" {
 }
 
 resource "aws_eip_association" "eip_assoc" {
+  # instance_id   = "${aws_instance.id}"
   # instance_id   = "${aws_instance.web.id}"
   # instance_id     = "i-0fd4f137db320eb1d"
-  instance_id     = "i-0a0506f200598990e"
-  allocation_id   = "eipalloc-0b19346a3935117b0"
+  instance_id     = "i-01f28f86ca29de0c2"
+  allocation_id   = "eipalloc-0899bf2212647d364"
 }
 
 resource "aws_instance" "app_server" {
-  ami           = "ami-0b0dcb5067f052a63"
+  ami           = "ami-012967cc5a8c9f891"
   instance_type = "t2.micro"
   # vpc_security_group_ids = ["sg-0e78b8bae17735d6f"]
-  vpc_security_group_ids = ["sg-063600b5a337fd6e8"]
+  # vpc_security_group_ids = ["sg-0bb1c2dbf7c46057a"]
   # subnet_id              = "subnet-07c50e57962a398b8"
   # security_groups = ["default2"]
   key_name   = "weather-app"
@@ -54,8 +55,8 @@ resource "aws_key_pair" "deployer" {
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCAUfJQgYnVHXJl74+MGUS0uc71uFjyGjRtz4cR2ErG+gPqeddjgDnLUB264EtKMhwCOCOX6sXjtYjgz75lVlD9NnfCBVd1qY74zTdVgvykaA9u8xrAPeHXxIMIEyd7l7cMHG7ygC2GsT0qvPa6suxZjKMFiEVo37etSi6DEm/pO9cRDEZIjSHFOOhkKjf+Y1YsiDC4EMBZ79qxwOI2tT/svT/+X2tDcffbj29RZt3iCkZwoEU1CRs+njoIj0yxuYfSQKKxjqwpZW1f0lORi9Xghc52b7SotHOxDXM2bNCCQNUaxihJWF4DEAlWBWeRdH0OkcMl3r6vTV5PvlCqDBlr weather-app"
 }
 
-data "aws_security_group" "default2" {
-  id ="sg-063600b5a337fd6e8"
+data "aws_security_group" "default" {
+  id ="sg-0b55fd5d383fd61f1"
 }
 
 resource "aws_s3_bucket" "weather-app-tfstate" {
