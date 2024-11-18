@@ -174,22 +174,12 @@ jobs:
                 SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 
             run: |
-                sudo apt-get update -y
-                sudo apt-get install -y docker
-                
-                sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-                
-                sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-
-                sudo chmod +x /usr/local/bin/docker-compose
-
                 scp -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }}:
                 ssh -o StrictHostKeyChecking=no ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }} << EOF
-                    docker compose down --rmi all -v
-                    docker login ghcr.io -u ${{secrets.NAMESPACE}} -p ${{secrets.PERSONAL_ACCESS_TOKEN}}
-                    
-                    docker pull $WEATHER_APP_WEB_IMAGE
-                    docker pull $WEATHER_APP_NGINX_IMAGE
-                    docker compose --env-file=.env -f docker-compose.prod.yml up -d --build
-                    docker logout
+                docker-compose down --rmi all -v
+                docker login ghcr.io -u ${{secrets.NAMESPACE}} -p ${{secrets.PERSONAL_ACCESS_TOKEN}}
+                docker pull $DJANGO_TUTORIAL_API_IMAGE
+                docker pull $DJANGO_TUTORIAL_NGINX_IMAGE
+                docker-compose --env-file=.env -f docker-compose.prod.yml up -d --build
+                docker logout
                 EOF
