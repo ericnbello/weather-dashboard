@@ -35,7 +35,7 @@ resource "aws_eip_association" "eip_assoc" {
 resource "aws_instance" "app_server" {
   ami           = "ami-012967cc5a8c9f891"
   instance_type = "t2.micro"
-  # vpc_security_group_ids = ["sg-0e78b8bae17735d6f"]
+  vpc_security_group_ids = ["sg-0b55fd5d383fd61f1"]
   # vpc_security_group_ids = ["sg-0bb1c2dbf7c46057a"]
   # subnet_id              = "subnet-07c50e57962a398b8"
   # security_groups = ["default2"]
