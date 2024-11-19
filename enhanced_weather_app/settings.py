@@ -199,4 +199,6 @@ LOGGING = {
     }
 }
 
+CSRF_TRUSTED_ORIGINS = ['https://d3lgvgrrop0yu.cloudfront.net']
+
 SECURE_CROSS_ORIGIN_OPENER_POLICY=None
