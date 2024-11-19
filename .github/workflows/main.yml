@@ -124,7 +124,7 @@ jobs:
               env:
                   OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
               run: |
-                docker compose -f docker-compose.ci.yml build
+                  docker compose -f docker-compose.ci.yml build --build-arg OPENWEATHER_API_KEY=${{ secrets.OPENWEATHER_API_KEY }}
             - name: Push images
               run: |
                 docker push ${{ env.WEATHER_APP_WEB_IMAGE }}

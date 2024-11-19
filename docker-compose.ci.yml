@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
       cache_from:
         - '${WEATHER_APP_WEB_IMAGE}'
+      args:
+        OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY}
     image: '${WEATHER_APP_WEB_IMAGE}'
     command: gunicorn --workers=2 --timeout=0  --threads=4 enhanced_weather_app.wsgi:application --bind 0.0.0.0:8000
     expose:
