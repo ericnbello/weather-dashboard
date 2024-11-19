@@ -106,14 +106,13 @@ jobs:
               run: docker compose up -d
                              
             - name: Set environment variables to .env
-              env:
-                  OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
               run: |
                 echo "WEATHER_APP_WEB_IMAGE=$(echo ${{env.WEATHER_APP_WEB_IMAGE}} )" >> $GITHUB_ENV
                 echo "WEATHER_APP_NGINX_IMAGE=$(echo ${{env.WEATHER_APP_NGINX_IMAGE}} )" >> $GITHUB_ENV
+
             - name: Log in to GitHub Packages
               env:
-                    PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+                  PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
               run: echo ${PERSONAL_ACCESS_TOKEN} | docker login ghcr.io -u ${{ secrets.NAMESPACE }} --password-stdin
 
             - name: Pull images
@@ -122,6 +121,8 @@ jobs:
                 docker pull ${{ env.WEATHER_APP_NGINX_IMAGE }}:latest || true
             - name: Build images
               id: build-images
+              env:
+                  OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
               run: |
                 docker compose -f docker-compose.ci.yml build
             - name: Push images
