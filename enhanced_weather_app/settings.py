@@ -24,7 +24,7 @@ SECRET_KEY = 'process.env.DB_SECRET_KEY'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'weather-forecast-ericnbello.onrender.com', 'd3lgvgrrop0yu.cloudfront.net', '44.214.46.118' , 'ec2-44-214-46-118.compute-1.amazonaws.com', '112.124.42.80']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'weather-forecast-ericnbello.onrender.com', 'd3lgvgrrop0yu.cloudfront.net', '54.146.66.1' , 'ec2-54-146-66-1.compute-1.amazonaws.com']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
