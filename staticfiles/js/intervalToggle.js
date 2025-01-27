@@ -1,107 +1,103 @@
-// function toggleInterval(interval) {
-//     const daily = document.getElementsByClassName("daily");
-//     const hourly = document.getElementsByClassName("hourly");
-
-//     for (var i = 0; i < daily.length; i++) {
-//         if(interval==="daily"){
-//             daily[i].style.display = "flex";
-//             hourly[i].style.display = "none";
-//         }
-//         else {
-//             hourly[i].style.display = "flex";
-//             daily[i].style.display = "none";
-//         }
-//     };
-// };
-
 function toggleInterval(interval) {
 
     // e.preventDefault();
     
-    const daily = document.getElementsByClassName("daily");
-    const weekly = document.getElementsByClassName("weekly");
+    // const daily = document.getElementsByClassName("daily");
+    const today = document.getElementsByClassName("today");
+    const next48hours = document.getElementsByClassName("next48hours");
     const monthly = document.getElementsByClassName("monthly");
     const radar = document.getElementsByClassName("radar");
-    const card = document.getElementsByClassName("card");
-    const timeCards = document.getElementById("time-cards");
+    const studyCard = document.getElementById("study-card");
     const alerts = document.getElementsByClassName("alerts");
-    const blankMonthlyCard = document.getElementsByClassName("blank-monthly-card");
-    // const blankMonthlyCardInfo = document.getElementsByClassName("blank-monthly-card-info");
+    const trends = document.getElementsByClassName("trends");
 
+    // dashboard cards
+    const profileCard2 = document.getElementById("profile-card-2");
+    const card1 = document.getElementById("card1");
+    const card2 = document.getElementById("card2");
+    const card3 = document.getElementById("card3");
+    const card4 = document.getElementById("card4");
+    const card5 = document.getElementById("card5");
+    const card6 = document.getElementById("card6");
+    const card7 = document.getElementById("card7");
+    const card8 = document.getElementById("card8");
 
-    for (var i = 0; i < daily.length; i++) {
-        if(interval==="daily"){
-            daily[i].style.display = "flex";
-            // daily[i].style.visibility = "visible";
-            weekly[i].style.display = "none";
+    for (var i = 0; i < today.length; i++) {
+        if(interval==="today"){
+            today[i].style.display = "flex";
+            next48hours[i].style.display = "none";
             monthly[i].style.display = "none";
-            // blankMonthlyCard[i].style.display = "block";
-            // blankMonthlyCard[i].style.visibility = "visible";
-
             // radar[i].style.display = "none";
             // alerts[i].style.display = "none";
-            // timeCards.style.display = "flex";
-            // card.style.display = "flex";
+            // trends[i].style.display = "none";
         }
-        else if (interval==="weekly") {
-            // blankMonthlyCard[i].style.visibility = "visible";
-            weekly[i].style.display = "flex";
-            // weekly[i].style.visibility = "visible";
-            daily[i].style.display = "none";
+        else if (interval==="next48hours") {
+            next48hours[i].style.display = "flex";
+            // next48hours[i].style.color = "white";
+            today[i].style.display = "none";
             monthly[i].style.display = "none";
-            // blankMonthlyCard[i].style.display = "block";
             // radar[i].style.display = "none";
             // alerts[i].style.display = "none";
-            // timeCards.style.display = "flex";
-            // card.style.display = "flex";
+            // trends[i].style.display = "none";
         }
         else if (interval==="monthly") {
             monthly[i].style.display = "flex";
-            // blankMonthlyCard[i].style.display = "none";
-            // blankMonthlyCard[i].style.visibility = "hidden";
-
-            // blankMonthlyCardInfo[i].style.color = "hsl(246, 80%, 60%)";
-            // monthly[i].style.visibility = "visible";
-            daily[i].style.display = "none";
-            weekly[i].style.display = "none";
+            today[i].style.display = "none";
+            next48hours[i].style.display = "none";
+            // card8.style.display = "none";
             // radar[i].style.display = "none";
             // alerts[i].style.display = "none";
-            // timeCards.style.display = "flex";
-            // card.style.display = "flex";
+            // trends[i].style.display = "none";
         }
-        // else if (interval==="radar") {
-        //     radar[i].style.display = "flex";
-        //     radar[i].style.visibility = "visible";
-        //     monthly[i].style.display = "none";
-        //     daily[i].style.display = "none";
-        //     weekly[i].style.display = "none";
-        //     timeCards.style.display = "none";
-        //     card.style.display = "none";
-        //     alerts[i].style.display = "none";
-        //     alerts[i].style.visibility = "hidden";
-        // }
-        // else if (interval==="alerts") {
-        //     alerts[i].style.display = "flex";
-        //     alerts[i].style.visibility = "visible";
-        //     radar[i].style.display = "none";
-        //     radar[i].style.visibility = "hidden";
-        //     monthly[i].style.display = "none";
-        //     daily[i].style.display = "none";
-        //     weekly[i].style.display = "none";
-        //     timeCards.style.display = "none";
-        //     card.style.display = "none";
-        // }
-        else {
-            daily[i].style.display = "none";
-            weekly[i].style.display = "none";
+        else if (interval==="radar") {
+            radar[i].style.display = "block";
+            profileCard2.style.display = "block";
+            today[i].style.display = "none";
+            next48hours[i].style.display = "none";
             monthly[i].style.display = "none";
-            // blankMonthlyCard[i].style.display = "none";
-            // radar[i].style.display = "none";
-            // radar[i].style.visibility = "visible";
-            // alerts[i].style.display = "none";
-            // alerts[i].style.visibility = "visible";
-            // timeCards.style.display = "flex";
-            // card.style.display = "flex";
+            alerts[i].style.display = "none";
+            trends[i].style.display = "none";
+            card2.style.display = "none";
+            card3.style.display = "none";
+            card4.style.display = "none";
+            card5.style.display = "none";
+            card6.style.display = "none";
+            card7.style.display = "none";
+            card8.style.display = "none";
+        }
+        else if (interval==="alerts") {
+            alerts[i].style.display = "flex";
+            profileCard2.style.display = "flex";
+            radar[i].style.display = "none";
+            monthly[i].style.display = "none";
+            today[i].style.display = "none";
+            next48hours[i].style.display = "none";
+            trends[i].style.display = "none";
+            card2.style.display = "none";
+            card3.style.display = "none";
+            card4.style.display = "none";
+            card5.style.display = "none";
+            card6.style.display = "none";
+            card7.style.display = "none";
+            card8.style.display = "none";
+        }
+        else if (interval==="trends") {
+            trends[i].style.display = "flex";
+            profileCard2.style.display = "flex";
+            alerts[i].style.display = "none";
+            radar[i].style.display = "none";
+            monthly[i].style.display = "none";
+            today[i].style.display = "none";
+            next48hours[i].style.display = "none";
+        }
+        else {
+            profileCard2.style.display = "flex";
+            today[i].style.display = "none";
+            next48hours[i].style.display = "none";
+            monthly[i].style.display = "none";
+            radar[i].style.display = "none";
+            alerts[i].style.display = "none";
+            trends[i].style.display = "none";
         }
     };
 };

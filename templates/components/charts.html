@@ -1,0 +1,195 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- <title>Weather Charts</title> -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<!-- </head>
+<body> -->
+    <!-- <h1>Weather Data Visualization</h1> -->
+
+    <!-- Temperature (°F) over Time -->
+    <div id="temp-chart"></div>
+    <script>
+        var tempData = {{ hourly_temps | safe }};
+        var hours = {{ hours | safe }};
+        
+        var tempTrace = {
+            x: hours,
+            y: tempData,
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Temperature (°F)',
+            line: {color: 'blue'}
+        };
+
+        var tempLayout = {
+            title: 'Temperature (°F) over Time',
+            xaxis: {title: 'Hour'},
+            yaxis: {title: 'Temperature (°F)'}
+        };
+
+        Plotly.newPlot('temp-chart', [tempTrace], tempLayout, {responsive: true, displayModeBar: false});
+    </script>
+
+    <!-- Humidity (%) over Time -->
+    <div id="humidity-chart"></div>
+    <script>
+        var humidityData = {{ hourly_humidity | safe }};
+        
+        var humidityTrace = {
+            x: hours,
+            y: humidityData,
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Humidity (%)',
+            line: {color: 'green'}
+        };
+
+        var humidityLayout = {
+            title: 'Humidity (%) over Time',
+            xaxis: {title: 'Hour'},
+            yaxis: {title: 'Humidity (%)'}
+        };
+
+        Plotly.newPlot('humidity-chart', [humidityTrace], humidityLayout, {responsive: true, displayModeBar: false});
+    </script>
+
+    <!-- Wind Speed (mph) over Time -->
+    <div id="wind-speed-chart"></div>
+    <script>
+        var windSpeedData = {{ hourly_wind_speeds | safe }};
+        
+        var windSpeedTrace = {
+            x: hours,
+            y: windSpeedData,
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Wind Speed (mph)',
+            fill: 'tozeroy',
+            fillcolor: 'rgba(0,100,255,0.3)',
+            line: {color: 'red'}
+        };
+
+        var windSpeedLayout = {
+            title: 'Wind Speed (mph) over Time',
+            xaxis: {title: 'Hour'},
+            yaxis: {title: 'Wind Speed (mph)'}
+        };
+
+        Plotly.newPlot('wind-speed-chart', [windSpeedTrace], windSpeedLayout, {responsive: true, displayModeBar: false});
+    </script>
+
+    <!-- Pressure (hPa) over Time -->
+    <div id="pressure-chart"></div>
+    <script>
+        var pressureData = {{ hourly_air_pressures | safe }};
+        
+        var pressureTrace = {
+            x: hours,
+            y: pressureData,
+            type: 'scatter',
+            mode: 'markers',
+            name: 'Pressure (hPa)',
+            marker: {color: 'purple'}
+        };
+
+        var pressureLayout = {
+            title: 'Pressure (hPa) over Time',
+            xaxis: {title: 'Hour'},
+            yaxis: {title: 'Pressure (hPa)'}
+        };
+
+        Plotly.newPlot('pressure-chart', [pressureTrace], pressureLayout, {responsive: true, displayModeBar: false});
+    </script>
+
+    <!-- Temperature vs Wind Speed -->
+    <div id="temp-vs-wind-chart"></div>
+    <script>
+        var tempVsWindTrace = {
+            x: tempData,
+            y: windSpeedData,
+            mode: 'markers',
+            type: 'scatter',
+            marker: {color: 'orange'}
+        };
+
+        var tempVsWindLayout = {
+            title: 'Temperature vs Wind Speed',
+            xaxis: {title: 'Temperature (°F)'},
+            yaxis: {title: 'Wind Speed (mph)'}
+        };
+
+        Plotly.newPlot('temp-vs-wind-chart', [tempVsWindTrace], tempVsWindLayout, {responsive: true, displayModeBar: false});
+    </script>
+
+    <!-- Temperature Distribution (Histogram) -->
+    <div id="temp-dist-chart"></div>
+    <script>
+        var tempDistTrace = {
+            x: tempData,
+            type: 'histogram',
+            name: 'Temperature Distribution',
+            nbinsx: 15
+        };
+
+        var tempDistLayout = {
+            title: 'Temperature Distribution',
+            xaxis: {title: 'Temperature (°F)'},
+            yaxis: {title: 'Frequency'}
+        };
+
+        Plotly.newPlot('temp-dist-chart', [tempDistTrace], tempDistLayout, {responsive: true, displayModeBar: false});
+    </script>
+
+    <!-- Air Quality Index (AQI) (Bar Chart) -->
+    <div id="aqi-chart"></div>
+    <script>
+        var aqiData = {{ aqi_values | safe }};
+        var aqiTrace = {
+            x: ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'],
+            y: aqiData,
+            type: 'bar',
+            marker: {color: 'teal'}
+        };
+
+        var aqiLayout = {
+            title: 'Air Quality Index (AQI)',
+            xaxis: {title: 'AQI Categories'},
+            yaxis: {title: 'AQI Value'}
+        };
+
+        Plotly.newPlot('aqi-chart', [aqiTrace], aqiLayout, {responsive: true, displayModeBar: false});
+    </script>
+
+    <!-- Rainfall (mm) vs Wind Speed (Bubble Chart) -->
+    <div id="rain-vs-wind-chart"></div>
+    <script>
+        var rainfallData = {{ hourly_rainfall | safe }};
+        var windSpeedData = {{ hourly_wind_speeds | safe }};
+        var rainfallSize = rainfallData.map(x => x * 10); // scale size based on rainfall
+        
+        var rainVsWindTrace = {
+            x: rainfallData,
+            y: windSpeedData,
+            mode: 'markers',
+            type: 'scatter',
+            marker: {
+                size: rainfallSize,
+                color: 'blue',
+                opacity: 0.5
+            }
+        };
+
+        var rainVsWindLayout = {
+            title: 'Rainfall (mm) vs Wind Speed (Bubble Chart)',
+            xaxis: {title: 'Rainfall (mm)'},
+            yaxis: {title: 'Wind Speed (m/s)'}
+        };
+
+        Plotly.newPlot('rain-vs-wind-chart', [rainVsWindTrace], rainVsWindLayout, {responsive: true, displayModeBar: false});
+    </script>
+<!-- 
+</body>
+</html> -->

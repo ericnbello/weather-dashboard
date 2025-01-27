@@ -60,14 +60,14 @@ def call_api(unit_system, location):
             # next_unit_system = 'imperial'
             # current_unit_system = next_unit_system
 
-        # r_3 = requests.get('http://api.openweathermap.org/data/2.5/air_pollution?lat={0}&lon={1}&appid={2}'.format(lat, lon, openweather_api_key))
+        r_3 = requests.get('http://api.openweathermap.org/data/2.5/air_pollution?lat={0}&lon={1}&appid={2}'.format(lat, lon, openweather_api_key))
 
         # Full API response data
         # weather_data_2 = json.loads(r_2.content)
         weather_data_2 = r_2.json()
 
-        # air_pollution_data = json.loads(r_3.content)
-        # air_pollution_data = r_3.json()
+        air_pollution_data = json.loads(r_3.content)
+        air_pollution_data = r_3.json()
 
         # Current date info
         current_unix_timestamp = weather_data_2["current"]["dt"]
@@ -176,6 +176,18 @@ def call_api(unit_system, location):
         for i in range(len(hourly_weather_info)):
             hourly_temps.append(round(hourly_weather_info[i]["temp"]))
 
+        hourly_wind_speeds = []
+        for i in range(len(hourly_weather_info)):
+            hourly_wind_speeds.append(round(hourly_weather_info[i]["wind_speed"]))
+        
+        hourly_humidity = []
+        for i in range(len(hourly_weather_info)):
+            hourly_humidity.append(round(hourly_weather_info[i]["humidity"]))
+
+        # hourly_rainfall = []
+        # for i in range(len(hourly_weather_info)):
+        #     hourly_rainfall.append(round(hourly_weather_info[i]["rain"]))
+
         hourly_icon_codes = []
         for i in range(len(hourly_weather_info)):
             hourly_icon_codes.append(hourly_weather_info[i]["weather"][0]["icon"])
@@ -197,7 +209,7 @@ def call_api(unit_system, location):
                 alert_description = "There are no alerts"
 
         ## Air Quality Index
-        # aqi = air_pollution_data["list"][0]["main"]["aqi"]
+        aqi_values = air_pollution_data["list"][0]["main"]["aqi"]
 
         # if aqi == 1:
         #     air_quality_index = "Good"
@@ -214,7 +226,7 @@ def call_api(unit_system, location):
         air_pressure = round(weather_data_2["current"]["pressure"])
 
         hourly_air_pressures = []
-        for i in range(len(weather_data_2["hourly"][0:23])):
+        for i in range(len(weather_data_2["hourly"])):
             hourly_air_pressures.append(weather_data_2["hourly"][i]["pressure"])
         
         todays_avg_air_pressure = round(sum(hourly_air_pressures)/len(hourly_air_pressures))
@@ -335,12 +347,17 @@ def call_api(unit_system, location):
 
             'hours': hours,
             'hourly_temps': hourly_temps,
+            # 'hourly_rainfall': hourly_rainfall,
             'hourly_weather_icons': hourly_icon_codes,
             'hourly_forecast_content': hourly_forecast_content,
             'hourly_forecast_content_list': hourly_forecast_content_list,
+            'hourly_wind_speeds': hourly_wind_speeds,
+            'hourly_humidity': hourly_humidity,
+            'hourly_air_pressures': hourly_air_pressures,
 
             'alert_description': alert_description,
-            # 'air_quality_index': air_quality_index
+            # 'air_quality_index': air_quality_index,
+            'aqi_values': aqi_values,
         }
 
 def index(request):
@@ -348,25 +365,29 @@ def index(request):
 
 def stackedareachart(request):
     """
-    stackedareachart page
+    View for stacked area chart using D3.js.
     """
     nb_element = 100
-    xdata = range(nb_element)
-    xdata = map(lambda x: 100 + x, xdata)
+    xdata = list(range(nb_element))
     ydata = [i + random.randint(1, 10) for i in range(nb_element)]
-    ydata2 = map(lambda x: x * 2, ydata)
+    ydata2 = [x * 2 for x in ydata]
 
-    extra_serie1 = {"tooltip": {"y_start": "", "y_end": " balls"}}
-    extra_serie2 = {"tooltip": {"y_start": "", "y_end": " calls"}}
-
+    # Prepare chart data
     chartdata = {
         'x': xdata,
-        'name1': 'Temperature', 'y1': ydata, 'extra1': extra_serie1,
-        'name2': 'series 2', 'y2': ydata2, 'extra2': extra_serie2,
+        'y1': ydata,
+        'y2': ydata2
     }
-    charttype = "stackedAreaChart"
-    data = {
-        'charttype': charttype,
+
+    context = {
         'chartdata': chartdata
     }
-    return render('stackedareachart.html', data)
+    
+    return render(request, 'stackedareachart.html', context)
+
+
+from .chart_functions import create_chart 
+
+def chart_view(request):
+    plot_div = create_chart()
+    return render(request, '../templates/components/charts.html', {'plot_div': plot_div})

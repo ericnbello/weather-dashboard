@@ -251,11 +251,11 @@ footer a {
   color: hsl(236, 100%, 87%);
 }
 
-.daily {
+.today {
   display: inline-flexbox;
 }
 
-.weekly {
+.next48hours {
   display: none;
 }
 
@@ -586,73 +586,80 @@ footer a {
                 <p>{{ current_weather }}</p> -->
                 </div>
                 <div id="interval-toggle">
-                    <p><button id="btn-daily" onclick="toggleInterval('daily')">Today</button></p>
-                    <p><button id="btn-weekly" onclick="toggleInterval('weekly')">Next 48 Hours</button></p>
+                    <p><button id="btn-today" onclick="toggleInterval('today')">Today</button></p>
+                    <p><button id="btn-next48Hours" onclick="toggleInterval('next48hours')">Next 48 Hours</button></p>
                     <p><button id="btn-monthly" onclick="toggleInterval('monthly')">Next 7 Days</button></p>
-                    <p><button id="btn-radar" onclick="toggleInterval('radar')">Radar</button></p>
+                    <!-- <p><button id="btn-radar" onclick="toggleInterval('radar')">Radar</button></p>
                     <p><button id="btn-alerts" onclick="toggleInterval('alerts')">Alerts</button></p>
+                    <p><button id="btn-trends" onclick="toggleInterval('trends')">Trends</button></p> -->
                 </div>
                 </div>
+                
             <!--CARD 1-->
-            <div class="card" id="work-card">
+            <div class="card" id="work-card card1">
             <div id="study-card-image">
             </div>
             <div class="text-area">
                 <div class="icon">
                     <div class="flex items-center justify-between">
-                        <h2 class="daily">Local Time</h2>
-                        <h2 class="weekly">      {{hourly_forecast_content_list.0.0}}
+                        <h2 class="today">Local Time</h2>
+                        <h2 class="next48hours">      {{hourly_forecast_content_list.0.0}}
                         </h2>
                         <h2 class="monthly">{{ daily_forecast_content_list.0.0 }}</h2>
-                        <i class="relative text-2xl daily wi wi-time-2"></i>
-                        <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.0.2}}"></i>
+                        <i class="relative text-2xl today wi wi-time-2"></i>
+                        <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.0.2}}"></i>
                         <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.0.4}}"></i>
                     </div>
                     <a class="card-options-menu" href="#"></a>
                 </div>
         
-                <!-- daily -->
-                <h3 class="main-amount daily">{{ current_time }}</h3>
-                <!-- daily -->
-                <p class="previous daily">{{ current_date }}</p>
-                <!-- weekly -->
-                <h3 class="main-amount weekly">{{hourly_forecast_content_list.0.1}}{{degree_unit}}</h3>
-                <!-- weekly -->
-                <p class="previous weekly">{{hourly_forecast_content_list.0.3}}</p>
+                <!-- today -->
+                <h3 class="main-amount today">{{ current_time }}</h3>
+                <!-- today -->
+                <p class="previous today">{{ current_date }}</p>
+                <!-- next48hours -->
+                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.0.1}}{{degree_unit}}</h3>
+                <!-- next48hours -->
+                <p class="previous next48hours">{{hourly_forecast_content_list.0.3}}</p>
                 <!-- monthly -->
                 <h3 class="main-amount monthly">{{ daily_forecast_content_list.0.2 }}/{{ daily_forecast_content_list.0.3 }}{{ degree_unit }}</h3>
                 <!-- monthly -->
                 <p class="previous monthly">{{ daily_forecast_content_list.0.1 }}</p>
+
+                <!--Radar-->
+                <div class="radar">
+                  {% include 'components/radar.html' %}
+                </div>
             </div>
             </div>
             <!--END CARD 1-->
 
             <!---BEGIN CARD 2-->
-            <div class="card" id="play-card">
+            <div class="card" id="play-card card2">
             <div id="play-card-image">
             </div>
-            <div class="text-area"   >
+            <div class="text-area">
                 <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="daily">Temperature</h2>
-                    <h2 class="weekly">{{hourly_forecast_content_list.6.0}}</h2>
+                    <h2 class="today">Temperature</h2>
+                    <h2 class="next48hours">{{hourly_forecast_content_list.6.0}}</h2>
                     <h2 class="monthly">{{ daily_forecast_content_list.1.0 }}</h2>
 
-                    <i class="relative text-2xl daily wi wi-thermometer"></i>
-                    <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.6.2}}"></i>
+                    <i class="relative text-2xl today wi wi-thermometer"></i>
+                    <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.6.2}}"></i>
                     <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.1.4}}"></i>
                 </div>
                 </div>
 
                 <!-- daily -->
-                <h3 class="main-amount daily">{{ current_temperature }}{{ degree_unit }}</h3>
+                <h3 class="main-amount today">{{ current_temperature }}{{ degree_unit }}</h3>
                 <!-- daily -->
-                <p class="previous daily">Feels like {{ feels_like }}{{ degree_unit }}</p>
+                <p class="previous today">Feels like {{ feels_like }}{{ degree_unit }}</p>
                 <!-- weekly -->
-                <h3 class="main-amount weekly">{{hourly_forecast_content_list.6.1}}{{degree_unit}}
+                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.6.1}}{{degree_unit}}
                 </h3>
                 <!-- weekly -->
-                <p class="previous weekly">{{hourly_forecast_content_list.6.3}}</p>
+                <p class="previous next48hours">{{hourly_forecast_content_list.6.3}}</p>
                 <!-- monthly -->
                 <h3 class="main-amount monthly">{{ daily_forecast_content_list.1.2 }}/{{ daily_forecast_content_list.1.3 }}{{ degree_unit }}</h3>
                 <!-- monthly -->
@@ -661,30 +668,30 @@ footer a {
             </div>
 
             <!--Card3-->
-            <div class="card" id="study-card">
+            <div class="card" id="study-card card3">
             <div id="study-card-image">
             </div>
             <div class="text-area"   >
                 <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="daily">Humidity</h2>
-                    <h2 class="weekly">{{hourly_forecast_content_list.12.0}}</h2>
+                    <h2 class="today">Humidity</h2>
+                    <h2 class="next48hours">{{hourly_forecast_content_list.12.0}}</h2>
                     <h2 class="monthly">{{ daily_forecast_content_list.2.0 }}</h2>
-                    <i class="relative text-2xl daily wi wi-humidity"></i>
-                    <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.12.2}}"></i>
+                    <i class="relative text-2xl today wi wi-humidity"></i>
+                    <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.12.2}}"></i>
                     <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.2.4}}"></i>
                 </div>
                 </div>
 
                 <!-- daily -->
-                <h3 class="main-amount daily">{{ humidity }}%</h3>
+                <h3 class="main-amount today">{{ humidity }}%</h3>
                 <!-- daily -->
-                <p class="previous daily">Dew point {{dew_point }}{{degree_unit}}</p>
+                <p class="previous today">Dew point {{dew_point }}{{degree_unit}}</p>
                 <!-- weekly -->
-                <h3 class="main-amount weekly">{{hourly_forecast_content_list.12.1}}{{degree_unit}}
+                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.12.1}}{{degree_unit}}
                 </h3>
                 <!-- weekly -->
-                <p class="previous weekly">{{hourly_forecast_content_list.12.3}}</p>
+                <p class="previous next48hours">{{hourly_forecast_content_list.12.3}}</p>
                 <!-- monthly -->
                 <h3 class="main-amount monthly">{{ daily_forecast_content_list.2.2 }}/{{ daily_forecast_content_list.2.3 }}{{degree_unit}}</h3>
                 <!-- monthly -->
@@ -693,32 +700,32 @@ footer a {
             </div>
             <!--END CARD-->
             
-            <!--CARD-->
-            <div class="card" id="exercise-card">
+            <!--CARD 4-->
+            <div class="card" id="exercise-card card4">
             <div id="exercise-card-image">
             </div>
             <div class="text-area"   >
                 <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="daily">Rain</h2>
-                    <h2 class="weekly">{{hourly_forecast_content_list.18.0}}</h2>
+                    <h2 class="today">Rain</h2>
+                    <h2 class="next48hours">{{hourly_forecast_content_list.18.0}}</h2>
                     <h2 class="monthly">{{ daily_forecast_content_list.3.0 }}</h2>
-                    <i class="relative text-2xl daily wi wi-rain"></i>
-                    <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.18.2}}"></i>
+                    <i class="relative text-2xl today wi wi-rain"></i>
+                    <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.18.2}}"></i>
                     <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.3.4}}"></i>
 
                 </div>
                 </div>
 
                 <!-- daily -->
-                <h3 class="main-amount daily">{{ current_chance_of_rain }}%</h3>
+                <h3 class="main-amount today">{{ current_chance_of_rain }}%</h3>
                 <!-- daily -->
-                <p class="previous daily">Next hour {{next_hour_chance_of_rain}}%</p>
+                <p class="previous today">Next hour {{next_hour_chance_of_rain}}%</p>
                 <!-- weekly -->
-                <h3 class="main-amount weekly">{{hourly_forecast_content_list.18.1}}{{degree_unit}}
+                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.18.1}}{{degree_unit}}
                 </h3>
                 <!-- weekly -->
-                <p class="previous weekly">{{hourly_forecast_content_list.18.3}}</p>
+                <p class="previous next48hours">{{hourly_forecast_content_list.18.3}}</p>
                 <!-- monthly -->
                 <h3 class="main-amount monthly">{{ daily_forecast_content_list.3.2 }}/{{ daily_forecast_content_list.3.3 }}{{degree_unit}}</h3>
                 <!-- monthly -->
@@ -727,18 +734,18 @@ footer a {
             </div>
             <!--END CARD-->
 
-            <!--CARD-->
-            <div class="card" id="social-card">
+            <!--CARD 5-->
+            <div class="card" id="social-card card5">
             <div id="social-card-image">
             </div>
             <div class="text-area"   >
                 <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="daily">Wind Speed</h2>
-                    <h2 class="weekly">{{hourly_forecast_content_list.24.0}}</h2>
+                    <h2 class="today">Wind Speed</h2>
+                    <h2 class="next48hours">{{hourly_forecast_content_list.24.0}}</h2>
                     <h2 class="monthly">{{ daily_forecast_content_list.4.0 }}</h2>
-                    <i class="relative text-2xl daily wi wi-strong-wind"></i>
-                    <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.24.2}}"></i>
+                    <i class="relative text-2xl today wi wi-strong-wind"></i>
+                    <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.24.2}}"></i>
                     <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.4.4}}"></i>
 
                 </div>
@@ -746,14 +753,14 @@ footer a {
                 <img class="icon">
 
                 <!-- daily -->
-                <h3 class="main-amount daily">{{ wind_speed }} {{ speed_unit }}</h3>
+                <h3 class="main-amount today">{{ wind_speed }} {{ speed_unit }}</h3>
                 <!-- daily -->
-                <p class="previous daily">Gusts {{wind_gust}} {{speed_unit}}</p>
+                <p class="previous today">Gusts {{wind_gust}} {{speed_unit}}</p>
                 <!-- weekly -->
-                <h3 class="main-amount weekly">{{hourly_forecast_content_list.24.1}}{{degree_unit}}
+                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.24.1}}{{degree_unit}}
                 </h3>
                 <!-- weekly -->
-                <p class="previous weekly">{{hourly_forecast_content_list.24.3}}</p>
+                <p class="previous next48hours">{{hourly_forecast_content_list.24.3}}</p>
                 <!-- monthly -->
                 <h3 class="main-amount monthly">{{ daily_forecast_content_list.4.2 }}/{{ daily_forecast_content_list.4.3 }}{{degree_unit}}</h3>
                 <!-- monthly -->
@@ -762,32 +769,32 @@ footer a {
             </div>
             <!--END CARD-->
 
-            <!--CARD-->
-            <div class="card" id="self-care-card">
+            <!--CARD 6-->
+            <div class="card" id="self-care-card card6">
             <div id="self-care-card-image">
             </div>
             <div class="text-area"  onmouseuonbp="resetCard(this)">
                 <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="daily">UV Index</h2>
-                    <h2 class="weekly">{{hourly_forecast_content_list.30.0}}</h2>
+                    <h2 class="today">UV Index</h2>
+                    <h2 class="next48hours">{{hourly_forecast_content_list.30.0}}</h2>
                     <h2 class="monthly">{{ daily_forecast_content_list.5.0 }}</h2>
-                    <i class="relative text-2xl daily wi wi-hot"></i>                    
-                    <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.30.2}}"></i>
+                    <i class="relative text-2xl today wi wi-hot"></i>                    
+                    <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.30.2}}"></i>
                     <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.5.4 }}"></i>
                 </div>
             </div>
 
                 <!-- daily -->
-                <h3 class="main-amount daily">{{ uv_index }}</h3>
+                <h3 class="main-amount today">{{ uv_index }}</h3>
                 <!-- daily -->
-                <p class="previous daily">{{ uv_index_meaning }}
+                <p class="previous today">{{ uv_index_meaning }}
                 </p>
                 <!-- weekly -->
-                <h3 class="main-amount weekly">{{hourly_forecast_content_list.30.1}}{{degree_unit}}
+                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.30.1}}{{degree_unit}}
                 </h3>
                 <!-- weekly -->
-                <p class="previous weekly">{{hourly_forecast_content_list.30.3}}</p>
+                <p class="previous next48hours">{{hourly_forecast_content_list.30.3}}</p>
                 <!-- monthly -->
                 <h3 class="main-amount monthly">{{ daily_forecast_content_list.5.2 }}/{{ daily_forecast_content_list.5.3 }}{{ degree_unit }}</h3>
                 <!-- monthly -->
@@ -797,30 +804,30 @@ footer a {
             <!--END CARD 6-->
 
             <!--CARD 7-->
-            <div class="card" id="study-card">
+            <div class="card" id="study-card card7">
            <div id="study-card-image">
            </div>
             <div class="text-area">
                 <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="daily">Air Pressure</h2>
-                    <h2 class="weekly">{{hourly_forecast_content_list.36.0}}</h2>
+                    <h2 class="today">Air Pressure</h2>
+                    <h2 class="next48hours">{{hourly_forecast_content_list.36.0}}</h2>
                     <h2 class="monthly">{{ daily_forecast_content_list.6.0 }}</h2>
-                    <i class="relative text-2xl daily wi wi-barometer"></i>                   
-                    <i class="weekly text-3xl owi owi-{{hourly_forecast_content_list.36.2}}"></i>
+                    <i class="relative text-2xl today wi wi-barometer"></i>                   
+                    <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.36.2}}"></i>
                     <i class="text-3xl monthly owi owi-{{ daily_forecast_content_list.6.4 }}"></i>
                 </div>
                 </div>
 
-                <!-- daily -->
-                <h3 class="main-amount daily">{{ air_pressure }} {{ pressure_unit }}</h3>
-                <!-- daily -->
-                <p class="previous daily">{{ todays_avg_air_pressure }} {{pressure_unit}} average</p>
+                <!-- today -->
+                <h3 class="main-amount today">{{ air_pressure }} {{ pressure_unit }}</h3>
+                <!-- today -->
+                <p class="previous today">{{ todays_avg_air_pressure }} {{pressure_unit}} average</p>
                 <!-- weekly -->
-                <h3 class="main-amount weekly">{{hourly_forecast_content_list.36.1}}{{degree_unit}}
+                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.36.1}}{{degree_unit}}
                 </h3>
                 <!-- weekly -->
-                <p class="previous weekly">{{hourly_forecast_content_list.36.3}}</p>
+                <p class="previous next48hours">{{hourly_forecast_content_list.36.3}}</p>
                 <!-- monthly -->
                 <h3 class="main-amount monthly">{{ daily_forecast_content_list.6.2 }}/{{ daily_forecast_content_list.6.3 }}{{ degree_unit }}</h3>
                 <!-- monthly -->
@@ -831,43 +838,37 @@ footer a {
             
 
             <!--CARD 8-->
-            <div class="card blank-monthly-card" id="study-card ">
+            <div class="card blank-monthly-card" id="study-card card8">
             <div id="study-card-image">
             </div>
             <div class="text-area"   >
                 <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="daily">Moon Rise</h2>
-                    <h2 class="weekly">{{hourly_forecast_content_list.42.0}}</h2>
-                    <h2 class="monthly blank-monthly-card-info">.</h2>
-                    <i class="relative text-2xl daily wi {{moon_icon_name}}"></i>                    
-                    <i class="text-3xl weekly owi owi-{{hourly_forecast_content_list.42.2}}"></i>
+                    <h2 class="today">Moon Rise</h2>
+                    <h2 class="next48hours">{{hourly_forecast_content_list.42.0}}</h2>
+                    <h2 class="monthly blank-monthly-card-info"></h2>
+                    <i class="relative text-2xl today wi {{moon_icon_name}}"></i>                    
+                    <i class="text-3xl next48hours owi owi-{{hourly_forecast_content_list.42.2}}"></i>
                     <i class="monthly"></i>
                 </div>
                 </div>
 
                 <!-- daily -->
-                <h3 class="main-amount daily">{{todays_moonrise_time.0}}</h3>
+                <h3 class="main-amount today">{{todays_moonrise_time.0}}</h3>
                 <!-- daily -->
-                <p class="previous daily">{{current_moon_phase}}</p>
+                <p class="previous today">{{current_moon_phase}}</p>
                 <!-- weekly -->
-                <h3 class="main-amount weekly">{{hourly_forecast_content_list.42.1}}{{degree_unit}}</h3>
+                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.42.1}}{{degree_unit}}</h3>
                 <!-- weekly -->
-                <p class="previous weekly">{{hourly_forecast_content_list.42.3}}</p>
+                <p class="previous next48hours">{{hourly_forecast_content_list.42.3}}</p>
                 <!-- monthly -->
-                <h3 class="main-amount monthly blank-monthly-card-info">.</h3>
+                <h3 class="main-amount monthly blank-monthly-card-info"></h3>
                 <!-- monthly -->
-                <p class="previous monthly blank-monthly-card-info">.</p>
+                <p class="previous monthly blank-monthly-card-info"></p>
             </div>
             </div>
             <!--END CARD 8-->
             
-        </div>
-        <div class="radar">
-            {% include 'components/radar.html' %}
-        </div>
-        <div class="alerts">
-            {% include 'components/alerts.html' %}
         </div>
     </div>
       <!-- {{ daily_forecast_content_list.0 }}
