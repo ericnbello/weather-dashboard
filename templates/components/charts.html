@@ -10,7 +10,7 @@
     <!-- <h1>Weather Data Visualization</h1> -->
 
     <!-- Temperature (°F) over Time -->
-    <div id="temp-chart"></div>
+    <!-- <div id="temp-chart"></div>
     <script>
         var tempData = {{ hourly_temps | safe }};
         var hours = {{ hours | safe }};
@@ -27,14 +27,16 @@
         var tempLayout = {
             title: 'Temperature (°F) over Time',
             xaxis: {title: 'Hour'},
-            yaxis: {title: 'Temperature (°F)'}
+            yaxis: {title: 'Temperature (°F)'},
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            paper_bgcolor: 'rgba(0,0,0,0)'
         };
 
         Plotly.newPlot('temp-chart', [tempTrace], tempLayout, {responsive: true, displayModeBar: false});
-    </script>
+    </script> -->
 
     <!-- Humidity (%) over Time -->
-    <div id="humidity-chart"></div>
+    <!-- <div id="humidity-chart"></div>
     <script>
         var humidityData = {{ hourly_humidity | safe }};
         
@@ -54,10 +56,10 @@
         };
 
         Plotly.newPlot('humidity-chart', [humidityTrace], humidityLayout, {responsive: true, displayModeBar: false});
-    </script>
+    </script> -->
 
     <!-- Wind Speed (mph) over Time -->
-    <div id="wind-speed-chart"></div>
+    <!-- <div id="wind-speed-chart"></div>
     <script>
         var windSpeedData = {{ hourly_wind_speeds | safe }};
         
@@ -79,10 +81,10 @@
         };
 
         Plotly.newPlot('wind-speed-chart', [windSpeedTrace], windSpeedLayout, {responsive: true, displayModeBar: false});
-    </script>
+    </script> -->
 
     <!-- Pressure (hPa) over Time -->
-    <div id="pressure-chart"></div>
+    <!-- <div id="pressure-chart"></div>
     <script>
         var pressureData = {{ hourly_air_pressures | safe }};
         
@@ -102,17 +104,17 @@
         };
 
         Plotly.newPlot('pressure-chart', [pressureTrace], pressureLayout, {responsive: true, displayModeBar: false});
-    </script>
+    </script> -->
 
     <!-- Temperature vs Wind Speed -->
-    <div id="temp-vs-wind-chart"></div>
+    <!-- <div id="temp-vs-wind-chart"></div>
     <script>
         var tempVsWindTrace = {
             x: tempData,
             y: windSpeedData,
             mode: 'markers',
             type: 'scatter',
-            marker: {color: 'orange'}
+            marker: {color: 'white'}
         };
 
         var tempVsWindLayout = {
@@ -122,10 +124,10 @@
         };
 
         Plotly.newPlot('temp-vs-wind-chart', [tempVsWindTrace], tempVsWindLayout, {responsive: true, displayModeBar: false});
-    </script>
+    </script> -->
 
     <!-- Temperature Distribution (Histogram) -->
-    <div id="temp-dist-chart"></div>
+    <!-- <div id="temp-dist-chart"></div>
     <script>
         var tempDistTrace = {
             x: tempData,
@@ -141,10 +143,10 @@
         };
 
         Plotly.newPlot('temp-dist-chart', [tempDistTrace], tempDistLayout, {responsive: true, displayModeBar: false});
-    </script>
+    </script> -->
 
     <!-- Air Quality Index (AQI) (Bar Chart) -->
-    <div id="aqi-chart"></div>
+    <!-- <div id="aqi-chart"></div>
     <script>
         var aqiData = {{ aqi_values | safe }};
         var aqiTrace = {
@@ -161,10 +163,10 @@
         };
 
         Plotly.newPlot('aqi-chart', [aqiTrace], aqiLayout, {responsive: true, displayModeBar: false});
-    </script>
+    </script> -->
 
     <!-- Rainfall (mm) vs Wind Speed (Bubble Chart) -->
-    <div id="rain-vs-wind-chart"></div>
+    <!-- <div id="rain-vs-wind-chart"></div>
     <script>
         var rainfallData = {{ hourly_rainfall | safe }};
         var windSpeedData = {{ hourly_wind_speeds | safe }};
@@ -189,7 +191,7 @@
         };
 
         Plotly.newPlot('rain-vs-wind-chart', [rainVsWindTrace], rainVsWindLayout, {responsive: true, displayModeBar: false});
-    </script>
+    </script> -->
 <!-- 
 </body>
 </html> -->

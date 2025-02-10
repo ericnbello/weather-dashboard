@@ -24,7 +24,7 @@ SECRET_KEY = 'process.env.DB_SECRET_KEY'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'weather-forecast-ericnbello.onrender.com', 'https://d3lgvgrrop0yu.cloudfront.net', 'd3lgvgrrop0yu.cloudfront.net', '54.146.66.1' , 'ec2-54-146-66-1.compute-1.amazonaws.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'weather-forecast-ericnbello.onrender.com', 'https://d3lgvgrrop0yu.cloudfront.net', 'd3lgvgrrop0yu.cloudfront.net', '54.146.66.1' , 'ec2-54-146-66-1.compute-1.amazonaws.com', 'pkou8dj559.execute-api.us-east-1.amazonaws.com']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
     'django_browser_reload',
+    'storages',
     # "django_nvd3"
 ]
 
@@ -97,6 +98,29 @@ DATABASES = {
     }
 }
 
+# import sqlite3
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'OPTIONS': {
+#             'timeout': 20,  # Avoids database lock issues
+#         },
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv("DB_NAME"),
+#         'USER': os.getenv("DB_USER"),
+#         'PASSWORD': os.getenv("DB_PASSWORD"),
+#         'HOST': os.getenv("DB_HOST"),
+#         'PORT': os.getenv("DB_PORT", "5432"),  # Default PostgreSQL port
+#     }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -136,13 +160,20 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = "/tmp/static"
 
 STATICFILES_DIRS = [
     BASE_DIR / "staticfiles",
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+AWS_STORAGE_BUCKET_NAME = os.environ.get("STATIC_FILES_BUCKET_NAME")
+# AWS_S3_REGION_NAME = os.environ.get("AWS_REGION_NAME")
+# AWS_QUERYSTRING_AUTH = False
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -202,3 +233,14 @@ LOGGING = {
 CSRF_TRUSTED_ORIGINS = ['https://d3lgvgrrop0yu.cloudfront.net']
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY=None
+
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+#     },
+#     "staticfiles": {
+#         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+#     },
+# }
+
+

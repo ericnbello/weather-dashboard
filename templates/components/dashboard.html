@@ -159,7 +159,7 @@ footer a {
   padding: 1em;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   border: none;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
@@ -249,6 +249,7 @@ footer a {
 .previous {
   font-size: 0.85em;
   color: hsl(236, 100%, 87%);
+  padding-bottom: 1em;
 }
 
 .today {
@@ -506,7 +507,7 @@ footer a {
   #interval-toggle {
       flex-direction: row;
       height: 2.5em;
-      /* justify-content: space-evenly; */
+      /*justify-content: space-evenly;*/
       justify-content: space-between;
       align-items: center;
       font-size: 1em;
@@ -548,6 +549,7 @@ footer a {
   }
 }
 </style>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <section id="dashboard-container">
     <div class="flex pt-6">
       <!-- <h1>Weather Forecast</h1> -->
@@ -586,12 +588,22 @@ footer a {
                 <p>{{ current_weather }}</p> -->
                 </div>
                 <div id="interval-toggle">
-                    <p><button id="btn-today" onclick="toggleInterval('today')">Today</button></p>
-                    <p><button id="btn-next48Hours" onclick="toggleInterval('next48hours')">Next 48 Hours</button></p>
-                    <p><button id="btn-monthly" onclick="toggleInterval('monthly')">Next 7 Days</button></p>
-                    <!-- <p><button id="btn-radar" onclick="toggleInterval('radar')">Radar</button></p>
-                    <p><button id="btn-alerts" onclick="toggleInterval('alerts')">Alerts</button></p>
-                    <p><button id="btn-trends" onclick="toggleInterval('trends')">Trends</button></p> -->
+                  <!-- <div> -->
+                    <p>Local Time:</p>
+                    <h3 class="main-amount today">{{ current_time }}</h3>
+                    <p class="previous today">{{ current_date }}</p>
+                  <!-- </div> -->
+                    
+<!-- 
+                    <div class="">
+                      <div class="overflow-hidden overflow-y-auto h-96">
+                        <h4>Alerts</h4>
+                          <p class="mt-6 mb-0 ml-2">{{ alert_description }}</p>
+                          <span class="flex flex-wrap text-sm error">
+                              <p id="alerts-error">{{no_alerts_msg }}</p>
+                          </span>
+                      </div>
+                  </div> -->
                 </div>
                 </div>
                 
@@ -600,36 +612,72 @@ footer a {
             <div id="study-card-image">
             </div>
             <div class="text-area">
-                <div class="icon">
-                    <div class="flex items-center justify-between">
-                        <h2 class="today">Local Time</h2>
-                        <h2 class="next48hours">      {{hourly_forecast_content_list.0.0}}
-                        </h2>
-                        <h2 class="monthly">{{ daily_forecast_content_list.0.0 }}</h2>
-                        <i class="relative text-2xl today wi wi-time-2"></i>
-                        <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.0.2}}"></i>
-                        <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.0.4}}"></i>
-                    </div>
-                    <a class="card-options-menu" href="#"></a>
-                </div>
-        
-                <!-- today -->
-                <h3 class="main-amount today">{{ current_time }}</h3>
-                <!-- today -->
-                <p class="previous today">{{ current_date }}</p>
-                <!-- next48hours -->
-                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.0.1}}{{degree_unit}}</h3>
-                <!-- next48hours -->
-                <p class="previous next48hours">{{hourly_forecast_content_list.0.3}}</p>
-                <!-- monthly -->
-                <h3 class="main-amount monthly">{{ daily_forecast_content_list.0.2 }}/{{ daily_forecast_content_list.0.3 }}{{ degree_unit }}</h3>
-                <!-- monthly -->
-                <p class="previous monthly">{{ daily_forecast_content_list.0.1 }}</p>
+              <div class="icon">
+              <div class="flex items-center justify-between">
+                  <h2 class="today">Temperature</h2>
+                  <h2 class="next48hours">{{hourly_forecast_content_list.6.0}}</h2>
+                  <h2 class="monthly">{{ daily_forecast_content_list.1.0 }}</h2>
 
-                <!--Radar-->
-                <div class="radar">
-                  {% include 'components/radar.html' %}
-                </div>
+                  <i class="relative text-2xl today wi wi-thermometer"></i>
+              </div>
+              </div>
+
+              <!-- daily -->
+              <h3 class="main-amount today">{{ current_temperature }}{{ degree_unit }}</h3>
+              <!-- daily -->
+              <p class="previous today">Feels like {{ feels_like }}{{ degree_unit }}</p>
+              <!-- <p>{{next_24_hours}}</p> -->
+        
+                
+                 <!-- Temperature (°F) over Time -->
+            <div id="temp-chart"></div>
+              <script>
+                  var tempData = {{ hourly_temps | safe }};
+                  var hours = {{ next_24_hours | safe }};
+                  var tempTrace = {
+                      x: hours,
+                      y: tempData,
+                      // type: 'scatter',
+                      mode: 'lines',
+                      name: 'Temperature (°F)',
+                      line: {color: 'white'}
+                  };
+
+                  var tempLayout = {
+                      // title: 'Temperature (°F) over Time',
+                      // xaxis: {title: 'Hour'},
+                      // yaxis: {title: 'Temperature (°F)'},
+                      xaxis: {
+                        showline: false, // Hides the x-axis line
+                        showticks: false, // Hides ticks
+                        zeroline: false, // Hides the zero line
+                        showgrid: false, // Hides the grid lines
+                      },
+                    yaxis: {
+                      showline: false, // Hides the y-axis line
+                      showticks: false, // Hides ticks
+                      zeroline: false, // Hides the zero line
+                      showgrid: false, // Hides the grid lines
+                    },
+                    margin: {
+                      l: 0, // No left margin
+                      r: 0, // No right margin
+                      t: 0, // No top margin
+                      b: 0, // No bottom margin
+                    },
+                      showlegend: false, //
+                      paper_bgcolor: 'rgba(0,0,0,0)',
+                      plot_bgcolor: 'rgba(0,0,0,0)',
+                      autosize: true,
+                      automargin: true,
+                      width: 125,
+                      height: 125,
+                      // scene: { aspectratio: { x: 1, y: 1, z: 0.5 } } // Useful for 3D plots
+                  };
+
+                  Plotly.newPlot('temp-chart', [tempTrace], tempLayout, {responsive: true, displayModeBar: false});
+              </script>
+                
             </div>
             </div>
             <!--END CARD 1-->
@@ -639,31 +687,71 @@ footer a {
             <div id="play-card-image">
             </div>
             <div class="text-area">
-                <div class="icon">
+              <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="today">Temperature</h2>
-                    <h2 class="next48hours">{{hourly_forecast_content_list.6.0}}</h2>
-                    <h2 class="monthly">{{ daily_forecast_content_list.1.0 }}</h2>
-
-                    <i class="relative text-2xl today wi wi-thermometer"></i>
-                    <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.6.2}}"></i>
-                    <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.1.4}}"></i>
+                    <h2 class="today">Humidity</h2>
+                    <i class="relative text-2xl today wi wi-humidity"></i>
                 </div>
                 </div>
 
                 <!-- daily -->
-                <h3 class="main-amount today">{{ current_temperature }}{{ degree_unit }}</h3>
+                <h3 class="main-amount today">{{ humidity }}%</h3>
                 <!-- daily -->
-                <p class="previous today">Feels like {{ feels_like }}{{ degree_unit }}</p>
-                <!-- weekly -->
-                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.6.1}}{{degree_unit}}
-                </h3>
-                <!-- weekly -->
-                <p class="previous next48hours">{{hourly_forecast_content_list.6.3}}</p>
-                <!-- monthly -->
-                <h3 class="main-amount monthly">{{ daily_forecast_content_list.1.2 }}/{{ daily_forecast_content_list.1.3 }}{{ degree_unit }}</h3>
-                <!-- monthly -->
-                <p class="previous monthly">{{ daily_forecast_content_list.1.1 }}</p>
+                <p class="previous today">Dew point {{dew_point }}{{degree_unit}}</p>         
+                <!-- <p>{{hourly_humidity}}</p>     -->
+        
+                
+                 <!-- Humidity (%) over Time -->
+                <div id="humidity-chart"></div>
+                <script>
+                  var humidityData = {{ hourly_humidity | safe }};
+                  var hours = {{ next_24_hours | safe }};
+                  var humidityTrace = {
+                      x: hours,
+                      y: humidityData,
+                      // type: 'scatter',
+                      mode: 'lines',
+                      name: 'Humidity (%)',
+                      // fill: 'tozeroy',
+                      // fillcolor: 'white',
+                      line: {color: 'white'}
+                  };
+
+                var humidityLayout = {
+                    // title: 'Temperature (°F) over Time',
+                    // xaxis: {title: 'Hour'},
+                    // yaxis: {title: 'Temperature (°F)'},
+                    xaxis: {
+                      showline: false, // Hides the x-axis line
+                      showticks: false, // Hides ticks
+                      zeroline: false, // Hides the zero line
+                      showgrid: false, // Hides the grid lines
+                    },
+                  yaxis: {
+                    showline: false, // Hides the y-axis line
+                    showticks: false, // Hides ticks
+                    zeroline: false, // Hides the zero line
+                    showgrid: false, // Hides the grid lines
+                  },
+                  margin: {
+                    l: 0, // No left margin
+                    r: 0, // No right margin
+                    t: 0, // No top margin
+                    b: 0, // No bottom margin
+                  },
+                    showlegend: false, //
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    plot_bgcolor: 'rgba(0,0,0,0)',
+                    autosize: true,
+                    automargin: true,
+                    width: 125,
+                    height: 125,
+                    // scene: { aspectratio: { x: 1, y: 1, z: 0.5 } } // Useful for 3D plots
+                };
+
+                Plotly.newPlot('humidity-chart', [humidityTrace], humidityLayout, {responsive: true, displayModeBar: false});
+              </script>
+                
             </div>
             </div>
 
@@ -674,28 +762,68 @@ footer a {
             <div class="text-area"   >
                 <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="today">Humidity</h2>
-                    <h2 class="next48hours">{{hourly_forecast_content_list.12.0}}</h2>
-                    <h2 class="monthly">{{ daily_forecast_content_list.2.0 }}</h2>
-                    <i class="relative text-2xl today wi wi-humidity"></i>
-                    <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.12.2}}"></i>
-                    <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.2.4}}"></i>
-                </div>
-                </div>
+                  <h2 class="today">Wind Speed</h2>
+                  <i class="relative text-2xl today wi wi-strong-wind"></i>
 
-                <!-- daily -->
-                <h3 class="main-amount today">{{ humidity }}%</h3>
-                <!-- daily -->
-                <p class="previous today">Dew point {{dew_point }}{{degree_unit}}</p>
-                <!-- weekly -->
-                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.12.1}}{{degree_unit}}
-                </h3>
-                <!-- weekly -->
-                <p class="previous next48hours">{{hourly_forecast_content_list.12.3}}</p>
-                <!-- monthly -->
-                <h3 class="main-amount monthly">{{ daily_forecast_content_list.2.2 }}/{{ daily_forecast_content_list.2.3 }}{{degree_unit}}</h3>
-                <!-- monthly -->
-                <p class="previous monthly">{{ daily_forecast_content_list.2.1 }}</p>
+              </div>
+              </div>
+              <img class="icon">
+
+              <!-- daily -->
+              <h3 class="main-amount today">{{ wind_speed }} {{ speed_unit }}</h3>
+              <!-- daily -->
+              <p class="previous today">Gusts {{wind_gust}} {{speed_unit}}</p>
+                
+              <div id="wind-speed-chart"></div>
+            <script>
+                var windSpeedData = {{ hourly_wind_speeds | safe }};
+                var hours = {{ next_24_hours | safe }};
+
+              var windSpeedTrace = {
+                  x: hours,
+                  y: windSpeedData,
+                  //type: 'scatter',
+                  mode: 'lines',
+                  name: 'Wind Speed (mph)',
+                  // fill: 'tozeroy',
+                  // fillcolor: 'white',
+                  line: {color: 'white'}
+              };
+
+                var windSpeedLayout = {
+                    // title: 'Temperature (°F) over Time',
+                    // xaxis: {title: 'Hour'},
+                    // yaxis: {title: 'Temperature (°F)'},
+                    xaxis: {
+                      showline: false, // Hides the x-axis line
+                      showticks: false, // Hides ticks
+                      zeroline: false, // Hides the zero line
+                      showgrid: false, // Hides the grid lines
+                    },
+                  yaxis: {
+                    showline: false, // Hides the y-axis line
+                    showticks: false, // Hides ticks
+                    zeroline: false, // Hides the zero line
+                    showgrid: false, // Hides the grid lines
+                  },
+                  margin: {
+                    l: 0, // No left margin
+                    r: 0, // No right margin
+                    t: 0, // No top margin
+                    b: 0, // No bottom margin
+                  },
+                    showlegend: false, //
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    plot_bgcolor: 'rgba(0,0,0,0)',
+                    autosize: true,
+                    automargin: true,
+                    width: 125,
+                    height: 125,
+                    // scene: { aspectratio: { x: 1, y: 1, z: 0.5 } } // Useful for 3D plots
+                };
+
+                Plotly.newPlot('wind-speed-chart', [windSpeedTrace], windSpeedLayout, {responsive: true, displayModeBar: false});
+              </script>
             </div>
             </div>
             <!--END CARD-->
@@ -707,29 +835,66 @@ footer a {
             <div class="text-area"   >
                 <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="today">Rain</h2>
-                    <h2 class="next48hours">{{hourly_forecast_content_list.18.0}}</h2>
-                    <h2 class="monthly">{{ daily_forecast_content_list.3.0 }}</h2>
-                    <i class="relative text-2xl today wi wi-rain"></i>
-                    <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.18.2}}"></i>
-                    <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.3.4}}"></i>
-
+                  <h2 class="today">Air Pressure</h2>
+              
+                    <i class="relative text-2xl today wi wi-barometer"></i>                   
+                    
                 </div>
                 </div>
 
-                <!-- daily -->
-                <h3 class="main-amount today">{{ current_chance_of_rain }}%</h3>
-                <!-- daily -->
-                <p class="previous today">Next hour {{next_hour_chance_of_rain}}%</p>
-                <!-- weekly -->
-                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.18.1}}{{degree_unit}}
-                </h3>
-                <!-- weekly -->
-                <p class="previous next48hours">{{hourly_forecast_content_list.18.3}}</p>
-                <!-- monthly -->
-                <h3 class="main-amount monthly">{{ daily_forecast_content_list.3.2 }}/{{ daily_forecast_content_list.3.3 }}{{degree_unit}}</h3>
-                <!-- monthly -->
-                <p class="previous monthly">{{ daily_forecast_content_list.3.1 }}</p>
+                <!-- today -->
+                <h3 class="main-amount today">{{ air_pressure }} {{ pressure_unit }}</h3>
+                <!-- today -->
+                <p class="previous today">{{ todays_avg_air_pressure }} {{pressure_unit}} average</p>
+                
+                <!-- Pressure (hPa) over Time -->
+                <div id="pressure-chart"></div>
+                <script>
+                    var pressureData = {{ hourly_air_pressures | safe }};
+                    var hours = {{ next_24_hours | safe }};
+
+                    var pressureTrace = {
+                        x: hours,
+                        y: pressureData,
+                        // type: 'scatter',
+                        mode: 'lines',
+                        name: 'Pressure (hPa)',
+                        marker: {color: 'white'}
+                    };
+                    var pressureLayout = {
+                    // title: 'Temperature (°F) over Time',
+                    // xaxis: {title: 'Hour'},
+                    // yaxis: {title: 'Temperature (°F)'},
+                    xaxis: {
+                      showline: false, // Hides the x-axis line
+                      showticks: false, // Hides ticks
+                      zeroline: false, // Hides the zero line
+                      showgrid: false, // Hides the grid lines
+                    },
+                  yaxis: {
+                    showline: false, // Hides the y-axis line
+                    showticks: false, // Hides ticks
+                    zeroline: false, // Hides the zero line
+                    showgrid: false, // Hides the grid lines
+                  },
+                  margin: {
+                    l: 0, // No left margin
+                    r: 0, // No right margin
+                    t: 0, // No top margin
+                    b: 0, // No bottom margin
+                  },
+                    showlegend: false, //
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    plot_bgcolor: 'rgba(0,0,0,0)',
+                    autosize: true,
+                    automargin: true,
+                    width: 125,
+                    height: 125,
+                    // scene: { aspectratio: { x: 1, y: 1, z: 0.5 } } // Useful for 3D plots
+                };
+
+                Plotly.newPlot('pressure-chart', [pressureTrace], pressureLayout, {responsive: true, displayModeBar: false});
+              </script>
             </div>
             </div>
             <!--END CARD-->
@@ -741,30 +906,63 @@ footer a {
             <div class="text-area"   >
                 <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="today">Wind Speed</h2>
-                    <h2 class="next48hours">{{hourly_forecast_content_list.24.0}}</h2>
-                    <h2 class="monthly">{{ daily_forecast_content_list.4.0 }}</h2>
-                    <i class="relative text-2xl today wi wi-strong-wind"></i>
-                    <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.24.2}}"></i>
-                    <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.4.4}}"></i>
+                  <h2 class="today">Rain</h2>
+                  <i class="relative text-2xl today wi wi-rain"></i>
+              </div>
+              </div>
 
-                </div>
-                </div>
-                <img class="icon">
+              <!-- daily -->
+              <h3 class="main-amount today">{{ current_chance_of_rain }}%</h3>
+              <!-- daily -->
+              <p class="previous today">Next hour {{next_hour_chance_of_rain}}%</p>
 
-                <!-- daily -->
-                <h3 class="main-amount today">{{ wind_speed }} {{ speed_unit }}</h3>
-                <!-- daily -->
-                <p class="previous today">Gusts {{wind_gust}} {{speed_unit}}</p>
-                <!-- weekly -->
-                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.24.1}}{{degree_unit}}
-                </h3>
-                <!-- weekly -->
-                <p class="previous next48hours">{{hourly_forecast_content_list.24.3}}</p>
-                <!-- monthly -->
-                <h3 class="main-amount monthly">{{ daily_forecast_content_list.4.2 }}/{{ daily_forecast_content_list.4.3 }}{{degree_unit}}</h3>
-                <!-- monthly -->
-                <p class="previous monthly">{{ daily_forecast_content_list.4.1 }}</p>
+              <div id="rain-chart"></div>
+                  <script>
+                      var rainData = {{ hourly_chances_of_rain | safe }};
+                      var hours = {{ next_24_hours | safe }};
+
+                      var rainTrace = {
+                          x: hours,
+                          y: rainData,
+                          mode: 'lines',
+                          line: { color: 'white' }, // Prevents auto-closing
+                          name: 'Rain'
+                      };
+
+                      var rainLayout = {
+                          // title: 'Humidity (%) over Time',
+                          // xaxis: {title: 'Hour'},
+                          // yaxis: {title: 'Humidity (%)'}
+                          xaxis: {
+                      showline: false, // Hides the x-axis line
+                      showticks: false, // Hides ticks
+                      zeroline: false, // Hides the zero line
+                      showgrid: false, // Hides the grid lines
+                    },
+                  yaxis: {
+                    showline: false, // Hides the y-axis line
+                    showticks: false, // Hides ticks
+                    zeroline: false, // Hides the zero line
+                    showgrid: false, // Hides the grid lines
+                  },
+                  margin: {
+                    l: 0, // No left margin
+                    r: 0, // No right margin
+                    t: 0, // No top margin
+                    b: 0, // No bottom margin
+                  },
+                    showlegend: false, //
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    plot_bgcolor: 'rgba(0,0,0,0)',
+                    autosize: true,
+                    automargin: true,
+                    width: 125,
+                    height: 125,
+                      };
+
+                      Plotly.newPlot('rain-chart', [rainTrace], rainLayout, {responsive: true, displayModeBar: false});
+                  </script>
+                
             </div>
             </div>
             <!--END CARD-->
@@ -777,11 +975,9 @@ footer a {
                 <div class="icon">
                 <div class="flex items-center justify-between">
                     <h2 class="today">UV Index</h2>
-                    <h2 class="next48hours">{{hourly_forecast_content_list.30.0}}</h2>
-                    <h2 class="monthly">{{ daily_forecast_content_list.5.0 }}</h2>
+                  
                     <i class="relative text-2xl today wi wi-hot"></i>                    
-                    <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.30.2}}"></i>
-                    <i class="monthly text-3xl owi owi-{{ daily_forecast_content_list.5.4 }}"></i>
+
                 </div>
             </div>
 
@@ -790,16 +986,59 @@ footer a {
                 <!-- daily -->
                 <p class="previous today">{{ uv_index_meaning }}
                 </p>
-                <!-- weekly -->
-                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.30.1}}{{degree_unit}}
-                </h3>
-                <!-- weekly -->
-                <p class="previous next48hours">{{hourly_forecast_content_list.30.3}}</p>
-                <!-- monthly -->
-                <h3 class="main-amount monthly">{{ daily_forecast_content_list.5.2 }}/{{ daily_forecast_content_list.5.3 }}{{ degree_unit }}</h3>
-                <!-- monthly -->
-                <p class="previous monthly">{{ daily_forecast_content_list.5.1 }}</p>
-            </div>
+                <!-- <p>{{hourly_uv_indices}}</p> -->
+
+                <div id="uvi-chart"></div>
+                  <script>
+                      var uviData = {{ hourly_uv_indices | safe }};
+                      var hours = {{ next_24_hours | safe }};
+
+                      var uviTrace = {
+                          x: hours,
+                          y: uviData,
+                          // type: 'scatter',
+                          mode: 'lines',
+                          // mode: 'lines+markers',
+                          name: 'UVI',
+                          line: {color: 'white'},
+                          // connectgaps: false
+                      };
+
+                      var uviLayout = {
+                          // title: 'Humidity (%) over Time',
+                          // xaxis: {title: 'Hour'},
+                          // yaxis: {title: 'Humidity (%)'}
+                          xaxis: {
+                      showline: false, // Hides the x-axis line
+                      showticks: false, // Hides ticks
+                      zeroline: false, // Hides the zero line
+                      showgrid: false, // Hides the grid lines
+                    },
+                  yaxis: {
+                    showline: false, // Hides the y-axis line
+                    showticks: false, // Hides ticks
+                    zeroline: false, // Hides the zero line
+                    showgrid: false, // Hides the grid lines
+                  },
+                  margin: {
+                    l: 0, // No left margin
+                    r: 0, // No right margin
+                    t: 0, // No top margin
+                    b: 0, // No bottom margin
+                  },
+                    showlegend: false, //
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    plot_bgcolor: 'rgba(0,0,0,0)',
+                    autosize: true,
+                    automargin: true,
+                    width: 125,
+                    height: 125,
+                      };
+
+                      Plotly.newPlot('uvi-chart', [uviTrace], uviLayout, {responsive: true, displayModeBar: false});
+                  </script>
+    
+              </div>
             </div>
             <!--END CARD 6-->
 
@@ -810,28 +1049,64 @@ footer a {
             <div class="text-area">
                 <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="today">Air Pressure</h2>
-                    <h2 class="next48hours">{{hourly_forecast_content_list.36.0}}</h2>
-                    <h2 class="monthly">{{ daily_forecast_content_list.6.0 }}</h2>
-                    <i class="relative text-2xl today wi wi-barometer"></i>                   
-                    <i class="next48hours text-3xl owi owi-{{hourly_forecast_content_list.36.2}}"></i>
-                    <i class="text-3xl monthly owi owi-{{ daily_forecast_content_list.6.4 }}"></i>
+                    <h2 class="today">Air Quality Index</h2>
+              
+                    <!-- <i class="relative text-2xl today wi wi-barometer"></i>                    -->
+                    
                 </div>
                 </div>
 
-                <!-- today -->
-                <h3 class="main-amount today">{{ air_pressure }} {{ pressure_unit }}</h3>
-                <!-- today -->
-                <p class="previous today">{{ todays_avg_air_pressure }} {{pressure_unit}} average</p>
-                <!-- weekly -->
-                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.36.1}}{{degree_unit}}
-                </h3>
-                <!-- weekly -->
-                <p class="previous next48hours">{{hourly_forecast_content_list.36.3}}</p>
-                <!-- monthly -->
-                <h3 class="main-amount monthly">{{ daily_forecast_content_list.6.2 }}/{{ daily_forecast_content_list.6.3 }}{{ degree_unit }}</h3>
-                <!-- monthly -->
-                <p class="previous monthly">{{ daily_forecast_content_list.6.1 }}</p>
+                <h3 class="main-amount today">{{ aqi }}</h3>
+                <p class="previous today">{{ aqi_desc }}</p>
+                <!-- <p>{{ aqi_values}}</p> -->
+
+                <div id="aqi-chart"></div>
+                <script>
+                    var aqiData = {{ aqi_values | safe }};
+                    var hours = {{ next_24_hours | safe }};
+                    
+                    var aqiTrace = {
+                        // x: ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'],
+                        x: hours,
+                        y: aqiData,
+                        mode: 'lines',
+                        line: {color: 'white'},
+                      };
+            
+                    var aqiLayout = {
+                        // title: 'Air Quality Index (AQI)',
+                        // xaxis: {title: 'AQI Categories'},
+                        // yaxis: {title: 'AQI Value'}
+                        xaxis:{
+                        showline: false, // Hides the x-axis line
+                      showticks: false, // Hides ticks
+                      zeroline: false, // Hides the zero line
+                      showgrid: false, // Hides the grid lines
+                    },
+                  yaxis: {
+                    showline: false, // Hides the y-axis line
+                    showticks: false, // Hides ticks
+                    zeroline: false, // Hides the zero line
+                    showgrid: false, // Hides the grid lines
+                  },
+                  margin: {
+                    l: 0, // No left margin
+                    r: 0, // No right margin
+                    t: 0, // No top margin
+                    b: 0, // No bottom margin
+                  },
+                    showlegend: false, //
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    plot_bgcolor: 'rgba(0,0,0,0)',
+                    autosize: true,
+                    automargin: true,
+                    width: 125,
+                    height: 125,
+                    };
+            
+                    Plotly.newPlot('aqi-chart', [aqiTrace], aqiLayout, {responsive: true, displayModeBar: false});
+                </script>
+                
             </div>
             </div>
             <!--END CARD 7-->
@@ -844,27 +1119,69 @@ footer a {
             <div class="text-area"   >
                 <div class="icon">
                 <div class="flex items-center justify-between">
-                    <h2 class="today">Moon Rise</h2>
-                    <h2 class="next48hours">{{hourly_forecast_content_list.42.0}}</h2>
-                    <h2 class="monthly blank-monthly-card-info"></h2>
-                    <i class="relative text-2xl today wi {{moon_icon_name}}"></i>                    
-                    <i class="text-3xl next48hours owi owi-{{hourly_forecast_content_list.42.2}}"></i>
-                    <i class="monthly"></i>
+                    <h2 class="today">Visibility</h2>
+                  
+                    <!-- <i class="relative text-2xl today wi {{moon_icon_name}}"></i>                     -->
+                    <!-- <i class="text-3xl next48hours owi owi-{{hourly_forecast_content_list.42.2}}"></i>
+                    <i class="monthly"></i> -->
                 </div>
                 </div>
 
                 <!-- daily -->
-                <h3 class="main-amount today">{{todays_moonrise_time.0}}</h3>
+                <h3 class="main-amount today">{{visibility_distance_mi}} mi</h3>
                 <!-- daily -->
-                <p class="previous today">{{current_moon_phase}}</p>
-                <!-- weekly -->
-                <h3 class="main-amount next48hours">{{hourly_forecast_content_list.42.1}}{{degree_unit}}</h3>
-                <!-- weekly -->
-                <p class="previous next48hours">{{hourly_forecast_content_list.42.3}}</p>
-                <!-- monthly -->
-                <h3 class="main-amount monthly blank-monthly-card-info"></h3>
-                <!-- monthly -->
-                <p class="previous monthly blank-monthly-card-info"></p>
+                <p class="previous today">{{ visibility_desc }}</p>
+                
+
+                <div id="visibility-chart"></div>
+                <script>
+                  var visibilityData = {{ hourly_visibilities_mi | safe }};
+                  var hours = {{ next_24_hours | safe }};
+                  
+                    var visibilityTrace = {
+                        x: hours,
+                        y: visibilityData,
+                        name: 'Visibility',
+                        mode: 'lines',
+                        line: {color: 'white'},
+                        // nbinsx: 15
+                    };
+
+                    var visibilityLayout = {
+                        // title: 'Temperature Distribution',
+                        // xaxis: {title: 'Temperature (°F)'},
+                        // yaxis: {title: 'Frequency'}
+                        xaxis:{
+                        showline: false, // Hides the x-axis line
+                      showticks: false, // Hides ticks
+                      zeroline: false, // Hides the zero line
+                      showgrid: false, // Hides the grid lines
+                    },
+                  yaxis: {
+                    showline: false, // Hides the y-axis line
+                    showticks: false, // Hides ticks
+                    zeroline: false, // Hides the zero line
+                    showgrid: false, // Hides the grid lines
+                  },
+                  margin: {
+                    l: 0, // No left margin
+                    r: 0, // No right margin
+                    t: 0, // No top margin
+                    b: 0, // No bottom margin
+                  },
+                    showlegend: false, //
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    plot_bgcolor: 'rgba(0,0,0,0)',
+                    autosize: true,
+                    automargin: true,
+                    width: 125,
+                    height: 125,
+                    };
+
+                    Plotly.newPlot('visibility-chart', [visibilityTrace], visibilityLayout, {responsive: true, displayModeBar: false});
+                </script>
+
+                
             </div>
             </div>
             <!--END CARD 8-->

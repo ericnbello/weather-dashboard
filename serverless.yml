@@ -1,0 +1,96 @@
+org: ericnbello
+service: django-serverless
+useDotenv: true
+
+provider:
+  name: aws
+  region: ${env:AWS_REGION_NAME}
+  runtime: python3.9
+  stage: ${opt:stage, 'stg'}
+  timeout: 29
+  memorySize: 2048
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:*
+          Resource:
+            - arn:aws:s3:::${env:STATIC_FILES_BUCKET_NAME}
+            - arn:aws:s3:::${env:STATIC_FILES_BUCKET_NAME}/*
+
+plugins:
+  - serverless-wsgi
+  - serverless-python-requirements
+  - serverless-dotenv-plugin
+
+functions:
+  wsgi:
+    handler: wsgi_handler.handler  # Ensure this is correct
+    events:
+      - http: ANY /
+      - http: ANY /{proxy+}
+
+custom:
+  wsgi:
+    app: enhanced_weather_app.wsgi.application
+  pythonRequirements:
+    fileName: requirements.txt
+
+package:
+  exclude:
+    - "venv/**"
+    - "__pycache__/*"
+    - "node_modules/**"
+    - "README.md"
+    - "pytest.ini"
+    - "conftest.py"
+    - ".venv"
+    - ".venv.example"
+    - "package.json"
+    - "package-lock.json"
+    - "terraform-aws/**"
+    - ".gitignore"
+    - "docker-compose.ci.yml"
+    - "docker-compose.prod.yml"
+    - "docker-compose.yml"
+    - "Procfile"
+    - "render.yaml"
+    - "terraform.tfstate"
+    - "Dockerfile"
+    - "Dockerfile.render"
+    - ".render-buildpacks.json"
+    - ".dockerignore"
+    - "nginx/**"
+    - ".weatherenv"
+    - "weatherenv/**"
+    - "env/**"
+    - "static/**"
+    - "staticfiles/**"
+    - "myenv/**"
+
+resources:
+  Resources:
+    StaticFilesBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${env:STATIC_FILES_BUCKET_NAME}
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
+
+    StaticFilesBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: StaticFilesBucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicReadGetObject
+              Action: "s3:GetObject"
+              Effect: Allow
+              Principal: "*"
+              Resource: "arn:aws:s3:::${env:STATIC_FILES_BUCKET_NAME}/*"

@@ -1,0 +1,233 @@
+{
+  "/Users/ericbello/projects/enhanced_weather_app/serverless.yml": {
+    "versionFramework": "4.6.2",
+    "servicePath": "/Users/ericbello/projects/enhanced_weather_app/serverless.yml",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "org": "ericnbello",
+      "service": "django-serverless",
+      "useDotenv": true,
+      "provider": {
+        "name": "aws",
+        "region": "us-east-1",
+        "runtime": "python3.9",
+        "stage": "stg",
+        "timeout": 29,
+        "memorySize": 2048,
+        "iam": {
+          "role": {
+            "statements": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "s3:*"
+                ],
+                "Resource": [
+                  "arn:aws:s3:::weather-serverless-static",
+                  "arn:aws:s3:::weather-serverless-static/*"
+                ]
+              }
+            ]
+          }
+        },
+        "versionFunctions": true,
+        "environment": {
+          "OPENWEATHER_API_KEY": "<REDACTED>",
+          "OPENWEATHER_AIR_POLLUTION_API_KEY": "<REDACTED>",
+          "STAGE": "production",
+          "STATIC_FILES_BUCKET_NAME": "weather-serverless-static",
+          "AWS_REGION_NAME": "us-east-1",
+          "DB_NAME": "",
+          "DB_USER": "postgres",
+          "DB_PASSWORD": "<REDACTED>",
+          "DB_HOST": "",
+          "DB_PORT": "5432"
+        }
+      },
+      "plugins": [
+        "serverless-wsgi",
+        "serverless-python-requirements",
+        "serverless-dotenv-plugin"
+      ],
+      "functions": {
+        "wsgi": {
+          "handler": "wsgi_handler.handler",
+          "events": [
+            {
+              "http": "ANY /"
+            },
+            {
+              "http": "ANY /{proxy+}"
+            }
+          ],
+          "name": "django-serverless-stg-wsgi"
+        }
+      },
+      "custom": {
+        "wsgi": {
+          "app": "enhanced_weather_app.wsgi.application"
+        },
+        "pythonRequirements": {
+          "fileName": "requirements.txt"
+        }
+      },
+      "package": {
+        "exclude": [
+          "venv/**",
+          "__pycache__/*",
+          "node_modules/**",
+          "README.md",
+          "pytest.ini",
+          "conftest.py",
+          ".venv",
+          ".venv.example",
+          "package.json",
+          "package-lock.json",
+          "terraform-aws/**",
+          ".gitignore",
+          "docker-compose.ci.yml",
+          "docker-compose.prod.yml",
+          "docker-compose.yml",
+          "Procfile",
+          "render.yaml",
+          "terraform.tfstate",
+          "Dockerfile",
+          "Dockerfile.render",
+          ".render-buildpacks.json",
+          ".dockerignore",
+          "nginx/**",
+          ".weatherenv",
+          "weatherenv/**",
+          "env/**",
+          "static/**",
+          "staticfiles/**",
+          "myenv/**"
+        ],
+        "artifactsS3KeyDirname": "serverless/django-serverless/stg/code-artifacts"
+      },
+      "resources": {
+        "Resources": {
+          "StaticFilesBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketName": "weather-serverless-static",
+              "PublicAccessBlockConfiguration": {
+                "BlockPublicAcls": false,
+                "BlockPublicPolicy": false,
+                "IgnorePublicAcls": false,
+                "RestrictPublicBuckets": false
+              }
+            }
+          },
+          "StaticFilesBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+              "Bucket": {
+                "Ref": "StaticFilesBucket"
+              },
+              "PolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Sid": "PublicReadGetObject",
+                    "Action": "s3:GetObject",
+                    "Effect": "Allow",
+                    "Principal": "*",
+                    "Resource": "arn:aws:s3:::weather-serverless-static/*"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "provider": {
+      "name": "aws",
+      "region": "us-east-1",
+      "runtime": "python3.9",
+      "stage": "stg",
+      "timeout": 29,
+      "memorySize": 2048,
+      "iam": {
+        "role": {
+          "statements": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "s3:*"
+              ],
+              "Resource": [
+                "arn:aws:s3:::weather-serverless-static",
+                "arn:aws:s3:::weather-serverless-static/*"
+              ]
+            }
+          ]
+        }
+      },
+      "versionFunctions": true,
+      "environment": {
+        "OPENWEATHER_API_KEY": "<REDACTED>",
+        "OPENWEATHER_AIR_POLLUTION_API_KEY": "<REDACTED>",
+        "STAGE": "production",
+        "STATIC_FILES_BUCKET_NAME": "weather-serverless-static",
+        "AWS_REGION_NAME": "us-east-1",
+        "DB_NAME": "",
+        "DB_USER": "postgres",
+        "DB_PASSWORD": "<REDACTED>",
+        "DB_HOST": "",
+        "DB_PORT": "5432"
+      }
+    },
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "error": {
+      "message": "Traceback (most recent call last):\n  File \"/var/task/django/db/backends/base/base.py\", line 289, in ensure_connection\n    self.connect()\n  File \"/var/task/django/utils/asyncio.py\", line 26, in inner\n    return func(*args, **kwargs)\n  File \"/var/task/django/db/backends/base/base.py\", line 270, in connect\n    self.connection = self.get_new_connection(conn_params)\n  File \"/var/task/django/utils/asyncio.py\", line 26, in inner\n    return func(*args, **kwargs)\n  File \"/var/task/django/db/backends/sqlite3/base.py\", line 181, in get_new_connection\n    register_functions(conn)\n  File \"/var/task/django/db/backends/sqlite3/_functions.py\", line 45, in register\n    create_deterministic_function(\"django_date_extract\", 2, _sqlite_datetime_extract)\nsqlite3.NotSupportedError: deterministic=True requires SQLite 3.8.3 or higher\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/var/task/wsgi_handler.py\", line 85, in handler\n    management.call_command(*shlex.split(meta.get(\"data\", \"\")))\n  File \"/var/task/django/core/management/__init__.py\", line 194, in call_command\n    return command.execute(*args, **defaults)\n  File \"/var/task/django/core/management/base.py\", line 458, in execute\n    output = self.handle(*args, **options)\n  File \"/var/task/django/core/management/base.py\", line 106, in wrapper\n    res = handle_func(*args, **kwargs)\n  File \"/var/task/django/core/management/commands/migrate.py\", line 117, in handle\n    executor = MigrationExecutor(connection, self.migration_progress_callback)\n  File \"/var/task/django/db/migrations/executor.py\", line 18, in __init__\n    self.loader = MigrationLoader(self.connection)\n  File \"/var/task/django/db/migrations/loader.py\", line 58, in __init__\n    self.build_graph()\n  File \"/var/task/django/db/migrations/loader.py\", line 235, in build_graph\n    self.applied_migrations = recorder.applied_migrations()\n  File \"/var/task/django/db/migrations/recorder.py\", line 81, in applied_migrations\n    if self.has_table():\n  File \"/var/task/django/db/migrations/recorder.py\", line 57, in has_table\n    with self.connection.cursor() as cursor:\n  File \"/var/task/django/utils/asyncio.py\", line 26, in inner\n    return func(*args, **kwargs)\n  File \"/var/task/django/db/backends/base/base.py\", line 330, in cursor\n    return self._cursor()\n  File \"/var/task/django/db/backends/base/base.py\", line 306, in _cursor\n    self.ensure_connection()\n  File \"/var/task/django/utils/asyncio.py\", line 26, in inner\n    return func(*args, **kwargs)\n  File \"/var/task/django/db/backends/base/base.py\", line 289, in ensure_connection\n    self.connect()\n  File \"/var/task/django/db/utils.py\", line 91, in __exit__\n    raise dj_exc_value.with_traceback(traceback) from exc_value\n  File \"/var/task/django/db/backends/base/base.py\", line 289, in ensure_connection\n    self.connect()\n  File \"/var/task/django/utils/asyncio.py\", line 26, in inner\n    return func(*args, **kwargs)\n  File \"/var/task/django/db/backends/base/base.py\", line 270, in connect\n    self.connection = self.get_new_connection(conn_params)\n  File \"/var/task/django/utils/asyncio.py\", line 26, in inner\n    return func(*args, **kwargs)\n  File \"/var/task/django/db/backends/sqlite3/base.py\", line 181, in get_new_connection\n    register_functions(conn)\n  File \"/var/task/django/db/backends/sqlite3/_functions.py\", line 45, in register\n    create_deterministic_function(\"django_date_extract\", 2, _sqlite_datetime_extract)\ndjango.db.utils.NotSupportedError: deterministic=True requires SQLite 3.8.3 or higher",
+      "stack": "ServerlessError2: Traceback (most recent call last):\n  File \"/var/task/django/db/backends/base/base.py\", line 289, in ensure_connection\n    self.connect()\n  File \"/var/task/django/utils/asyncio.py\", line 26, in inner\n    return func(*args, **kwargs)\n  File \"/var/task/django/db/backends/base/base.py\", line 270, in connect\n    self.connection = self.get_new_connection(conn_params)\n  File \"/var/task/django/utils/asyncio.py\", line 26, in inner\n    return func(*args, **kwargs)\n  File \"/var/task/django/db/backends/sqlite3/base.py\", line 181, in get_new_connection\n    register_functions(conn)\n  File \"/var/task/django/db/backends/sqlite3/_functions.py\", line 45, in register\n    create_deterministic_function(\"django_date_extract\", 2, _sqlite_datetime_extract)\nsqlite3.NotSupportedError: deterministic=True requires SQLite 3.8.3 or higher\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/var/task/wsgi_handler.py\", line 85, in handler\n    management.call_command(*shlex.split(meta.get(\"data\", \"\")))\n  File \"/var/task/django/core/management/__init__.py\", line 194, in call_command\n    return command.execute(*args, **defaults)\n  File \"/var/task/django/core/management/base.py\", line 458, in execute\n    output = self.handle(*args, **options)\n  File \"/var/task/django/core/management/base.py\", line 106, in wrapper\n    res = handle_func(*args, **kwargs)\n  File \"/var/task/django/core/management/commands/migrate.py\", line 117, in handle\n    executor = MigrationExecutor(connection, self.migration_progress_callback)\n  File \"/var/task/django/db/migrations/executor.py\", line 18, in __init__\n    self.loader = MigrationLoader(self.connection)\n  File \"/var/task/django/db/migrations/loader.py\", line 58, in __init__\n    self.build_graph()\n  File \"/var/task/django/db/migrations/loader.py\", line 235, in build_graph\n    self.applied_migrations = recorder.applied_migrations()\n  File \"/var/task/django/db/migrations/recorder.py\", line 81, in applied_migrations\n    if self.has_table():\n  File \"/var/task/django/db/migrations/recorder.py\", line 57, in has_table\n    with self.connection.cursor() as cursor:\n  File \"/var/task/django/utils/asyncio.py\", line 26, in inner\n    return func(*args, **kwargs)\n  File \"/var/task/django/db/backends/base/base.py\", line 330, in cursor\n    return self._cursor()\n  File \"/var/task/django/db/backends/base/base.py\", line 306, in _cursor\n    self.ensure_connection()\n  File \"/var/task/django/utils/asyncio.py\", line 26, in inner\n    return func(*args, **kwargs)\n  File \"/var/task/django/db/backends/base/base.py\", line 289, in ensure_connection\n    self.connect()\n  File \"/var/task/django/db/utils.py\", line 91, in __exit__\n    raise dj_exc_value.with_traceback(traceback) from exc_value\n  File \"/var/task/django/db/backends/base/base.py\", line 289, in ensure_connection\n    self.connect()\n  File \"/var/task/django/utils/asyncio.py\", line 26, in inner\n    return func(*args, **kwargs)\n  File \"/var/task/django/db/backends/base/base.py\", line 270, in connect\n    self.connection = self.get_new_connection(conn_params)\n  File \"/var/task/django/utils/asyncio.py\", line 26, in inner\n    return func(*args, **kwargs)\n  File \"/var/task/django/db/backends/sqlite3/base.py\", line 181, in get_new_connection\n    register_functions(conn)\n  File \"/var/task/django/db/backends/sqlite3/_functions.py\", line 45, in register\n    create_deterministic_function(\"django_date_extract\", 2, _sqlite_datetime_extract)\ndjango.db.utils.NotSupportedError: deterministic=True requires SQLite 3.8.3 or higher\n    at /Users/ericbello/node_modules/serverless-wsgi/index.js:541:31\n    at Promise._execute (/Users/ericbello/node_modules/bluebird/js/release/debuggability.js:384:9)\n    at Promise._resolveFromExecutor (/Users/ericbello/node_modules/bluebird/js/release/promise.js:518:18)\n    at new Promise (/Users/ericbello/node_modules/bluebird/js/release/promise.js:103:10)\n    at /Users/ericbello/node_modules/serverless-wsgi/index.js:526:11\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    },
+    "serviceRawFile": "org: ericnbello\nservice: django-serverless\nuseDotenv: true\n\nprovider:\n  name: aws\n  region: ${env:AWS_REGION_NAME}\n  runtime: python3.9\n  stage: ${opt:stage, 'stg'}\n  timeout: 29\n  memorySize: 2048\n  iam:\n    role:\n      statements:\n        - Effect: Allow\n          Action:\n            - s3:*\n          Resource:\n            - arn:aws:s3:::${env:STATIC_FILES_BUCKET_NAME}\n            - arn:aws:s3:::${env:STATIC_FILES_BUCKET_NAME}/*\n\nplugins:\n  - serverless-wsgi\n  - serverless-python-requirements\n  - serverless-dotenv-plugin\n\nfunctions:\n  wsgi:\n    handler: wsgi_handler.handler  # Ensure this is correct\n    events:\n      - http: ANY /\n      - http: ANY /{proxy+}\n\ncustom:\n  wsgi:\n    app: enhanced_weather_app.wsgi.application\n  pythonRequirements:\n    fileName: requirements.txt\n\npackage:\n  exclude:\n    - \"venv/**\"\n    - \"__pycache__/*\"\n    - \"node_modules/**\"\n    - \"README.md\"\n    - \"pytest.ini\"\n    - \"conftest.py\"\n    - \".venv\"\n    - \".venv.example\"\n    - \"package.json\"\n    - \"package-lock.json\"\n    - \"terraform-aws/**\"\n    - \".gitignore\"\n    - \"docker-compose.ci.yml\"\n    - \"docker-compose.prod.yml\"\n    - \"docker-compose.yml\"\n    - \"Procfile\"\n    - \"render.yaml\"\n    - \"terraform.tfstate\"\n    - \"Dockerfile\"\n    - \"Dockerfile.render\"\n    - \".render-buildpacks.json\"\n    - \".dockerignore\"\n    - \"nginx/**\"\n    - \".weatherenv\"\n    - \"weatherenv/**\"\n    - \"env/**\"\n    - \"static/**\"\n    - \"staticfiles/**\"\n    - \"myenv/**\"\n\nresources:\n  Resources:\n    StaticFilesBucket:\n      Type: AWS::S3::Bucket\n      Properties:\n        BucketName: ${env:STATIC_FILES_BUCKET_NAME}\n        PublicAccessBlockConfiguration:\n          BlockPublicAcls: false\n          BlockPublicPolicy: false\n          IgnorePublicAcls: false\n          RestrictPublicBuckets: false\n\n    StaticFilesBucketPolicy:\n      Type: AWS::S3::BucketPolicy\n      Properties:\n        Bucket:\n          Ref: StaticFilesBucket\n        PolicyDocument:\n          Version: \"2012-10-17\"\n          Statement:\n            - Sid: PublicReadGetObject\n              Action: \"s3:GetObject\"\n              Effect: Allow\n              Principal: \"*\"\n              Resource: \"arn:aws:s3:::${env:STATIC_FILES_BUCKET_NAME}/*\"\n",
+    "command": [
+      "wsgi",
+      "manage"
+    ],
+    "options": {
+      "command": "migrate"
+    },
+    "orgId": "34b1bf5e-490d-43d6-a149-b06104e62641",
+    "orgName": "ericnbello",
+    "userId": "jX9WvHRDgsd07kFLdH",
+    "userName": "ericnbello",
+    "serviceProviderAwsAccountId": "985952578243",
+    "serviceProviderAwsCfStackName": "django-serverless-stg",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:985952578243:stack/django-serverless-stg/f568c170-e5b1-11ef-902d-0affce190f75",
+    "serviceProviderAwsCfStackCreated": "2025-02-08T00:16:36.221Z",
+    "serviceProviderAwsCfStackUpdated": "2025-02-10T19:10:11.095Z",
+    "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "WsgiLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:985952578243:function:django-serverless-stg-wsgi:8",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-django-serverless-stg-WsgiLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "ServiceEndpoint",
+        "OutputValue": "https://pkou8dj559.execute-api.us-east-1.amazonaws.com/stg",
+        "Description": "URL of the service endpoint",
+        "ExportName": "sls-django-serverless-stg-ServiceEndpoint"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "serverless-framework-deployments-us-east-1-e66ab94c-fe06",
+        "ExportName": "sls-django-serverless-stg-ServerlessDeploymentBucketName"
+      }
+    ]
+  }
+}

@@ -2,6 +2,8 @@
 /theme/node_modules
 .env
 .txt
+.venv
+
 
 **/openweather_api_key.txt
 
@@ -44,3 +46,19 @@ terraform.rc
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+.github/*
+docker-compose.ci.yml
+docker-compose.prod.yml
+docker-compose.yml
+
+nginx/*
+myenv/*
+env/*
+terraform-aws/*
+weatherenv/*
+Dockerfile
+Dockerfile.render
+Procfile
+render.yaml
+.render-buildpacks.json

@@ -3,7 +3,7 @@ import time
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.core.exceptions import *
-import httpx
+# import httpx
 import requests
 import json
 import os
@@ -16,7 +16,7 @@ load_dotenv()
 
 # openweather_api_key = ''
 openweather_api_key = os.environ.get('OPENWEATHER_API_KEY')
-
+openweather_air_pollution_api_key = os.environ.get('OPENWEATHER_AIR_POLLUTION_API_KEY')
 unit_system_names = ['imperial', 'metric']
 default_unit_system = 'imperial'
 default_location = 'Miami, FL, US'
@@ -60,7 +60,8 @@ def call_api(unit_system, location):
             # next_unit_system = 'imperial'
             # current_unit_system = next_unit_system
 
-        r_3 = requests.get('http://api.openweathermap.org/data/2.5/air_pollution?lat={0}&lon={1}&appid={2}'.format(lat, lon, openweather_api_key))
+        r_3 = requests.get('http://api.openweathermap.org/data/2.5/air_pollution/forecast?lat={0}&lon={1}&appid={2}'.format(lat, lon, openweather_air_pollution_api_key))
+        
 
         # Full API response data
         # weather_data_2 = json.loads(r_2.content)
@@ -172,6 +173,8 @@ def call_api(unit_system, location):
             local_time = utc_time.astimezone(city_timezone)
             hours.append(local_time.strftime("%I%p").lstrip("0").replace(" 0", " "))
         
+        next_24_hours = hours[:24]
+        
         hourly_temps = []
         for i in range(len(hourly_weather_info)):
             hourly_temps.append(round(hourly_weather_info[i]["temp"]))
@@ -184,9 +187,9 @@ def call_api(unit_system, location):
         for i in range(len(hourly_weather_info)):
             hourly_humidity.append(round(hourly_weather_info[i]["humidity"]))
 
-        # hourly_rainfall = []
-        # for i in range(len(hourly_weather_info)):
-        #     hourly_rainfall.append(round(hourly_weather_info[i]["rain"]))
+        hourly_chances_of_rain = []
+        for i in range(len(hourly_weather_info)):
+            hourly_chances_of_rain.append(weather_data_2["hourly"][0]["pop"])
 
         hourly_icon_codes = []
         for i in range(len(hourly_weather_info)):
@@ -209,18 +212,21 @@ def call_api(unit_system, location):
                 alert_description = "There are no alerts"
 
         ## Air Quality Index
-        aqi_values = air_pollution_data["list"][0]["main"]["aqi"]
+        aqi_values = []
+        aqi = air_pollution_data["list"][0]["main"]["aqi"]
+        for i in range(len(air_pollution_data["list"])):
+            aqi_values.append(air_pollution_data["list"][0]["main"]["aqi"])
 
-        # if aqi == 1:
-        #     air_quality_index = "Good"
-        # elif aqi == 2:
-        #     air_quality_index = "Fair"
-        # elif aqi == 3:
-        #     air_quality_index = "Moderate"
-        # elif aqi == 4:
-        #     air_quality_index = "Poor"
-        # elif aqi == 5:
-        #     air_quality_index = "Very Poor"
+        if aqi == 1:
+            aqi_desc = "Good"
+        elif aqi == 2:
+            aqi_desc = "Fair"
+        elif aqi == 3:
+            aqi_desc = "Moderate"
+        elif aqi == 4:
+            aqi_desc = "Poor"
+        elif aqi == 5:
+            aqi_desc = "Very Poor"
 
         # Air pressure info
         air_pressure = round(weather_data_2["current"]["pressure"])
@@ -245,6 +251,11 @@ def call_api(unit_system, location):
             uv_index_meaning = "Very High"
         else:
             uv_index_meaning = "Extreme"
+        
+        hourly_uv_indices = []
+        for i in range(len(weather_data_2["hourly"])):
+            hourly_uv_indices.append(round(weather_data_2["hourly"][i]["uvi"]))
+
 
         # Moon Phase Info
         current_moon_phase_value = weather_data_2["daily"][0]["moon_phase"]
@@ -282,6 +293,23 @@ def call_api(unit_system, location):
         # Retrieve the icon code based on the moon phase
         moon_icon_name, moon_icon_code = moon_phase_mappings.get(current_moon_phase, ("wi-moon-unknown", "f000"))
 
+        hourly_visibilities_mi = []
+        visibility_distance_mi = round(weather_data_2["current"]["visibility"]/1609)
+        for hour in weather_data_2["hourly"]:
+            visibility_meters = hour["visibility"]
+            visibility_distance_mi = round(visibility_meters / 1609)  # Convert to miles
+            hourly_visibilities_mi.append(visibility_distance_mi)
+
+        if visibility_distance_mi >= 10:
+            visibility_desc = "Excellent"
+        elif visibility_distance_mi >= 6:
+            visibility_desc = "Good"
+        elif visibility_distance_mi >= 3:
+            visibility_desc = "Moderate"
+        elif visibility_distance_mi >= 1:
+            visibility_desc = "Reduced"
+        else:
+            visibility_desc = "Poor"
 
     except:
         invalid_input_msg = 'Location not found. Search must be in the form of "City", "City, State, Country" or "City, Country".'
@@ -314,7 +342,9 @@ def call_api(unit_system, location):
             'current_weather_summary': current_weather_summary,
             'current_weather_icon': current_weather_icon_code,
             'current_temperature': round(weather_data_2["current"]["temp"]),
-            'visibility_distance': round(weather_data_2["current"]["visibility"]//1609),
+            'visibility_distance_mi': visibility_distance_mi,
+            'hourly_visibilities_mi': hourly_visibilities_mi,
+            'visibility_desc': visibility_desc,
             'wind_speed': round(weather_data_2["current"]["wind_speed"]),
             'wind_gust': round(weather_data_2["daily"][0]["wind_gust"]),
             'feels_like': round(weather_data_2["current"]["feels_like"]),
@@ -322,9 +352,11 @@ def call_api(unit_system, location):
             'dew_point': round(weather_data_2["current"]["dew_point"]),
             'uv_index': uv_index,
             'uv_index_meaning': uv_index_meaning,
+            'hourly_uv_indices': hourly_uv_indices,
             'air_pressure': air_pressure,
             'todays_avg_air_pressure': todays_avg_air_pressure,
             'current_chance_of_rain': round(weather_data_2["hourly"][0]["pop"]*100),
+            'hourly_chances_of_rain': hourly_chances_of_rain,
             # 'daily_chance_of_rain': round(weather_data_2["daily"][0]["pop"]*100),
             'next_hour_chance_of_rain': round(weather_data_2["hourly"][1]["pop"]*100),
             'todays_moonrise_time': todays_moonrise_time,
@@ -346,6 +378,7 @@ def call_api(unit_system, location):
             'daily_forecast_content_list': daily_forecast_content_list,
 
             'hours': hours,
+            'next_24_hours': next_24_hours,
             'hourly_temps': hourly_temps,
             # 'hourly_rainfall': hourly_rainfall,
             'hourly_weather_icons': hourly_icon_codes,
@@ -356,7 +389,8 @@ def call_api(unit_system, location):
             'hourly_air_pressures': hourly_air_pressures,
 
             'alert_description': alert_description,
-            # 'air_quality_index': air_quality_index,
+            'aqi': aqi,
+            'aqi_desc': aqi_desc,
             'aqi_values': aqi_values,
         }
 
