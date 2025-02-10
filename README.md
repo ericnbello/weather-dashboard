@@ -1,4 +1,4 @@
-![Weather Dashboard Screenshot](weather_dashboard_screenshot.png)
+![Weather Dashboard Screenshot](./weather-dashboard-screenshot.png)
 
 ## Weather Forecast Data Dashboard
 
