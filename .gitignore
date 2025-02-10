@@ -62,3 +62,4 @@ Dockerfile.render
 Procfile
 render.yaml
 .render-buildpacks.json
+.serverless/*
