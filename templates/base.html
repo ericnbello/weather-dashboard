@@ -1,4 +1,5 @@
 {% load static %}
+{% load tailwind_tags %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,23 +9,44 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="msapplication-TileColor" content="#908f9e"/>
     <meta name="theme-color" content="#908f9e"/>
-    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/global.css' %}"> -->
     <link rel="stylesheet" href="{% static 'css/open-weather-icons.css' %}">
-    <link rel="stylesheet" href="{% static '/css/weather-icons.min.css' %}">
-    <link rel="stylesheet" href="{% static '/css/weather-icons-wind.min.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/weather-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/weather-icons-wind.min.css' %}">
+    <!-- Fonts and icons -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Nucleo Icons -->
+    <!--Tailwind CDN-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Popper -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <!-- Required chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% tailwind_css %}
     <title>Weather App</title>
 </head>
-<body>
 
-<div class="flex flex-col min-h-screen overlay">
-    <main class="flex-1 container mx-auto my-10 p-10">
-        
-        {% include 'components/weather.html' %}
+<body class="min-h-screen m-0 antialiased font-normal text-size-base leading-default">
+
+    {% include 'components/dashboard.html' %}
+
+    <main class="relative flex flex-col bg-white mx-auto px-[5em] text-black">
+        <div class="w-full mx-auto">
+            <div class="flex-wrap items-center justify-between w-full p-0 border-0 shadow-none">
+                <div class="w-full h-full transition-all duration-200 ease-soft-in-out">
+                </div>
+    
+            </div>       
+        </div>
+
+    </div>
 
     </main>
-    {% include 'components/footer.html' %}
-</div>
-    {% include 'components/script-tags.html' %}
 </body>
+{% include 'components/footer.html' %}
+    {% include 'components/script-tags.html' %}
 </html>
